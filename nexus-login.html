@@ -427,7 +427,7 @@ window.doLogin = async function() {
   const email   = emailEl.value.trim();
   const pass    = passEl.value;
 
-  // Basic validation
+  // ── Validation ─────────────────────────────────────────
   if (!email) {
     emailEl.classList.add('error');
     showAlert('Please enter your email address!');
@@ -448,30 +448,15 @@ window.doLogin = async function() {
   passEl.classList.remove('error');
   setBtnLoading('login-btn', true, 'Sign In to Nexus →');
 
-  // ── Helper: Mock login (always works) ─────────────────
-  function mockLogin() {
-    const mockName = email.split('@')[0]
-      .split(/[._-]/)
-      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(' ');
-    localStorage.setItem('nexus_user', JSON.stringify({
-      name: mockName, email: email,
-      uid: 'mock_' + Date.now(), mock: true
-    }));
-    showAlert('✅ Welcome back, ' + mockName + '! Redirecting...', 'success');
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
-  }
-
-  // ── Try Firebase first, fallback to mock ──────────────
+  // ── Firebase Login ──────────────────────────────────────
   try {
-    const cred = await signInWithEmailAndPassword(auth, email, pass);
-    showAlert('✅ Welcome back! Redirecting...', 'success');
-    // onAuthStateChanged handles redirect for real Firebase users
+    await signInWithEmailAndPassword(auth, email, pass);
+    // ✅ onAuthStateChanged will save user & redirect automatically
 
   } catch(e) {
-    console.log('Firebase result:', e.code);
-    // ANY Firebase error → mock login so demo always works!
-    mockLogin();
+    console.log('Login error:', e.code);
+    setBtnLoading('login-btn', false, 'Sign In to Nexus →');
+    showAlert(friendlyError(e.code));
   }
 };
 
@@ -491,6 +476,7 @@ window.doSignup = async function() {
   const pass  = passEl.value;
   const pass2 = pass2El.value;
 
+  // ── Validation ─────────────────────────────────────────
   if (!name)  { showAlert('Please enter your full name!');  nameEl.focus();  return; }
   if (!email) { showAlert('Please enter your email!');      emailEl.focus(); return; }
   if (pass.length < 6) {
@@ -498,37 +484,22 @@ window.doSignup = async function() {
     passEl.focus(); return;
   }
   if (pass !== pass2) {
-    showAlert('Passwords do not match! Please re-enter.');
+    showAlert('Passwords do not match!');
     pass2El.focus(); return;
   }
 
   setBtnLoading('signup-btn', true, 'Create Free Account →');
+
+  // ── Firebase Signup ─────────────────────────────────────
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: name });
-    showAlert('✅ Account created! Redirecting...', 'success');
-    // onAuthStateChanged will handle redirect
+    // ✅ onAuthStateChanged will handle redirect
+
   } catch(e) {
-    console.error('Firebase signup error:', e.code, e.message);
-
-    // ── MOCK AUTH FALLBACK for signup ──────────────────
-    if (e.code === 'auth/network-request-failed' ||
-        e.code === 'auth/email-already-in-use'   ||
-        e.code === 'auth/too-many-requests') {
-      const mockName = name || email.split('@')[0];
-      localStorage.setItem('nexus_user', JSON.stringify({
-        name:  mockName,
-        email: email,
-        uid:   'mock_' + Date.now(),
-        mock:  true
-      }));
-      showAlert('✅ Account created! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
-      return;
-    }
-
-    showAlert(friendlyError(e.code));
+    console.log('Signup error:', e.code);
     setBtnLoading('signup-btn', false, 'Create Free Account →');
+    showAlert(friendlyError(e.code));
   }
 };
 
