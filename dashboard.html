@@ -1152,7 +1152,7 @@ tbody td {
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <input class="search-input" id="global-search" type="text" placeholder="Search tasks..."
+      <input class="search-input" id="global-search" type="text" placeholder="Search tasks, invoices..."
         oninput="globalSearch(this.value)" autocomplete="off">
     </div>
     <!-- Search Results Dropdown -->
@@ -2546,308 +2546,154 @@ drawChart();
 window.addEventListener('resize', drawChart);
 
 
-// ── Global Search ─────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  GLOBAL SEARCH — Fixed & Bulletproof
+// ══════════════════════════════════════════════════════
+
 window.globalSearch = function(q) {
   const box = document.getElementById('search-results');
-  if(!q.trim()) { box.style.display='none'; return; }
-
-  const tasks    = loadTasks ? loadTasks() : [];
-  const invoices = JSON.parse(localStorage.getItem('nexus_invoices')||'[]');
-  const expenses = loadExpenses ? loadExpenses() : [];
-
-  const ql = q.toLowerCase();
-
-  const tMatches = tasks.filter(t=>t.title.toLowerCase().includes(ql)).slice(0,4);
-  const iMatches = invoices.filter(i=>(i.client||'').toLowerCase().includes(ql)||(i.id||'').toLowerCase().includes(ql)).slice(0,3);
-  const eMatches = expenses.filter(e=>(e.name||'').toLowerCase().includes(ql)).slice(0,2);
-
-  if(tMatches.length===0 && iMatches.length===0 && eMatches.length===0) {
-    box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--txt-3);font-size:13px;">No results found</div>';
-    box.style.display='block';
+  if (!q || !q.trim()) {
+    if (box) box.style.display = 'none';
     return;
   }
 
-  let html2 = '';
+  const tasks    = (typeof loadTasks    === 'function') ? loadTasks()    : [];
+  const expenses = (typeof loadExpenses === 'function') ? loadExpenses() : [];
+  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  const ql       = q.toLowerCase().trim();
 
-  if(tMatches.length>0) {
-    html2 += '<div style="padding:10px 16px 6px;font-size:10px;font-weight:700;color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;">Tasks</div>';
-    html2 += tMatches.map(t=>`
+  const tMatches = tasks.filter(t =>
+    t.title.toLowerCase().includes(ql)
+  ).slice(0, 5);
+
+  const iMatches = invoices.filter(i =>
+    (i.client || '').toLowerCase().includes(ql) ||
+    (i.id     || '').toLowerCase().includes(ql) ||
+    (i.service|| '').toLowerCase().includes(ql)
+  ).slice(0, 3);
+
+  const eMatches = expenses.filter(e =>
+    (e.name || '').toLowerCase().includes(ql) ||
+    (e.cat  || '').toLowerCase().includes(ql)
+  ).slice(0, 2);
+
+  const total = tMatches.length + iMatches.length + eMatches.length;
+
+  if (!box) return;
+
+  if (total === 0) {
+    box.innerHTML = `<div style="padding:20px;text-align:center;color:var(--txt-3);font-size:13px;">
+      🔍 No results for "<strong>${q}</strong>"</div>`;
+    box.style.display = 'block';
+    return;
+  }
+
+  let out = '';
+
+  if (tMatches.length > 0) {
+    out += `<div style="padding:8px 16px 4px;font-size:10px;font-weight:700;
+      color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;
+      background:var(--bg-3);">⚡ Tasks</div>`;
+    out += tMatches.map(t => `
       <div onclick="window.location.href='ai-tasks.html'"
         style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
-               border-bottom:1px solid var(--border);transition:background 0.15s;"
-        onmouseover="this.style.background='var(--bg-3)'" onmouseout="this.style.background=''">
-        <span style="font-size:14px;">${t.priority==='high'?'🔴':t.priority==='medium'?'🟡':'🟢'}</span>
-        <span style="font-size:13px;color:var(--txt-1);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.title}</span>
-        <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
-          background:${t.done?'var(--bg-4)':t.priority==='high'?'var(--high-bg)':t.priority==='medium'?'var(--med-bg)':'var(--low-bg)'};
-          color:${t.done?'var(--txt-3)':t.priority==='high'?'var(--high)':t.priority==='medium'?'var(--med)':'var(--low)'};">
+               border-bottom:1px solid var(--border);"
+        onmouseover="this.style.background='var(--bg-3)'"
+        onmouseout="this.style.background=''">
+        <span>${t.priority==='high'?'🔴':t.priority==='medium'?'🟡':'🟢'}</span>
+        <span style="font-size:13px;color:var(--txt-1);flex:1;
+          white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.title}</span>
+        <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;
+          color:${t.done?'var(--txt-3)':t.priority==='high'?'var(--high)':t.priority==='medium'?'var(--med)':'var(--low)'};
+          background:${t.done?'var(--bg-4)':t.priority==='high'?'var(--high-bg)':t.priority==='medium'?'var(--med-bg)':'var(--low-bg)'};">
           ${t.done?'Done':t.priority}</span>
       </div>`).join('');
   }
 
-  if(iMatches.length>0) {
-    html2 += '<div style="padding:10px 16px 6px;font-size:10px;font-weight:700;color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;">Invoices</div>';
-    html2 += iMatches.map(i=>`
+  if (iMatches.length > 0) {
+    out += `<div style="padding:8px 16px 4px;font-size:10px;font-weight:700;
+      color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;
+      background:var(--bg-3);">🧾 Invoices</div>`;
+    out += iMatches.map(i => `
       <div onclick="window.location.href='invoices.html'"
         style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
-               border-bottom:1px solid var(--border);transition:background 0.15s;"
-        onmouseover="this.style.background='var(--bg-3)'" onmouseout="this.style.background=''">
-        <span style="font-size:14px;">🧾</span>
+               border-bottom:1px solid var(--border);"
+        onmouseover="this.style.background='var(--bg-3)'"
+        onmouseout="this.style.background=''">
+        <span>🧾</span>
         <div style="flex:1;min-width:0;">
           <div style="font-size:13px;color:var(--txt-1);">${i.client||'Unknown'}</div>
-          <div style="font-size:11px;color:var(--txt-3);">${i.id||'—'} · $${(i.amount||0).toLocaleString()}</div>
+          <div style="font-size:11px;color:var(--txt-3);">${i.id||'—'} · $${parseFloat(i.amount||0).toFixed(2)}</div>
         </div>
-        <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
-          background:${i.status==='Paid'?'var(--paid-bg)':i.status==='Overdue'?'var(--overdue-bg)':'var(--pending-bg)'};
-          color:${i.status==='Paid'?'var(--paid)':i.status==='Overdue'?'var(--overdue)':'var(--pending)'};">${i.status}</span>
+        <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;
+          color:${i.status==='Paid'?'var(--paid)':i.status==='Overdue'?'var(--overdue)':'var(--pending)'};
+          background:${i.status==='Paid'?'var(--paid-bg)':i.status==='Overdue'?'var(--overdue-bg)':'var(--pending-bg)'};">
+          ${i.status||'Pending'}</span>
       </div>`).join('');
   }
 
-  if(eMatches.length>0) {
-    html2 += '<div style="padding:10px 16px 6px;font-size:10px;font-weight:700;color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;">Expenses</div>';
-    html2 += eMatches.map(e=>`
-      <div style="padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);">
-        <span style="font-size:14px;">💸</span>
-        <div style="flex:1;"><div style="font-size:13px;color:var(--txt-1);">${e.name}</div>
-        <div style="font-size:11px;color:var(--txt-3);">${e.cat} · ${e.date}</div></div>
-        <span style="font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--high);">
-          $$${e.amount.toFixed(2)}</span>
+  if (eMatches.length > 0) {
+    out += `<div style="padding:8px 16px 4px;font-size:10px;font-weight:700;
+      color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;
+      background:var(--bg-3);">💸 Expenses</div>`;
+    out += eMatches.map(e => `
+      <div style="padding:10px 16px;display:flex;align-items:center;gap:10px;
+                  border-bottom:1px solid var(--border);">
+        <span>💸</span>
+        <div style="flex:1;">
+          <div style="font-size:13px;color:var(--txt-1);">${e.name}</div>
+          <div style="font-size:11px;color:var(--txt-3);">${e.cat||''} · ${e.date||''}</div>
+        </div>
+        <span style="font-family:var(--font-head);font-size:14px;
+          font-weight:800;color:var(--high);">
+          $${parseFloat(e.amount||0).toFixed(2)}</span>
       </div>`).join('');
   }
 
-  html2 += '<div style="padding:8px 16px;text-align:center;"><a href="ai-tasks.html" style="font-size:12px;color:var(--accent);text-decoration:none;">See all results →</a></div>';
+  out += `<div style="padding:8px 16px;text-align:center;background:var(--bg-3);">
+    <a href="ai-tasks.html" style="font-size:12px;color:var(--accent);
+      text-decoration:none;font-weight:600;">
+      See all results in Tasks →</a></div>`;
 
-  box.innerHTML = html2;
+  box.innerHTML  = out;
   box.style.display = 'block';
 };
 
-// Close search on outside click
-document.addEventListener('click', (e) => {
-  const box = document.getElementById('search-results');
-  const inp = document.getElementById('global-search');
-  if(box && !box.contains(e.target) && e.target !== inp) {
-    box.style.display = 'none';
-  }
-});
-
-
-// ══════════════════════════════════════════════════════
-//  NOTIFICATIONS SYSTEM
-// ══════════════════════════════════════════════════════
-
-const DEFAULT_NOTIFS = [
-  { id:'n1', icon:'🧾', iconBg:'rgba(79,124,255,0.12)',
-    title:'Invoice NXS-00123 marked as Paid!',
-    time:'2 minutes ago', unread:true },
-  { id:'n2', icon:'⚡', iconBg:'rgba(0,229,192,0.12)',
-    title:'3 high priority tasks due today',
-    time:'1 hour ago', unread:true },
-  { id:'n3', icon:'💰', iconBg:'rgba(0,196,140,0.12)',
-    title:'Payment received from Meridian Corp',
-    time:'Yesterday', unread:false },
-  { id:'n4', icon:'🤖', iconBg:'rgba(167,139,250,0.12)',
-    title:'AI Tip: Your productivity score is 88%!',
-    time:'2 days ago', unread:false },
-];
-
-function loadNotifs() {
-  try {
-    const s = localStorage.getItem('nexus_notifs');
-    return s ? JSON.parse(s) : [...DEFAULT_NOTIFS];
-  } catch(e) { return [...DEFAULT_NOTIFS]; }
-}
-function saveNotifs(n) {
-  try { localStorage.setItem('nexus_notifs', JSON.stringify(n)); } catch(e) {}
-}
-
-function renderNotifs() {
-  const notifs = loadNotifs();
-  const list   = document.getElementById('notif-list');
-  const dot    = document.getElementById('notif-dot');
-  const unread = notifs.filter(n=>n.unread).length;
-
-  // Show/hide dot
-  if(dot) dot.style.display = unread > 0 ? 'block' : 'none';
-
-  if(!list) return;
-  if(notifs.length === 0) {
-    list.innerHTML = '<div style="padding:24px;text-align:center;color:var(--txt-3);font-size:13px;">🎉 No new notifications!</div>';
-    return;
-  }
-
-  list.innerHTML = notifs.map(n => `
-    <div class="notif-item" onclick="markRead('${n.id}')">
-      <div class="notif-icon" style="background:${n.iconBg}">${n.icon}</div>
-      <div class="notif-body">
-        <div class="notif-title">${n.title}</div>
-        <div class="notif-time">${n.time}</div>
-      </div>
-      ${n.unread ? '<div class="notif-unread"></div>' : ''}
-    </div>
-  `).join('');
-}
-
-window.markRead = function(id) {
-  const notifs = loadNotifs();
-  const n = notifs.find(n=>n.id===id);
-  if(n) { n.unread = false; saveNotifs(notifs); renderNotifs(); }
-};
-
-window.clearNotifs = function() {
-  saveNotifs([]);
-  renderNotifs();
-};
-
-window.toggleNotif = function(e) {
-  e.stopPropagation();
-  const nd = document.getElementById('notif-dropdown');
-  const cd = document.getElementById('cal-dropdown');
-  if(cd) cd.style.display = 'none';
-  if(nd) {
-    const isOpen = nd.style.display === 'block';
-    nd.style.display = isOpen ? 'none' : 'block';
-    if(!isOpen) {
-      nd.classList.add('popup-open');
-      renderNotifs();
-      // Mark all as read after 2s
-      setTimeout(() => {
-        const notifs = loadNotifs().map(n=>({...n,unread:false}));
-        saveNotifs(notifs);
-        renderNotifs();
-      }, 2000);
+// ── Search Input Event Listeners ─────────────────────────
+(function setupSearch() {
+  // Try multiple times in case DOM not ready
+  let attempts = 0;
+  function trySetup() {
+    const inp = document.getElementById('global-search');
+    if (!inp) {
+      if (attempts++ < 10) setTimeout(trySetup, 200);
+      return;
     }
-  }
-};
 
-// ══════════════════════════════════════════════════════
-//  CALENDAR SYSTEM
-// ══════════════════════════════════════════════════════
-
-window.toggleCalendar = function(e) {
-  e.stopPropagation();
-  const cd = document.getElementById('cal-dropdown');
-  const nd = document.getElementById('notif-dropdown');
-  if(nd) nd.style.display = 'none';
-  if(cd) {
-    const isOpen = cd.style.display === 'block';
-    cd.style.display = isOpen ? 'none' : 'block';
-    if(!isOpen) { cd.classList.add('popup-open'); buildCalendar(); }
-  }
-};
-
-function buildCalendar() {
-  const now     = new Date();
-  const year    = now.getFullYear();
-  const month   = now.getMonth();
-  const today   = now.getDate();
-
-  // Labels
-  const monthName = now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
-  const todayStr  = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-  const lbl1 = document.getElementById('cal-month-label');
-  const lbl2 = document.getElementById('cal-today-label');
-  if(lbl1) lbl1.textContent = monthName;
-  if(lbl2) lbl2.textContent = '📅 Today: ' + todayStr;
-
-  // Get tasks with due dates for highlighting
-  const tasks = loadTasks ? loadTasks() : [];
-  const taskDays = new Set();
-  tasks.forEach(t => {
-    if(t.due && !t.done) {
-      const d = new Date(t.due);
-      if(!isNaN(d) && d.getMonth()===month && d.getFullYear()===year) {
-        taskDays.add(d.getDate());
-      }
-    }
-  });
-
-  // Build grid
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  const grid = document.getElementById('cal-days-grid');
-  if(!grid) return;
-
-  let cells = '';
-  // Empty cells before first day
-  for(let i=0; i<firstDay; i++) {
-    cells += '<div class="cal-day empty"></div>';
-  }
-  // Day cells
-  for(let d=1; d<=daysInMonth; d++) {
-    const isToday    = d === today;
-    const hasTask    = taskDays.has(d);
-    const cls        = `cal-day${isToday?' today':''}${hasTask?' has-task':''}`;
-    cells += `<div class="${cls}" onclick="calDayClick(${d})" title="${hasTask?'Has tasks!':''}">${d}</div>`;
-  }
-  grid.innerHTML = cells;
-
-  // Upcoming tasks list
-  const upcoming = tasks
-    .filter(t=>!t.done && t.due && t.due!=='')
-    .slice(0,4);
-
-  const upEl = document.getElementById('cal-upcoming');
-  if(upEl) {
-    if(upcoming.length===0) {
-      upEl.innerHTML = '<div style="font-size:12px;color:var(--txt-3);">No upcoming tasks!</div>';
-    } else {
-      upEl.innerHTML = upcoming.map(t=>`
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <div style="width:6px;height:6px;border-radius:50%;flex-shrink:0;
-            background:${t.priority==='high'?'var(--high)':t.priority==='medium'?'var(--med)':'var(--low)'};">
-          </div>
-          <div style="font-size:12px;color:var(--txt-1);flex:1;white-space:nowrap;
-                      overflow:hidden;text-overflow:ellipsis;">${t.title}</div>
-          <div style="font-size:10px;color:var(--txt-3);flex-shrink:0;">${t.due}</div>
-        </div>
-      `).join('');
-    }
-  }
-}
-
-window.calDayClick = function(day) {
-  const now   = new Date();
-  const date  = new Date(now.getFullYear(), now.getMonth(), day);
-  const label = date.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-  // Fill the task due date if task input is focused
-  const dueInp = document.getElementById('task-due-inp');
-  if(dueInp) {
-    const yyyy = now.getFullYear();
-    const mm   = String(now.getMonth()+1).padStart(2,'0');
-    const dd   = String(day).padStart(2,'0');
-    dueInp.value = `${yyyy}-${mm}-${dd}`;
-  }
-  document.getElementById('cal-dropdown').style.display = 'none';
-};
-
-// ══════════════════════════════════════════════════════
-//  SEARCH BAR — Enter key fires search
-// ══════════════════════════════════════════════════════
-
-const searchInp = document.getElementById('global-search');
-if(searchInp) {
-  searchInp.addEventListener('keydown', function(e) {
-    if(e.key === 'Enter') {
-      e.preventDefault();
-      const q = this.value.trim();
-      if(q) {
-        // Show results dropdown
-        globalSearch(q);
-        // If user presses Enter again → go to tasks page
-        if(document.getElementById('search-results').style.display==='block') {
+    // oninput is already set via HTML attribute
+    // Add keydown for Enter + Escape
+    inp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+        const q = this.value.trim();
+        if (q) {
+          globalSearch(q);
+          // Navigate after short delay
           setTimeout(() => {
             window.location.href = 'ai-tasks.html?q=' + encodeURIComponent(q);
-          }, 300);
+          }, 400);
         }
       }
-    }
-    if(e.key === 'Escape') {
-      this.value = '';
-      const box = document.getElementById('search-results');
-      if(box) box.style.display = 'none';
-    }
-  });
-}
+      if (e.key === 'Escape') {
+        this.value = '';
+        const box = document.getElementById('search-results');
+        if (box) box.style.display = 'none';
+      }
+    });
+  }
+  trySetup();
+})();
 
 // ── Close all popups on outside click ─────────────────
 document.addEventListener('click', function(e) {

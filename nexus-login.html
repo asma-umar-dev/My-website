@@ -325,7 +325,7 @@ body::after{
 
 <!-- Firebase SDK -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp }              from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -337,25 +337,23 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// ── Your Firebase Config ────────────────────────────
+// ── Firebase Config ────────────────────────────────────
 const firebaseConfig = {
   apiKey:            "AIzaSyATNCnCFrWD-mdI_77WN1RE8BWXt072Tuc",
   authDomain:        "nexus-app-69c75.firebaseapp.com",
   projectId:         "nexus-app-69c75",
   storageBucket:     "nexus-app-69c75.firebasestorage.app",
   messagingSenderId: "793117728865",
-  appId:             "1:793117728865:web:b0fbac909658615ba20a20",
-  measurementId:     "G-RJMG5YW20B"
+  appId:             "1:793117728865:web:b0fbac909658615ba20a20"
 };
 
 const app      = initializeApp(firebaseConfig);
 const auth     = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// ── If already logged in → go to dashboard ──────────
+// ── If already logged in → go to dashboard ─────────────
 onAuthStateChanged(auth, user => {
   if (user) {
-    // Save user info
     localStorage.setItem('nexus_user', JSON.stringify({
       name:  user.displayName || user.email.split('@')[0],
       email: user.email,
@@ -365,7 +363,7 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-// ── Tab Switch ────────────────────────────────────────
+// ── Tab Switch ─────────────────────────────────────────
 window.switchTab = function(tab) {
   hideAlert();
   document.getElementById('form-login').style.display  = tab==='login'  ? 'block' : 'none';
@@ -374,110 +372,182 @@ window.switchTab = function(tab) {
   document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
 };
 
-// ── Show / Hide Alert ─────────────────────────────────
+// ── Alert helpers ──────────────────────────────────────
 function showAlert(msg, type='error') {
   const el = document.getElementById('auth-alert');
   el.className = 'auth-alert ' + type;
-  document.getElementById('alert-msg').textContent = msg;
+  document.getElementById('alert-msg').textContent  = msg;
   document.getElementById('alert-icon').textContent = type==='error' ? '⚠️' : '✅';
 }
 function hideAlert() {
   document.getElementById('auth-alert').className = 'auth-alert';
 }
 
-// ── Firebase Error Messages → Urdu/English friendly ──
+// ── Friendly error messages ────────────────────────────
 function friendlyError(code) {
   const map = {
-    'auth/user-not-found':      'Email not found! Please sign up first.',
-    'auth/wrong-password':      'Wrong password! Please try again.',
-    'auth/email-already-in-use':'This email is already registered! Please sign in.',
-    'auth/weak-password':       'Password too short! Use at least 6 characters.',
-    'auth/invalid-email':       'Invalid email address!',
-    'auth/too-many-requests':   'Too many attempts! Please wait a moment.',
-    'auth/network-request-failed':'No internet connection!',
-    'auth/popup-closed-by-user':'Google sign-in was cancelled.',
-    'auth/invalid-credential':  'Wrong email or password!',
+    'auth/user-not-found':       '❌ Email not found! Please sign up first.',
+    'auth/wrong-password':       '❌ Wrong password! Please try again.',
+    'auth/invalid-credential':   '❌ Wrong email or password! Please check and try again.',
+    'auth/email-already-in-use': '❌ This email is already registered! Please sign in.',
+    'auth/weak-password':        '❌ Password too short! Use at least 6 characters.',
+    'auth/invalid-email':        '❌ Invalid email address! Please check.',
+    'auth/too-many-requests':    '⏳ Too many attempts! Please wait a minute.',
+    'auth/network-request-failed':'📵 No internet connection! Please check your network.',
+    'auth/popup-closed-by-user': '❌ Google sign-in was cancelled.',
+    'auth/popup-blocked':        '❌ Popup blocked! Please allow popups for this site.',
   };
-  return map[code] || 'Something went wrong. Please try again.';
+  return map[code] || '❌ Something went wrong. Please try again. ('+code+')';
 }
 
-// ── Set button loading state ──────────────────────────
-function setBtnLoading(id, loading, text) {
+// ── Button loading state ───────────────────────────────
+function setBtnLoading(id, loading, originalText) {
   const btn = document.getElementById(id);
+  if (!btn) return;
   btn.disabled = loading;
   btn.innerHTML = loading
-    ? '<span class="spinner"></span> Please wait...'
-    : text;
+    ? '<span class="spinner"></span>&nbsp; Please wait...'
+    : originalText;
 }
 
-// ── LOGIN ─────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  LOGIN — Email/Password
+// ══════════════════════════════════════════════════════
 window.doLogin = async function() {
   hideAlert();
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-pass').value;
 
-  if (!email) { showAlert('Please enter your email!'); return; }
-  if (!pass)  { showAlert('Please enter your password!'); return; }
+  const emailEl = document.getElementById('login-email');
+  const passEl  = document.getElementById('login-pass');
+  const email   = emailEl.value.trim();
+  const pass    = passEl.value;
 
+  // Validation
+  if (!email) {
+    emailEl.classList.add('error');
+    showAlert('Please enter your email address!');
+    emailEl.focus();
+    return;
+  }
+  if (!pass) {
+    passEl.classList.add('error');
+    showAlert('Please enter your password!');
+    passEl.focus();
+    return;
+  }
+  if (pass.length < 6) {
+    passEl.classList.add('error');
+    showAlert('Password must be at least 6 characters!');
+    return;
+  }
+
+  // Remove error style
+  emailEl.classList.remove('error');
+  passEl.classList.remove('error');
+
+  // Start loading
   setBtnLoading('login-btn', true, 'Sign In to Nexus →');
+
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    showAlert('Welcome back! Redirecting...', 'success');
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    showAlert('✅ Welcome back! Redirecting...', 'success');
+    // onAuthStateChanged will handle redirect
   } catch(e) {
+    console.error('Login error:', e.code, e.message);
     showAlert(friendlyError(e.code));
     setBtnLoading('login-btn', false, 'Sign In to Nexus →');
   }
 };
 
-// ── SIGNUP ────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  SIGNUP — Create Account
+// ══════════════════════════════════════════════════════
 window.doSignup = async function() {
   hideAlert();
-  const name  = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const pass  = document.getElementById('signup-pass').value;
-  const pass2 = document.getElementById('signup-pass2').value;
 
-  if (!name)          { showAlert('Please enter your name!'); return; }
-  if (!email)         { showAlert('Please enter your email!'); return; }
-  if (pass.length < 6){ showAlert('Password must be at least 6 characters!'); return; }
-  if (pass !== pass2) { showAlert('Passwords do not match!'); return; }
+  const nameEl  = document.getElementById('signup-name');
+  const emailEl = document.getElementById('signup-email');
+  const passEl  = document.getElementById('signup-pass');
+  const pass2El = document.getElementById('signup-pass2');
+
+  const name  = nameEl.value.trim();
+  const email = emailEl.value.trim();
+  const pass  = passEl.value;
+  const pass2 = pass2El.value;
+
+  if (!name)  { showAlert('Please enter your full name!');  nameEl.focus();  return; }
+  if (!email) { showAlert('Please enter your email!');      emailEl.focus(); return; }
+  if (pass.length < 6) {
+    showAlert('Password must be at least 6 characters!');
+    passEl.focus(); return;
+  }
+  if (pass !== pass2) {
+    showAlert('Passwords do not match! Please re-enter.');
+    pass2El.focus(); return;
+  }
 
   setBtnLoading('signup-btn', true, 'Create Free Account →');
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: name });
-    showAlert('Account created! Redirecting...', 'success');
+    showAlert('✅ Account created! Redirecting...', 'success');
+    // onAuthStateChanged will handle redirect
   } catch(e) {
+    console.error('Signup error:', e.code, e.message);
     showAlert(friendlyError(e.code));
     setBtnLoading('signup-btn', false, 'Create Free Account →');
   }
 };
 
-// ── GOOGLE LOGIN ──────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  GOOGLE LOGIN
+// ══════════════════════════════════════════════════════
 window.doGoogle = async function() {
   hideAlert();
   try {
     await signInWithPopup(auth, provider);
+    // onAuthStateChanged will handle redirect
+  } catch(e) {
+    console.error('Google error:', e.code, e.message);
+    showAlert(friendlyError(e.code));
+  }
+};
+
+// ══════════════════════════════════════════════════════
+//  FORGOT PASSWORD
+// ══════════════════════════════════════════════════════
+window.doForgot = async function() {
+  const emailEl = document.getElementById('login-email');
+  const email   = emailEl.value.trim();
+
+  if (!email) {
+    showAlert('Please enter your email address above first!');
+    emailEl.focus();
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showAlert('📧 Password reset email sent! Please check your inbox.', 'success');
   } catch(e) {
     showAlert(friendlyError(e.code));
   }
 };
 
-// ── FORGOT PASSWORD ───────────────────────────────────
-window.doForgot = async function() {
-  const email = document.getElementById('login-email').value.trim();
-  if (!email) {
-    showAlert('Enter your email above first!');
-    document.getElementById('login-email').focus();
-    return;
+// ── Remove error class on input ────────────────────────
+['login-email','login-pass','signup-name','signup-email','signup-pass','signup-pass2'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('input', () => el.classList.remove('error'));
+});
+
+// ── Enter key → trigger login/signup ──────────────────
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter') return;
+  const tab = document.getElementById('tab-login');
+  if (tab && tab.classList.contains('active')) {
+    doLogin();
+  } else {
+    doSignup();
   }
-  try {
-    await sendPasswordResetEmail(auth, email);
-    showAlert('Password reset email sent! Check your inbox 📧', 'success');
-  } catch(e) {
-    showAlert(friendlyError(e.code));
-  }
-};
+});
+
 </script>
 </body>
-</html>
