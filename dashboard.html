@@ -1032,7 +1032,7 @@ tbody td {
     Dashboard
   </a>
 
-  <a class="nav-link" href="#">
+  <a class="nav-link" href="clients.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
     </svg>
@@ -1040,7 +1040,7 @@ tbody td {
     <span class="nav-badge">12</span>
   </a>
 
-  <a class="nav-link" href="#">
+  <a class="nav-link" href="invoices.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
     </svg>
@@ -1048,7 +1048,7 @@ tbody td {
     <span class="nav-badge">5</span>
   </a>
 
-  <a class="nav-link" href="#">
+  <a class="nav-link" href="ai-tasks.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>
@@ -1057,7 +1057,7 @@ tbody td {
 
   <div class="sidebar-section" style="margin-top: 8px;">Preferences</div>
 
-  <a class="nav-link" href="#">
+  <a class="nav-link" href="settings.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
     </svg>
@@ -1094,11 +1094,19 @@ tbody td {
       <div class="welcome-sub">Sunday, May 17 · 3 tasks due today</div>
     </div>
 
-    <div class="search-wrap">
+    <div class="search-wrap" id="search-wrap-main">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <input class="search-input" type="text" placeholder="Search anything...">
+      <input class="search-input" id="global-search" type="text" placeholder="Search tasks..."
+        oninput="globalSearch(this.value)" autocomplete="off">
+    </div>
+    <!-- Search Results Dropdown -->
+    <div id="search-results" style="
+      display:none;position:absolute;top:68px;left:50%;transform:translateX(-50%);
+      width:340px;background:var(--bg-2);border:1px solid var(--border-2);
+      border-radius:var(--radius);box-shadow:var(--shadow);z-index:200;
+      max-height:320px;overflow-y:auto;">
     </div>
 
     <div class="header-actions">
@@ -2406,6 +2414,91 @@ updateStats();
 renderExpenses();
 drawChart();
 window.addEventListener('resize', drawChart);
+
+
+// ── Global Search ─────────────────────────────────────
+window.globalSearch = function(q) {
+  const box = document.getElementById('search-results');
+  if(!q.trim()) { box.style.display='none'; return; }
+
+  const tasks    = loadTasks ? loadTasks() : [];
+  const invoices = JSON.parse(localStorage.getItem('nexus_invoices')||'[]');
+  const expenses = loadExpenses ? loadExpenses() : [];
+
+  const ql = q.toLowerCase();
+
+  const tMatches = tasks.filter(t=>t.title.toLowerCase().includes(ql)).slice(0,4);
+  const iMatches = invoices.filter(i=>(i.client||'').toLowerCase().includes(ql)||(i.id||'').toLowerCase().includes(ql)).slice(0,3);
+  const eMatches = expenses.filter(e=>(e.name||'').toLowerCase().includes(ql)).slice(0,2);
+
+  if(tMatches.length===0 && iMatches.length===0 && eMatches.length===0) {
+    box.innerHTML = '<div style="padding:20px;text-align:center;color:var(--txt-3);font-size:13px;">No results found</div>';
+    box.style.display='block';
+    return;
+  }
+
+  let html2 = '';
+
+  if(tMatches.length>0) {
+    html2 += '<div style="padding:10px 16px 6px;font-size:10px;font-weight:700;color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;">Tasks</div>';
+    html2 += tMatches.map(t=>`
+      <div onclick="window.location.href='ai-tasks.html'"
+        style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
+               border-bottom:1px solid var(--border);transition:background 0.15s;"
+        onmouseover="this.style.background='var(--bg-3)'" onmouseout="this.style.background=''">
+        <span style="font-size:14px;">${t.priority==='high'?'🔴':t.priority==='medium'?'🟡':'🟢'}</span>
+        <span style="font-size:13px;color:var(--txt-1);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.title}</span>
+        <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
+          background:${t.done?'var(--bg-4)':t.priority==='high'?'var(--high-bg)':t.priority==='medium'?'var(--med-bg)':'var(--low-bg)'};
+          color:${t.done?'var(--txt-3)':t.priority==='high'?'var(--high)':t.priority==='medium'?'var(--med)':'var(--low)'};">
+          ${t.done?'Done':t.priority}</span>
+      </div>`).join('');
+  }
+
+  if(iMatches.length>0) {
+    html2 += '<div style="padding:10px 16px 6px;font-size:10px;font-weight:700;color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;">Invoices</div>';
+    html2 += iMatches.map(i=>`
+      <div onclick="window.location.href='invoices.html'"
+        style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
+               border-bottom:1px solid var(--border);transition:background 0.15s;"
+        onmouseover="this.style.background='var(--bg-3)'" onmouseout="this.style.background=''">
+        <span style="font-size:14px;">🧾</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;color:var(--txt-1);">${i.client||'Unknown'}</div>
+          <div style="font-size:11px;color:var(--txt-3);">${i.id||'—'} · $${(i.amount||0).toLocaleString()}</div>
+        </div>
+        <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
+          background:${i.status==='Paid'?'var(--paid-bg)':i.status==='Overdue'?'var(--overdue-bg)':'var(--pending-bg)'};
+          color:${i.status==='Paid'?'var(--paid)':i.status==='Overdue'?'var(--overdue)':'var(--pending)'};">${i.status}</span>
+      </div>`).join('');
+  }
+
+  if(eMatches.length>0) {
+    html2 += '<div style="padding:10px 16px 6px;font-size:10px;font-weight:700;color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;">Expenses</div>';
+    html2 += eMatches.map(e=>`
+      <div style="padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);">
+        <span style="font-size:14px;">💸</span>
+        <div style="flex:1;"><div style="font-size:13px;color:var(--txt-1);">${e.name}</div>
+        <div style="font-size:11px;color:var(--txt-3);">${e.cat} · ${e.date}</div></div>
+        <span style="font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--high);">
+          $$${e.amount.toFixed(2)}</span>
+      </div>`).join('');
+  }
+
+  html2 += '<div style="padding:8px 16px;text-align:center;"><a href="ai-tasks.html" style="font-size:12px;color:var(--accent);text-decoration:none;">See all results →</a></div>';
+
+  box.innerHTML = html2;
+  box.style.display = 'block';
+};
+
+// Close search on outside click
+document.addEventListener('click', (e) => {
+  const box = document.getElementById('search-results');
+  const inp = document.getElementById('global-search');
+  if(box && !box.contains(e.target) && e.target !== inp) {
+    box.style.display = 'none';
+  }
+});
 
 </script>
 </body>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — Clients</title>
+<style>
+
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0b0d11;--bg-2:#111318;--bg-3:#181b22;--bg-4:#1e222c;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.12);
+  --txt-1:#f0f2f8;--txt-2:#8c92a6;--txt-3:#555c72;
+  --accent:#4f7cff;--accent-glow:rgba(79,124,255,0.25);
+  --accent-2:#00e5c0;--high:#ff5e6c;--high-bg:rgba(255,94,108,0.12);
+  --med:#f5a623;--med-bg:rgba(245,166,35,0.12);
+  --low:#00e5c0;--low-bg:rgba(0,229,192,0.12);
+  --paid:#00c48c;--paid-bg:rgba(0,196,140,0.1);
+  --pending:#f5a623;--pending-bg:rgba(245,166,35,0.1);
+  --overdue:#ff5e6c;--overdue-bg:rgba(255,94,108,0.1);
+  --sidebar-w:240px;--radius:14px;--radius-sm:8px;
+  --shadow:0 4px 24px rgba(0,0,0,0.35);
+  --shadow-card:0 2px 12px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.05);
+  --font-head:'Space Grotesk',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --trans:0.2s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);min-height:100vh;display:flex;overflow-x:hidden;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+/* Sidebar */
+.sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform var(--trans);}
+.sidebar-logo{padding:28px 24px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 18px var(--accent-glow);flex-shrink:0;}
+.logo-text{font-family:var(--font-head);font-size:18px;font-weight:700;letter-spacing:-0.3px;color:var(--txt-1);}
+.logo-text span{color:var(--accent);}
+.sidebar-section{padding:20px 16px 8px;font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-3);}
+.nav-link{display:flex;align-items:center;gap:12px;padding:10px 16px;margin:2px 8px;border-radius:var(--radius-sm);color:var(--txt-2);text-decoration:none;font-size:14px;font-weight:500;transition:all var(--trans);position:relative;cursor:pointer;}
+.nav-link:hover{background:var(--bg-4);color:var(--txt-1);}
+.nav-link.active{background:rgba(79,124,255,0.12);color:var(--accent);}
+.nav-link.active::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--accent);border-radius:0 3px 3px 0;box-shadow:0 0 10px var(--accent);}
+.nav-icon{width:18px;height:18px;opacity:0.8;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center;}
+.sidebar-footer{margin-top:auto;padding:16px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);transition:background var(--trans);cursor:pointer;}
+.user-card:hover{background:var(--bg-4);}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#4f7cff,#00e5c0);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-weight:600;font-size:13px;color:var(--txt-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.user-role{font-size:11px;color:var(--txt-3);}
+/* Main */
+.main{margin-left:var(--sidebar-w);flex:1;min-width:0;display:flex;flex-direction:column;}
+/* Header */
+.header{background:var(--bg-2);border-bottom:1px solid var(--border);padding:0 32px;height:68px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:50;}
+.header-title{font-family:var(--font-head);font-size:17px;font-weight:700;color:var(--txt-1);flex:1;}
+.icon-btn{width:38px;height:38px;border-radius:var(--radius-sm);background:var(--bg-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt-2);transition:all var(--trans);}
+.icon-btn:hover{background:var(--bg-4);border-color:var(--border-2);color:var(--txt-1);}
+.menu-toggle{display:none;}
+/* Content */
+.content{padding:32px;flex:1;display:flex;flex-direction:column;gap:24px;}
+/* Cards */
+.panel{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-card);}
+.panel-head{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.panel-title{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--txt-1);}
+.panel-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(79,124,255,0.12);color:var(--accent);}
+.panel-body{padding:20px 24px 24px;}
+/* Btn */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent),#6b8fff);border:none;border-radius:var(--radius-sm);color:#fff;font-family:var(--font-head);font-size:13px;font-weight:700;padding:10px 20px;cursor:pointer;transition:all var(--trans);text-decoration:none;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--accent-glow);}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--border-2);border-radius:var(--radius-sm);color:var(--txt-2);font-size:13px;font-weight:600;padding:10px 16px;cursor:pointer;transition:all var(--trans);font-family:var(--font-body);}
+.btn-ghost:hover{border-color:var(--border-2);color:var(--txt-1);background:var(--bg-4);}
+/* Form */
+.form-input,.form-select{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--txt-1);font-family:var(--font-body);font-size:13.5px;transition:border-color var(--trans),box-shadow var(--trans);outline:none;width:100%;}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+.form-label{font-size:12px;font-weight:600;color:var(--txt-2);letter-spacing:0.3px;display:block;margin-bottom:6px;}
+/* Table */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:10px 20px;text-align:left;font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--txt-3);background:var(--bg-3);border-bottom:1px solid var(--border);}
+tbody tr{border-bottom:1px solid var(--border);transition:background var(--trans);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--bg-3);}
+tbody td{padding:14px 20px;font-size:13.5px;color:var(--txt-1);vertical-align:middle;}
+/* Status badges */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;}
+.badge.paid{color:var(--paid);background:var(--paid-bg);}.badge.paid::before{background:var(--paid);}
+.badge.pending{color:var(--pending);background:var(--pending-bg);}.badge.pending::before{background:var(--pending);}
+.badge.overdue{color:var(--overdue);background:var(--overdue-bg);}.badge.overdue::before{background:var(--overdue);}
+.badge.active{color:var(--low);background:var(--low-bg);}.badge.active::before{background:var(--low);}
+.badge.high{color:var(--high);background:var(--high-bg);}
+.badge.medium{color:var(--med);background:var(--med-bg);}
+.badge.low{color:var(--low);background:var(--low-bg);}
+/* Empty state */
+.empty-state{text-align:center;padding:48px 24px;color:var(--txt-3);}
+.empty-state .icon{font-size:40px;margin-bottom:12px;}
+.empty-state h3{font-family:var(--font-head);font-size:16px;color:var(--txt-2);margin-bottom:8px;}
+.empty-state p{font-size:13px;margin-bottom:20px;}
+/* Overlay */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:90;backdrop-filter:blur(2px);}
+/* Modal */
+.modal{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal.open{display:flex;}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);}
+.modal-box{background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--radius);padding:28px;width:100%;max-width:480px;position:relative;z-index:1;box-shadow:var(--shadow);}
+.modal-title{font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:20px;color:var(--txt-1);}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--txt-3);font-size:20px;cursor:pointer;transition:color var(--trans);}
+.modal-close:hover{color:var(--txt-1);}
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fadeUp{animation:fadeUp 0.4s ease both;}
+/* Scrollbar */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--bg-4);border-radius:5px;}
+/* Responsive */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 40px rgba(0,0,0,0.5);}
+  .overlay.show{display:block;}
+  .main{margin-left:0;}
+  .menu-toggle{display:flex;}
+  .header{padding:0 16px;}
+  .content{padding:16px;gap:16px;}
+}
+
+.client-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.client-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all var(--trans);cursor:pointer;}
+.client-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,124,255,0.12);}
+.cc-avatar{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;margin-bottom:14px;}
+.cc-name{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--txt-1);margin-bottom:4px;}
+.cc-email{font-size:12px;color:var(--txt-3);margin-bottom:12px;}
+.cc-stats{display:flex;gap:16px;}
+.cc-stat{font-size:12px;color:var(--txt-2);}
+.cc-stat strong{display:block;font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--txt-1);}
+.search-wrap{display:flex;align-items:center;gap:10px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0 14px;height:38px;flex:1;max-width:320px;transition:border-color var(--trans),box-shadow var(--trans);}
+.search-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+.search-input{background:none;border:none;outline:none;color:var(--txt-1);font-family:var(--font-body);font-size:13px;width:100%;}
+.search-input::placeholder{color:var(--txt-3);}
+.top-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+/* Modal form grid */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+@media(max-width:600px){.client-grid{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">⚡</div>
+    <div class="logo-text">Ne<span>xus</span></div>
+  </div>
+  <div class="sidebar-section">Main Menu</div>
+  
+  <a class="nav-link " href="dashboard.html">
+    <span style="font-size:16px;">🏠</span>
+    Dashboard
+  </a>
+  <a class="nav-link active" href="clients.html">
+    <span style="font-size:16px;">👥</span>
+    Clients
+  </a>
+  <a class="nav-link " href="invoices.html">
+    <span style="font-size:16px;">🧾</span>
+    Invoices<span class="nav-badge">5</span>
+  </a>
+  <a class="nav-link " href="ai-tasks.html">
+    <span style="font-size:16px;">⚡</span>
+    AI Task Manager
+  </a>
+  <a class="nav-link " href="settings.html">
+    <span style="font-size:16px;">⚙️</span>
+    Settings
+  </a>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="doLogout()">
+      <div class="avatar" id="user-avatar">A</div>
+      <div class="user-info">
+        <div class="user-name" id="sidebar-name">Loading...</div>
+        <div class="user-role" id="sidebar-email">nexus.io</div>
+      </div>
+    </div>
+  </div>
+</aside>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="main">
+  <!-- Header -->
+  <header class="header">
+    <button class="icon-btn menu-toggle" onclick="openSidebar()">☰</button>
+    <div class="header-title">👥 Clients</div>
+    <div class="icon-btn" onclick="window.location.href='dashboard.html'" title="Dashboard">🏠</div>
+  </header>
+
+  <div class="content">
+
+    <!-- Top bar -->
+    <div class="top-bar fadeUp">
+      <div class="search-wrap">
+        <span style="color:var(--txt-3);">🔍</span>
+        <input class="search-input" id="client-search" type="text"
+          placeholder="Search clients..."
+          oninput="searchClients(this.value)">
+      </div>
+      <button class="btn-primary" onclick="openAddClient()">+ Add Client</button>
+      <div style="margin-left:auto;font-size:13px;color:var(--txt-3);">
+        <span id="client-total-count">0</span> clients total
+      </div>
+    </div>
+
+    <!-- Clients Grid -->
+    <div class="client-grid" id="client-grid"></div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="client-empty" style="display:none;">
+      <div class="icon">👥</div>
+      <h3>No Clients Yet!</h3>
+      <p>Add your first client to get started.</p>
+      <button class="btn-primary" onclick="openAddClient()">+ Add First Client</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Add Client Modal -->
+<div class="modal" id="add-client-modal">
+  <div class="modal-backdrop" onclick="closeAddClient()"></div>
+  <div class="modal-box fadeUp">
+    <div class="modal-title">➕ Add New Client</div>
+    <button class="modal-close" onclick="closeAddClient()">✕</button>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Full Name *</label>
+        <input class="form-input" id="c-name" type="text" placeholder="e.g. John Smith">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company</label>
+        <input class="form-input" id="c-company" type="text" placeholder="Company name">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Email *</label>
+        <input class="form-input" id="c-email" type="email" placeholder="client@company.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input class="form-input" id="c-phone" type="tel" placeholder="+1 234 567 890">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-input" id="c-cat">
+          <option>Design</option>
+          <option>Development</option>
+          <option>Marketing</option>
+          <option>Consulting</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group full" style="margin-top:8px;display:flex;gap:10px;">
+        <button class="btn-primary" style="flex:1;justify-content:center;" onclick="saveClient()">
+          ✅ Save Client
+        </button>
+        <button class="btn-ghost" style="flex:1;justify-content:center;" onclick="closeAddClient()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const _fc = {
+  apiKey:"AIzaSyATNCnCFrWD-mdI_77WN1RE8BWXt072Tuc",
+  authDomain:"nexus-app-69c75.firebaseapp.com",
+  projectId:"nexus-app-69c75",
+  storageBucket:"nexus-app-69c75.firebasestorage.app",
+  messagingSenderId:"793117728865",
+  appId:"1:793117728865:web:b0fbac909658615ba20a20"
+};
+const _app  = initializeApp(_fc);
+const _auth = getAuth(_app);
+
+onAuthStateChanged(_auth, user => {
+  if (!user) { window.location.href = 'nexus-login.html'; return; }
+  const name = user.displayName || user.email.split('@')[0];
+  const el1 = document.getElementById('sidebar-name');
+  const el2 = document.getElementById('sidebar-email');
+  const el3 = document.getElementById('user-avatar');
+  if(el1) el1.textContent = name;
+  if(el2) el2.textContent = user.email;
+  if(el3) el3.textContent = name.charAt(0).toUpperCase();
+});
+
+window.doLogout = async function() {
+  if(!confirm('Sign out?')) return;
+  await signOut(_auth);
+  window.location.href = 'nexus-login.html';
+};
+window.openSidebar  = () => { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); };
+window.closeSidebar = () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); };
+
+
+const CLIENT_KEY = 'nexus_clients';
+const COLORS = ['#4f7cff','#00e5c0','#ff6b82','#f5a623','#a78bfa','#34d9c3'];
+const EMOJIS = ['MC','AB','SN','TW','VL','BP'];
+
+function loadClients() {
+  try { return JSON.parse(localStorage.getItem(CLIENT_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function saveClientsData(data) {
+  localStorage.setItem(CLIENT_KEY, JSON.stringify(data));
+}
+
+function renderClients(filter='') {
+  let clients = loadClients();
+  if(filter) clients = clients.filter(c =>
+    c.name.toLowerCase().includes(filter.toLowerCase()) ||
+    (c.company||'').toLowerCase().includes(filter.toLowerCase()) ||
+    c.email.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const grid  = document.getElementById('client-grid');
+  const empty = document.getElementById('client-empty');
+  const count = document.getElementById('client-total-count');
+  const all   = loadClients();
+  count.textContent = all.length;
+
+  if(clients.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+
+  grid.innerHTML = clients.map((c, i) => {
+    const color = COLORS[i % COLORS.length];
+    const initials = c.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const clientInvs = invoices.filter(inv => inv.client === c.name);
+    const total = clientInvs.reduce((a,inv) => a + (inv.amount||0), 0);
+    return `
+    <div class="client-card fadeUp" style="animation-delay:${i*0.05}s">
+      <div class="cc-avatar" style="background:${color}">
+        ${initials || '?'}
+      </div>
+      <div class="cc-name">${c.name}</div>
+      <div class="cc-email">${c.company ? c.company + ' · ' : ''}${c.email}</div>
+      <div class="cc-stats">
+        <div class="cc-stat">
+          <strong>${clientInvs.length}</strong>Invoices
+        </div>
+        <div class="cc-stat">
+          <strong>$${total.toLocaleString()}</strong>Total Value
+        </div>
+        <div class="cc-stat">
+          <strong>${c.category||'General'}</strong>Category
+        </div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px;">
+        <button class="btn-ghost" style="flex:1;justify-content:center;font-size:12px;padding:7px;"
+          onclick="window.location.href='invoices.html'">🧾 Invoices</button>
+        <button class="btn-ghost" style="padding:7px 10px;font-size:14px;"
+          onclick="deleteClient(${i})">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.searchClients = (v) => renderClients(v);
+
+window.openAddClient = () => {
+  document.getElementById('add-client-modal').classList.add('open');
+};
+window.closeAddClient = () => {
+  document.getElementById('add-client-modal').classList.remove('open');
+  ['c-name','c-company','c-email','c-phone'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+};
+
+window.saveClient = () => {
+  const name  = document.getElementById('c-name').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  if(!name)  { alert('Please enter client name!'); return; }
+  if(!email) { alert('Please enter email!'); return; }
+
+  const clients = loadClients();
+  clients.unshift({
+    name, email,
+    company:  document.getElementById('c-company').value.trim(),
+    phone:    document.getElementById('c-phone').value.trim(),
+    category: document.getElementById('c-cat').value,
+    date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+  });
+  saveClientsData(clients);
+  closeAddClient();
+  renderClients();
+};
+
+window.deleteClient = (idx) => {
+  if(!confirm('Delete this client?')) return;
+  const clients = loadClients();
+  clients.splice(idx, 1);
+  saveClientsData(clients);
+  renderClients();
+};
+
+renderClients();
+</script>
+</body>
+</html>
