@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nexus — Login</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nexus">
+<meta name="theme-color" content="#0b0d11">
+<link rel="manifest" href="manifest.json">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -421,18 +427,16 @@ window.doLogin = async function() {
   const email   = emailEl.value.trim();
   const pass    = passEl.value;
 
-  // Validation
+  // Basic validation
   if (!email) {
     emailEl.classList.add('error');
     showAlert('Please enter your email address!');
-    emailEl.focus();
-    return;
+    emailEl.focus(); return;
   }
   if (!pass) {
     passEl.classList.add('error');
     showAlert('Please enter your password!');
-    passEl.focus();
-    return;
+    passEl.focus(); return;
   }
   if (pass.length < 6) {
     passEl.classList.add('error');
@@ -440,46 +444,34 @@ window.doLogin = async function() {
     return;
   }
 
-  // Remove error style
   emailEl.classList.remove('error');
   passEl.classList.remove('error');
-
-  // Start loading
   setBtnLoading('login-btn', true, 'Sign In to Nexus →');
 
+  // ── Helper: Mock login (always works) ─────────────────
+  function mockLogin() {
+    const mockName = email.split('@')[0]
+      .split(/[._-]/)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+    localStorage.setItem('nexus_user', JSON.stringify({
+      name: mockName, email: email,
+      uid: 'mock_' + Date.now(), mock: true
+    }));
+    showAlert('✅ Welcome back, ' + mockName + '! Redirecting...', 'success');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+  }
+
+  // ── Try Firebase first, fallback to mock ──────────────
   try {
     const cred = await signInWithEmailAndPassword(auth, email, pass);
     showAlert('✅ Welcome back! Redirecting...', 'success');
-    // onAuthStateChanged will handle redirect
+    // onAuthStateChanged handles redirect for real Firebase users
 
   } catch(e) {
-    console.error('Firebase login error:', e.code, e.message);
-
-    // ── MOCK AUTH FALLBACK ─────────────────────────────
-    // If Firebase fails (wrong password, user not found, network issue)
-    // → use mock auth so portfolio demo always works!
-    if (e.code === 'auth/user-not-found' ||
-        e.code === 'auth/wrong-password'  ||
-        e.code === 'auth/invalid-credential' ||
-        e.code === 'auth/network-request-failed') {
-
-      // Save mock user to localStorage
-      const mockName = email.split('@')[0]
-        .split('.').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-      localStorage.setItem('nexus_user', JSON.stringify({
-        name:  mockName,
-        email: email,
-        uid:   'mock_' + Date.now(),
-        mock:  true
-      }));
-      showAlert('✅ Welcome back, ' + mockName + '! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
-      return;
-    }
-
-    // Real errors (weak password, invalid email etc) → show message
-    showAlert(friendlyError(e.code));
-    setBtnLoading('login-btn', false, 'Sign In to Nexus →');
+    console.log('Firebase result:', e.code);
+    // ANY Firebase error → mock login so demo always works!
+    mockLogin();
   }
 };
 
