@@ -1495,7 +1495,7 @@ body.rtl .stat-card { direction: rtl; }
     <div class="logo-text">Ne<span>xus</span></div>
   </div>
 
-  <div class="sidebar-section">Main Menu</div>
+  <div class="sidebar-section" data-i18n="main_menu">Main Menu</div>
 
   <a class="nav-link active" href="#">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1508,7 +1508,7 @@ body.rtl .stat-card { direction: rtl; }
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
     </svg>
-    Clients
+    <span data-i18n="nav_clients">Clients</span>
     <span class="nav-badge">12</span>
   </a>
 
@@ -1516,7 +1516,7 @@ body.rtl .stat-card { direction: rtl; }
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
     </svg>
-    Invoices
+    <span data-i18n="nav_invoices">Invoices</span>
     <span class="nav-badge">5</span>
   </a>
 
@@ -1524,7 +1524,7 @@ body.rtl .stat-card { direction: rtl; }
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>
-    AI Task Manager
+    <span data-i18n="nav_tasks">AI Task Manager</span>
   </a>
 
   <a class="nav-link" href="contracts.html">
@@ -1534,7 +1534,7 @@ body.rtl .stat-card { direction: rtl; }
       <line x1="16" y1="13" x2="8" y2="13"/>
       <line x1="16" y1="17" x2="8" y2="17"/>
     </svg>
-    Contracts
+    <span data-i18n="nav_contracts">Contracts</span>
   </a>
 
   <a class="nav-link" href="client-portal.html">
@@ -1542,16 +1542,16 @@ body.rtl .stat-card { direction: rtl; }
       <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
     </svg>
-    Client Portal
+    <span data-i18n="nav_portal">Client Portal</span>
   </a>
 
-  <div class="sidebar-section" style="margin-top: 8px;">Preferences</div>
+  <div class="sidebar-section" style="margin-top: 8px;" data-i18n="preferences">Preferences</div>
 
   <a class="nav-link" href="#" onclick="openSettings()">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
     </svg>
-    Settings
+    <span data-i18n="nav_settings">Settings</span>
   </a>
 
   <div class="sidebar-footer">
@@ -1559,7 +1559,7 @@ body.rtl .stat-card { direction: rtl; }
       style="cursor:pointer;">
       <div class="avatar" id="sidebar-avatar">A</div>
       <div class="user-info">
-        <div class="user-name" id="sidebar-name">Loading...</div>
+        <div class="user-name" id="sidebar-name" data-i18n="loading">Loading...</div>
         <div class="user-role" id="sidebar-email">nexus.io</div>
       </div>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--txt-3);">
@@ -1706,19 +1706,6 @@ body.rtl .stat-card { direction: rtl; }
           Overview
         </div>
         <!-- Currency Selector -->
-        <!-- Language Selector -->
-        <div class="lang-selector-wrap" title="Change Language">
-          <span class="lang-flag" id="langFlag">🇺🇸</span>
-          <select class="lang-select" id="langSelect"
-            onchange="changeLang(this.value)">
-            <option value="en">EN</option>
-            <option value="ur">UR</option>
-            <option value="hi">HI</option>
-            <option value="ar">AR</option>
-          </select>
-          <span style="color:var(--txt-3);font-size:9px;">▼</span>
-        </div>
-
         <div style="display:flex;align-items:center;gap:6px;
                     background:var(--bg-3);border:1px solid var(--border-2);
                     border-radius:50px;padding:5px 10px;cursor:pointer;"
@@ -1751,7 +1738,7 @@ body.rtl .stat-card { direction: rtl; }
             <div class="stat-trend up">↑ 18.4%</div>
           </div>
           <div class="stat-value" id="stat-earnings">$0.00</div>
-          <div class="stat-label">Total Earnings this month</div>
+          <div class="stat-label" data-i18n="total_earnings">Total Earnings this month</div>
           <div class="stat-bar"><div class="stat-bar-fill"></div></div>
         </div>
 
@@ -1761,7 +1748,7 @@ body.rtl .stat-card { direction: rtl; }
             <div class="stat-trend down">5 pending</div>
           </div>
           <div class="stat-value" id="stat-pending">$0.00</div>
-          <div class="stat-label">Pending Invoices</div>
+          <div class="stat-label" data-i18n="pending_inv">Pending Invoices</div>
           <div class="stat-bar"><div class="stat-bar-fill"></div></div>
         </div>
 
@@ -1771,7 +1758,7 @@ body.rtl .stat-card { direction: rtl; }
             <div class="stat-trend up">↑ 3 new</div>
           </div>
           <div class="stat-value" id="stat-tasks">0</div>
-          <div class="stat-label">Active Tasks this week</div>
+          <div class="stat-label" data-i18n="active_tasks">Active Tasks this week</div>
           <div class="stat-bar"><div class="stat-bar-fill"></div></div>
         </div>
 
@@ -1781,7 +1768,7 @@ body.rtl .stat-card { direction: rtl; }
             <div class="stat-trend up">↑ 6 pts</div>
           </div>
           <div class="stat-value" id="stat-score">0%</div>
-          <div class="stat-label">AI Productivity Score</div>
+          <div class="stat-label" data-i18n="ai_score">AI Productivity Score</div>
           <div class="stat-bar"><div class="stat-bar-fill"></div></div>
         </div>
 
@@ -1794,7 +1781,7 @@ body.rtl .stat-card { direction: rtl; }
       <!-- Invoice Form Panel -->
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">Generate New Invoice</div>
+          <div class="panel-title" data-i18n="gen_invoice">Generate New Invoice</div>
           <div class="panel-badge">✦ AI-powered</div>
         </div>
         <div class="panel-body">
@@ -1839,7 +1826,7 @@ body.rtl .stat-card { direction: rtl; }
             <!-- Task List Panel -->
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">AI Prioritized Tasks</div>
+          <div class="panel-title" data-i18n="ai_tasks">AI Prioritized Tasks</div>
           <div class="panel-badge" id="task-count-badge">0 total</div>
         </div>
         <div class="panel-body">
@@ -1869,11 +1856,11 @@ body.rtl .stat-card { direction: rtl; }
 
           <!-- Filter Buttons -->
           <div class="task-filter">
-            <button class="filter-btn active" onclick="filterTasks('all',this)">All</button>
-            <button class="filter-btn" onclick="filterTasks('high',this)">High</button>
-            <button class="filter-btn" onclick="filterTasks('medium',this)">Medium</button>
-            <button class="filter-btn" onclick="filterTasks('low',this)">Low</button>
-            <button class="filter-btn" onclick="filterTasks('done',this)" style="margin-left:auto;">Done</button>
+            <button class="filter-btn active" onclick="filterTasks('all',this)" data-i18n="filter_all">All</button>
+            <button class="filter-btn" onclick="filterTasks('high',this)" data-i18n="filter_high">High</button>
+            <button class="filter-btn" onclick="filterTasks('medium',this)" data-i18n="filter_medium">Medium</button>
+            <button class="filter-btn" onclick="filterTasks('low',this)" data-i18n="filter_low">Low</button>
+            <button class="filter-btn" onclick="filterTasks('done',this)" style="margin-left:auto;" data-i18n="filter_done">Done</button>
           </div>
 
           <!-- Task List renders here -->
@@ -1900,7 +1887,7 @@ body.rtl .stat-card { direction: rtl; }
                 box-shadow:0 4px 20px rgba(79,124,255,0.1);
                 animation:fadeUp 0.4s 0.4s ease both;">
       <div>
-        <div style="font-size:14px;font-weight:700;color:var(--txt-1);margin-bottom:4px;">
+        <div style="font-size:14px;font-weight:700;color:var(--txt-1);margin-bottom:4px;" data-i18n="client_portal_title">
           🔗 Client Portal
         </div>
         <div style="font-size:12px;color:var(--txt-2);line-height:1.5;">
@@ -1924,7 +1911,7 @@ body.rtl .stat-card { direction: rtl; }
     <!-- Recent Activity Table -->
     <div class="table-wrap">
       <div class="table-head">
-        <div class="table-title">Recent Invoices</div>
+        <div class="table-title" data-i18n="recent_inv">Recent Invoices</div>
         <a class="view-all" href="#">View all →</a>
       </div>
       <div style="overflow-x: auto;">
@@ -2023,8 +2010,8 @@ body.rtl .stat-card { direction: rtl; }
       <!-- Expense Tracker Panel -->
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">💸 Expense Tracker</div>
-          <div class="panel-badge" id="exp-count-badge">0 expenses</div>
+          <div class="panel-title" data-i18n="expense_tracker">💸 Expense Tracker</div>
+          <div class="panel-badge" id="exp-count-badge" data-i18n="zero_exp">0 expenses</div>
         </div>
         <div class="panel-body">
 
@@ -2060,7 +2047,7 @@ body.rtl .stat-card { direction: rtl; }
           <div style="background:var(--bg-3);border-radius:var(--radius-sm);
                       padding:12px 14px;margin-bottom:12px;
                       display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:12px;color:var(--txt-2);font-weight:600;">Total Spent</span>
+            <span style="font-size:12px;color:var(--txt-2);font-weight:600;" data-i18n="total_spent">Total Spent</span>
             <span id="exp-total" style="font-family:var(--font-head);font-size:20px;
                   font-weight:800;color:var(--high);">$0.00</span>
           </div>
@@ -2148,8 +2135,8 @@ body.rtl .stat-card { direction: rtl; }
         <!-- Timer Panel -->
         <div class="panel">
           <div class="panel-head">
-            <div class="panel-title">⏱️ Time Tracker</div>
-            <div class="panel-badge" id="timer-status-badge">Ready</div>
+            <div class="panel-title" data-i18n="time_tracker">⏱️ Time Tracker</div>
+            <div class="panel-badge" id="timer-status-badge" data-i18n="ready_lbl">Ready</div>
           </div>
           <div class="panel-body">
 
@@ -2204,15 +2191,15 @@ body.rtl .stat-card { direction: rtl; }
             <div class="time-summary" id="timeSummary">
               <div class="ts-box">
                 <span class="ts-val" id="ts-hours" style="color:var(--low);">0h 0m</span>
-                <span class="ts-lbl">Today</span>
+                <span class="ts-lbl" data-i18n="today_lbl">Today</span>
               </div>
               <div class="ts-box">
                 <span class="ts-val" id="ts-entries" style="color:var(--accent);">0</span>
-                <span class="ts-lbl">Sessions</span>
+                <span class="ts-lbl" data-i18n="sessions_lbl">Sessions</span>
               </div>
               <div class="ts-box">
                 <span class="ts-val" id="ts-earned" style="color:var(--med);">$0</span>
-                <span class="ts-lbl">Earned</span>
+                <span class="ts-lbl" data-i18n="earned_lbl">Earned</span>
               </div>
             </div>
 
@@ -2228,7 +2215,7 @@ body.rtl .stat-card { direction: rtl; }
         <!-- Time Entries Panel -->
         <div class="panel">
           <div class="panel-head">
-            <div class="panel-title">📋 Time Entries</div>
+            <div class="panel-title" data-i18n="time_entries">📋 Time Entries</div>
             <div style="display:flex;gap:8px;align-items:center;">
               <div class="panel-badge" id="entries-count-badge">0 entries</div>
               <button onclick="clearTimeEntries()"
@@ -2250,7 +2237,7 @@ body.rtl .stat-card { direction: rtl; }
             <div id="timeEntriesEmpty"
               style="text-align:center;padding:40px 0;color:var(--txt-3);">
               <div style="font-size:32px;margin-bottom:8px;">⏱️</div>
-              <p style="font-size:13px;">No time entries yet.<br>Start the timer to track your work!</p>
+              <p style="font-size:13px;" data-i18n="no_entries">No time entries yet.<br>Start the timer to track your work!</p>
             </div>
 
           </div>
@@ -4214,155 +4201,286 @@ const LANG_KEY = 'nexus_language';
 
 const TRANSLATIONS = {
   en: {
-    flag: '🇺🇸', name: 'English', rtl: false,
-    welcome: 'Welcome back',
-    overview: 'Overview',
-    totalEarnings: 'Total Earnings this month',
-    pendingInvoices: 'Pending Invoices',
-    activeTasks: 'Active Tasks this week',
-    aiScore: 'AI Productivity Score',
-    generateInvoice: 'Generate New Invoice',
-    clientName: 'Client Name',
-    clientEmail: 'Client Email',
-    serviceDesc: 'Service Description',
-    amount: 'Amount',
-    dueDate: 'Due Date',
-    generateBtn: '✦ Generate Invoice with AI',
-    tasks: 'AI Prioritized Tasks',
-    addTask: 'Add new task...',
-    expenses: 'Expense Tracker',
-    expenseName: 'Expense name...',
-    addBtn: '+ Add',
-    recentInvoices: 'Recent Invoices',
-    viewAll: 'View all →',
-    timeTracker: 'Time Tracker',
-    project: 'Project / Task',
-    client: 'Client',
-    hourlyRate: 'Hourly Rate ($)',
+    flag: '🇺🇸', name: 'English',
+    // Nav
+    nav_dashboard: 'Dashboard',
+    nav_clients: 'Clients',
+    nav_invoices: 'Invoices',
+    nav_tasks: 'AI Task Manager',
+    nav_contracts: 'Contracts',
+    nav_portal: 'Client Portal',
+    nav_settings: 'Settings',
+    main_menu: 'Main Menu',
+    preferences: 'Preferences',
+    // Stats
+    total_earnings: 'Total Earnings this month',
+    pending_inv: 'Pending Invoices',
+    active_tasks: 'Active Tasks this week',
+    ai_score: 'AI Productivity Score',
+    // Panels
+    gen_invoice: 'Generate New Invoice',
+    ai_tasks: 'AI Prioritized Tasks',
+    expense_tracker: '💸 Expense Tracker',
+    time_tracker: '⏱️ Time Tracker',
+    time_entries: '📋 Time Entries',
+    recent_inv: 'Recent Invoices',
+    client_portal_title: '🔗 Client Portal',
+    // Form labels
+    client_name: 'Client Name',
+    client_email: 'Client Email',
+    service_desc: 'Service Description',
+    amount_label: 'Amount',
+    due_date: 'Due Date',
+    gen_btn: '✦ Generate Invoice with AI',
+    // Timer
+    project_task: 'Project / Task',
+    client_lbl: 'Client',
+    hourly_rate: 'Hourly Rate ($)',
     billable: 'Billable?',
-    startTimer: '▶ Start Timer',
-    pause: '⏸ Pause',
-    stopSave: '⏹ Stop & Save',
+    start_timer: '▶ Start Timer',
+    pause_timer: '⏸ Pause',
+    stop_save: '⏹ Stop & Save',
     today: 'Today',
     sessions: 'Sessions',
     earned: 'Earned',
-    convertInvoice: '🧾 Convert to Invoice',
-    timeEntries: 'Time Entries',
-    clearAll: 'Clear All',
+    convert_inv: '🧾 Convert to Invoice',
+    clear_all: 'Clear All',
+    // Other
+    view_all: 'View all →',
+    add_btn: '+ Add',
+    welcome: 'Welcome back',
+    overview: 'Overview',
+    net_profit: '🏆 Net Profit',
+    total_exp: '💸 Total Expenses',
+    share_portal: 'Share Portal',
+    ready: 'Ready',
+    no_tasks: 'No tasks! Add one above.',
+    add_task_ph: 'Add new task...',
+    exp_name_ph: 'Expense name...',
+    amount_ph: '$0.00',
+    // Filter buttons
+    filter_all: 'All', filter_high: 'High',
+    filter_medium: 'Medium', filter_low: 'Low', filter_done: 'Done',
+    // Table headers
+    inv_col_invoice: 'Invoice', inv_col_client: 'Client',
+    inv_col_date: 'Date', inv_col_amount: 'Amount', inv_col_status: 'Status',
+    // Expense
+    total_spent: 'Total Spent', last_7: 'Last 7 days', zero_exp: '0 expenses',
+    // Timer labels
+    today_lbl: 'Today', sessions_lbl: 'Sessions', earned_lbl: 'Earned', ready_lbl: 'Ready',
+    no_entries: 'No time entries yet.
+Start the timer to track your work!',
+    // Settings
+    logout: 'Log out of Nexus', currently_active: 'Currently active',
+    email_alerts: 'Email & push alerts', smart_tips: 'Smart suggestions & tips',
+    // Portal
+    access_code: 'Access Code', portal_link_lbl: 'Portal Link',
+    whatsapp_msg_lbl: 'WhatsApp Message (Ready to Send!)',
+    loading: 'Loading...', loading_span: 'Loading...',
+    dark_mode: 'Dark Mode', notifications: 'Notifications', ai_features: 'AI Features', billing: 'Billing & Plan',
   },
   ur: {
-    flag: '🇵🇰', name: 'اردو', rtl: false,
-    welcome: 'خوش آمدید',
-    overview: 'خلاصہ',
-    totalEarnings: 'اس مہینے کی کل آمدنی',
-    pendingInvoices: 'زیر التواء انوائسز',
-    activeTasks: 'اس ہفتے کے فعال کام',
-    aiScore: 'AI پیداواریت سکور',
-    generateInvoice: 'نئی انوائس بنائیں',
-    clientName: 'کلائنٹ کا نام',
-    clientEmail: 'کلائنٹ کی ای میل',
-    serviceDesc: 'خدمت کی تفصیل',
-    amount: 'رقم',
-    dueDate: 'آخری تاریخ',
-    generateBtn: '✦ AI سے انوائس بنائیں',
-    tasks: 'AI ترجیحی کام',
-    addTask: 'نیا کام شامل کریں...',
-    expenses: 'خرچ ٹریکر',
-    expenseName: 'خرچ کا نام...',
-    addBtn: '+ شامل کریں',
-    recentInvoices: 'حالیہ انوائسز',
-    viewAll: 'سب دیکھیں →',
-    timeTracker: 'وقت ٹریکر',
-    project: 'پروجیکٹ / کام',
-    client: 'کلائنٹ',
-    hourlyRate: 'فی گھنٹہ ریٹ',
+    flag: '🇵🇰', name: 'اردو',
+    nav_dashboard: 'ڈیش بورڈ',
+    nav_clients: 'کلائنٹس',
+    nav_invoices: 'انوائسز',
+    nav_tasks: 'AI ٹاسک مینیجر',
+    nav_contracts: 'معاہدے',
+    nav_portal: 'کلائنٹ پورٹل',
+    nav_settings: 'ترتیبات',
+    main_menu: 'مین مینو',
+    preferences: 'ترجیحات',
+    total_earnings: 'اس مہینے کی کل آمدنی',
+    pending_inv: 'زیر التواء انوائسز',
+    active_tasks: 'اس ہفتے کے فعال کام',
+    ai_score: 'AI پیداواریت سکور',
+    gen_invoice: 'نئی انوائس بنائیں',
+    ai_tasks: 'AI ترجیحی کام',
+    expense_tracker: '💸 خرچ ٹریکر',
+    time_tracker: '⏱️ وقت ٹریکر',
+    time_entries: '📋 وقت کی اندراجات',
+    recent_inv: 'حالیہ انوائسز',
+    client_portal_title: '🔗 کلائنٹ پورٹل',
+    client_name: 'کلائنٹ کا نام',
+    client_email: 'کلائنٹ کی ای میل',
+    service_desc: 'خدمت کی تفصیل',
+    amount_label: 'رقم',
+    due_date: 'آخری تاریخ',
+    gen_btn: '✦ AI سے انوائس بنائیں',
+    project_task: 'پروجیکٹ / کام',
+    client_lbl: 'کلائنٹ',
+    hourly_rate: 'فی گھنٹہ ریٹ',
     billable: 'قابل ادائیگی؟',
-    startTimer: '▶ ٹائمر شروع کریں',
-    pause: '⏸ روکیں',
-    stopSave: '⏹ بند کریں اور محفوظ کریں',
+    start_timer: '▶ ٹائمر شروع کریں',
+    pause_timer: '⏸ روکیں',
+    stop_save: '⏹ بند کریں اور محفوظ کریں',
     today: 'آج',
     sessions: 'سیشن',
     earned: 'کمائی',
-    convertInvoice: '🧾 انوائس بنائیں',
-    timeEntries: 'وقت کی اندراجات',
-    clearAll: 'سب صاف کریں',
+    convert_inv: '🧾 انوائس بنائیں',
+    clear_all: 'سب صاف کریں',
+    view_all: 'سب دیکھیں →',
+    add_btn: '+ شامل کریں',
+    welcome: 'خوش آمدید',
+    overview: 'خلاصہ',
+    net_profit: '🏆 خالص منافع',
+    total_exp: '💸 کل اخراجات',
+    share_portal: 'پورٹل شیئر کریں',
+    ready: 'تیار',
+    no_tasks: 'کوئی کام نہیں! اوپر شامل کریں۔',
+    add_task_ph: 'نیا کام شامل کریں...',
+    exp_name_ph: 'خرچ کا نام...',
+    amount_ph: '₨0',
+    filter_all: 'سب', filter_high: 'اعلی', filter_medium: 'درمیانہ',
+    filter_low: 'کم', filter_done: 'مکمل',
+    inv_col_invoice: 'انوائس', inv_col_client: 'کلائنٹ',
+    inv_col_date: 'تاریخ', inv_col_amount: 'رقم', inv_col_status: 'حالت',
+    total_spent: 'کل خرچ', last_7: 'پچھلے 7 دن', zero_exp: '0 اخراجات',
+    today_lbl: 'آج', sessions_lbl: 'سیشن', earned_lbl: 'کمائی', ready_lbl: 'تیار',
+    no_entries: 'کوئی وقت اندراج نہیں۔
+ٹائمر شروع کریں!',
+    logout: 'نیکسس سے نکلیں', currently_active: 'ابھی فعال',
+    email_alerts: 'ای میل اور پش الرٹس', smart_tips: 'ذہین تجاویز',
+    access_code: 'رسائی کوڈ', portal_link_lbl: 'پورٹل لنک',
+    whatsapp_msg_lbl: 'واٹس ایپ پیغام (بھیجنے کے لیے تیار!)',
+    loading: 'لوڈ ہو رہا ہے...', loading_span: 'لوڈ ہو رہا ہے...',
+    dark_mode: 'ڈارک موڈ', notifications: 'اطلاعات', ai_features: 'AI خصوصیات', billing: 'بلنگ اور پلان',
   },
   hi: {
-    flag: '🇮🇳', name: 'हिंदी', rtl: false,
-    welcome: 'वापस स्वागत है',
-    overview: 'अवलोकन',
-    totalEarnings: 'इस महीने की कुल कमाई',
-    pendingInvoices: 'लंबित चालान',
-    activeTasks: 'इस सप्ताह के सक्रिय काम',
-    aiScore: 'AI उत्पादकता स्कोर',
-    generateInvoice: 'नया चालान बनाएं',
-    clientName: 'ग्राहक का नाम',
-    clientEmail: 'ग्राहक का ईमेल',
-    serviceDesc: 'सेवा विवरण',
-    amount: 'राशि',
-    dueDate: 'देय तिथि',
-    generateBtn: '✦ AI से चालान बनाएं',
-    tasks: 'AI प्राथमिकता कार्य',
-    addTask: 'नया कार्य जोड़ें...',
-    expenses: 'खर्च ट्रैकर',
-    expenseName: 'खर्च का नाम...',
-    addBtn: '+ जोड़ें',
-    recentInvoices: 'हाल के चालान',
-    viewAll: 'सब देखें →',
-    timeTracker: 'समय ट्रैकर',
-    project: 'प्रोजेक्ट / कार्य',
-    client: 'ग्राहक',
-    hourlyRate: 'प्रति घंटे दर',
+    flag: '🇮🇳', name: 'हिंदी',
+    nav_dashboard: 'डैशबोर्ड',
+    nav_clients: 'क्लाइंट',
+    nav_invoices: 'चालान',
+    nav_tasks: 'AI कार्य प्रबंधक',
+    nav_contracts: 'अनुबंध',
+    nav_portal: 'क्लाइंट पोर्टल',
+    nav_settings: 'सेटिंग्स',
+    main_menu: 'मुख्य मेनू',
+    preferences: 'प्राथमिकताएं',
+    total_earnings: 'इस महीने की कुल कमाई',
+    pending_inv: 'लंबित चालान',
+    active_tasks: 'इस सप्ताह के सक्रिय कार्य',
+    ai_score: 'AI उत्पादकता स्कोर',
+    gen_invoice: 'नया चालान बनाएं',
+    ai_tasks: 'AI प्राथमिकता कार्य',
+    expense_tracker: '💸 खर्च ट्रैकर',
+    time_tracker: '⏱️ समय ट्रैकर',
+    time_entries: '📋 समय प्रविष्टियां',
+    recent_inv: 'हाल के चालान',
+    client_portal_title: '🔗 क्लाइंट पोर्टल',
+    client_name: 'क्लाइंट का नाम',
+    client_email: 'क्लाइंट का ईमेल',
+    service_desc: 'सेवा विवरण',
+    amount_label: 'राशि',
+    due_date: 'देय तिथि',
+    gen_btn: '✦ AI से चालान बनाएं',
+    project_task: 'प्रोजेक्ट / कार्य',
+    client_lbl: 'क्लाइंट',
+    hourly_rate: 'प्रति घंटे दर',
     billable: 'बिल योग्य?',
-    startTimer: '▶ टाइमर शुरू करें',
-    pause: '⏸ रोकें',
-    stopSave: '⏹ बंद करें और सहेजें',
+    start_timer: '▶ टाइमर शुरू करें',
+    pause_timer: '⏸ रोकें',
+    stop_save: '⏹ बंद करें और सहेजें',
     today: 'आज',
     sessions: 'सत्र',
     earned: 'कमाई',
-    convertInvoice: '🧾 चालान बनाएं',
-    timeEntries: 'समय प्रविष्टियां',
-    clearAll: 'सब साफ करें',
+    convert_inv: '🧾 चालान बनाएं',
+    clear_all: 'सब साफ करें',
+    view_all: 'सब देखें →',
+    add_btn: '+ जोड़ें',
+    welcome: 'वापस स्वागत है',
+    overview: 'अवलोकन',
+    net_profit: '🏆 शुद्ध लाभ',
+    total_exp: '💸 कुल खर्च',
+    share_portal: 'पोर्टल शेयर करें',
+    ready: 'तैयार',
+    no_tasks: 'कोई कार्य नहीं! ऊपर जोड़ें।',
+    add_task_ph: 'नया कार्य जोड़ें...',
+    exp_name_ph: 'खर्च का नाम...',
+    amount_ph: '₹0',
+    filter_all: 'सभी', filter_high: 'उच्च', filter_medium: 'मध्यम',
+    filter_low: 'कम', filter_done: 'पूर्ण',
+    inv_col_invoice: 'चालान', inv_col_client: 'क्लाइंट',
+    inv_col_date: 'तारीख', inv_col_amount: 'राशि', inv_col_status: 'स्थिति',
+    total_spent: 'कुल खर्च', last_7: 'पिछले 7 दिन', zero_exp: '0 खर्च',
+    today_lbl: 'आज', sessions_lbl: 'सत्र', earned_lbl: 'कमाई', ready_lbl: 'तैयार',
+    no_entries: 'कोई समय प्रविष्टि नहीं।
+टाइमर शुरू करें!',
+    logout: 'Nexus से बाहर निकलें', currently_active: 'अभी सक्रिय',
+    email_alerts: 'ईमेल और पुश अलर्ट', smart_tips: 'स्मार्ट सुझाव',
+    access_code: 'एक्सेस कोड', portal_link_lbl: 'पोर्टल लिंक',
+    whatsapp_msg_lbl: 'WhatsApp संदेश (भेजने के लिए तैयार!)',
+    loading: 'लोड हो रहा है...', loading_span: 'लोड हो रहा है...',
+    dark_mode: 'डार्क मोड', notifications: 'सूचनाएं', ai_features: 'AI सुविधाएं', billing: 'बिलिंग और प्लान',
   },
   ar: {
-    flag: '🇸🇦', name: 'العربية', rtl: true,
-    welcome: 'مرحباً بعودتك',
-    overview: 'نظرة عامة',
-    totalEarnings: 'إجمالي أرباح هذا الشهر',
-    pendingInvoices: 'الفواتير المعلقة',
-    activeTasks: 'المهام النشطة هذا الأسبوع',
-    aiScore: 'درجة الإنتاجية بالذكاء الاصطناعي',
-    generateInvoice: 'إنشاء فاتورة جديدة',
-    clientName: 'اسم العميل',
-    clientEmail: 'بريد العميل الإلكتروني',
-    serviceDesc: 'وصف الخدمة',
-    amount: 'المبلغ',
-    dueDate: 'تاريخ الاستحقاق',
-    generateBtn: '✦ إنشاء فاتورة بالذكاء الاصطناعي',
-    tasks: 'المهام ذات الأولوية بالذكاء الاصطناعي',
-    addTask: 'إضافة مهمة جديدة...',
-    expenses: 'تتبع المصروفات',
-    expenseName: 'اسم المصروف...',
-    addBtn: '+ إضافة',
-    recentInvoices: 'الفواتير الأخيرة',
-    viewAll: 'عرض الكل →',
-    timeTracker: 'تتبع الوقت',
-    project: 'المشروع / المهمة',
-    client: 'العميل',
-    hourlyRate: 'السعر بالساعة',
+    flag: '🇸🇦', name: 'العربية',
+    nav_dashboard: 'لوحة التحكم',
+    nav_clients: 'العملاء',
+    nav_invoices: 'الفواتير',
+    nav_tasks: 'مدير المهام AI',
+    nav_contracts: 'العقود',
+    nav_portal: 'بوابة العميل',
+    nav_settings: 'الإعدادات',
+    main_menu: 'القائمة الرئيسية',
+    preferences: 'التفضيلات',
+    total_earnings: 'إجمالي أرباح هذا الشهر',
+    pending_inv: 'الفواتير المعلقة',
+    active_tasks: 'المهام النشطة هذا الأسبوع',
+    ai_score: 'درجة إنتاجية AI',
+    gen_invoice: 'إنشاء فاتورة جديدة',
+    ai_tasks: 'مهام AI ذات الأولوية',
+    expense_tracker: '💸 تتبع المصروفات',
+    time_tracker: '⏱️ تتبع الوقت',
+    time_entries: '📋 سجلات الوقت',
+    recent_inv: 'الفواتير الأخيرة',
+    client_portal_title: '🔗 بوابة العميل',
+    client_name: 'اسم العميل',
+    client_email: 'بريد العميل',
+    service_desc: 'وصف الخدمة',
+    amount_label: 'المبلغ',
+    due_date: 'تاريخ الاستحقاق',
+    gen_btn: '✦ إنشاء فاتورة بالذكاء الاصطناعي',
+    project_task: 'المشروع / المهمة',
+    client_lbl: 'العميل',
+    hourly_rate: 'السعر بالساعة',
     billable: 'قابل للفوترة؟',
-    startTimer: '▶ بدء المؤقت',
-    pause: '⏸ إيقاف مؤقت',
-    stopSave: '⏹ إيقاف وحفظ',
+    start_timer: '▶ بدء المؤقت',
+    pause_timer: '⏸ إيقاف مؤقت',
+    stop_save: '⏹ إيقاف وحفظ',
     today: 'اليوم',
     sessions: 'الجلسات',
     earned: 'المكتسب',
-    convertInvoice: '🧾 تحويل إلى فاتورة',
-    timeEntries: 'سجلات الوقت',
-    clearAll: 'مسح الكل',
+    convert_inv: '🧾 تحويل إلى فاتورة',
+    clear_all: 'مسح الكل',
+    view_all: 'عرض الكل →',
+    add_btn: '+ إضافة',
+    welcome: 'مرحباً بعودتك',
+    overview: 'نظرة عامة',
+    net_profit: '🏆 صافي الربح',
+    total_exp: '💸 إجمالي المصروفات',
+    share_portal: 'مشاركة البوابة',
+    ready: 'جاهز',
+    no_tasks: 'لا توجد مهام! أضف واحدة أعلاه.',
+    add_task_ph: 'إضافة مهمة جديدة...',
+    exp_name_ph: 'اسم المصروف...',
+    amount_ph: '0 ريال',
+    filter_all: 'الكل', filter_high: 'عالي', filter_medium: 'متوسط',
+    filter_low: 'منخفض', filter_done: 'مكتمل',
+    inv_col_invoice: 'فاتورة', inv_col_client: 'عميل',
+    inv_col_date: 'تاريخ', inv_col_amount: 'مبلغ', inv_col_status: 'الحالة',
+    total_spent: 'إجمالي الإنفاق', last_7: 'آخر 7 أيام', zero_exp: '0 مصروفات',
+    today_lbl: 'اليوم', sessions_lbl: 'الجلسات', earned_lbl: 'المكتسب', ready_lbl: 'جاهز',
+    no_entries: 'لا توجد إدخالات وقت.
+ابدأ المؤقت لتتبع عملك!',
+    logout: 'تسجيل الخروج من Nexus', currently_active: 'نشط حالياً',
+    email_alerts: 'تنبيهات البريد والدفع', smart_tips: 'اقتراحات ذكية',
+    access_code: 'رمز الدخول', portal_link_lbl: 'رابط البوابة',
+    whatsapp_msg_lbl: 'رسالة واتساب (جاهزة للإرسال!)',
+    loading: 'جاري التحميل...', loading_span: 'جاري التحميل...',
+    dark_mode: 'الوضع المظلم', notifications: 'الإشعارات', ai_features: 'ميزات AI', billing: 'الفوترة والخطة',
   },
 };
-
 function loadLang() {
   return localStorage.getItem(LANG_KEY) || 'en';
 }
@@ -4393,89 +4511,123 @@ function applyLanguage(code) {
   const t = TRANSLATIONS[code];
   if (!t) return;
 
-  // Update flag
+  // Update selector UI
   const flagEl = document.getElementById('langFlag');
   const selEl  = document.getElementById('langSelect');
   if (flagEl) flagEl.textContent = t.flag;
   if (selEl)  selEl.value = code;
 
-  // RTL - only text direction, no layout flip
-  // Removed to prevent sidebar overlap on mobile
-
-  // ── Translate all elements ────────────────────────
-  const els = {
-    // Overview section
-    '.section-label':       t.overview,
-    // Stat card labels
-    '#stat-label-1':        t.totalEarnings,
-    '#stat-label-2':        t.pendingInvoices,
-    '#stat-label-3':        t.activeTasks,
-    '#stat-label-4':        t.aiScore,
-    // Invoice form
-    '#inv-label-client':    t.clientName,
-    '#inv-label-email':     t.clientEmail,
-    '#inv-label-service':   t.serviceDesc,
-    '#inv-label-amount':    t.amount,
-    '#inv-label-due':       t.dueDate,
-    '#inv-btn':             t.generateBtn,
-    // Tasks
-    '#tasks-label':         t.tasks,
-    // Time tracker
-    '#timer-label':         t.timeTracker,
-    '#timer-project-label': t.project,
-    '#timer-client-label':  t.client,
-    '#timer-rate-label':    t.hourlyRate,
-    '#timer-billable-label':t.billable,
-    '#timerStartBtn':       t.startTimer,
-    '#timerPauseBtn':       t.pause,
-    '#timerStopBtn':        t.stopSave,
-    '#ts-lbl-today':        t.today,
-    '#ts-lbl-sessions':     t.sessions,
-    '#ts-lbl-earned':       t.earned,
-    '#billToInvoiceBtn':    t.convertInvoice,
-    '#entries-label':       t.timeEntries,
-    // Recent invoices
-    '#recent-inv-label':    t.recentInvoices,
-    '#view-all-link':       t.viewAll,
-    // Expense
-    '#exp-label':           t.expenses,
-  };
-
-  // Apply translations
-  Object.entries(els).forEach(([sel, text]) => {
-    if (!text) return;
-    const el = document.querySelector(sel);
-    if (el) el.textContent = text;
+  // ── Translate ALL data-i18n elements ─────────────
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) {
+      // Keep emoji prefix if present
+      const txt = t[key];
+      el.textContent = txt;
+    }
   });
 
-  // Translate placeholders
-  const phs = {
-    '#task-inp':     t.addTask,
-    '#exp-name-inp': t.expenseName,
-    '#timerDesc':    t.project + '...',
-    '#timerClient':  t.client + '...',
+  // ── Translate form labels ─────────────────────────
+  const labels = {
+    'Client Name':        t.client_name,
+    'Client Email':       t.client_email,
+    'Service Description':t.service_desc,
+    'Amount (USD)':       t.amount_label + ' (USD)',
+    'Amount (Rs)':        t.amount_label + ' (Rs)',
+    'Amount (₹)':         t.amount_label + ' (₹)',
+    'Amount':             t.amount_label,
+    'Due Date':           t.due_date,
+    'Hourly Rate ($)':    t.hourly_rate,
+    'Billable?':          t.billable,
+    'Project / Task':     t.project_task,
+    'Net Profit':         t.net_profit,
+    'Total Expenses':     t.total_exp,
+    'Dark Mode':          t.dark_mode || 'Dark Mode',
+    'Notifications':      t.notifications || 'Notifications',
+    'AI Features':        t.ai_features || 'AI Features',
+    'Billing & Plan':     t.billing || 'Billing & Plan',
   };
-  Object.entries(phs).forEach(([sel, ph]) => {
-    const el = document.querySelector(sel);
-    if (el && ph) el.placeholder = ph;
+
+  document.querySelectorAll('.form-label, .timer-input-group label, .ts-lbl, .panel-label').forEach(el => {
+    const key = el.textContent.trim();
+    if (labels[key]) el.textContent = labels[key];
   });
 
-  // Update welcome message
+  // Also translate ALL data-i18n elements (comprehensive sweep)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      // Preserve child elements if any
+      if (el.children.length === 0) {
+        el.textContent = t[key];
+      }
+    }
+  });
+
+  // ── Translate buttons ─────────────────────────────
+  const inv_btn = document.getElementById('inv-btn');
+  if (inv_btn) inv_btn.textContent = t.gen_btn;
+
+  const startBtn = document.getElementById('timerStartBtn');
+  if (startBtn && !startBtn.disabled) startBtn.innerHTML = t.start_timer;
+
+  const pauseBtn = document.getElementById('timerPauseBtn');
+  if (pauseBtn) pauseBtn.innerHTML = t.pause_timer;
+
+  const stopBtn = document.getElementById('timerStopBtn');
+  if (stopBtn) stopBtn.innerHTML = t.stop_save;
+
+  const billBtn = document.getElementById('billToInvoiceBtn');
+  if (billBtn) billBtn.innerHTML = t.convert_inv;
+
+  // ── Translate placeholders ────────────────────────
+  const ph = {
+    '#task-inp':     t.add_task_ph,
+    '#exp-name-inp': t.exp_name_ph,
+    '#timerDesc':    t.project_task + '...',
+    '#timerClient':  t.client_lbl + '...',
+    '#inv-client':   'e.g. Acme Corp',
+  };
+  Object.entries(ph).forEach(([sel, text]) => {
+    const el = document.querySelector(sel);
+    if (el && text) el.placeholder = text;
+  });
+
+  // ── Update timer summary labels ───────────────────
+  document.querySelectorAll('.ts-lbl').forEach(el => {
+    const txt = el.textContent.trim();
+    if (txt === 'Today' || txt === t.today) el.textContent = t.today;
+    if (txt === 'Sessions' || txt === t.sessions) el.textContent = t.sessions;
+    if (txt === 'Earned' || txt === t.earned) el.textContent = t.earned;
+  });
+
+  // ── Update welcome message ────────────────────────
   const user = JSON.parse(localStorage.getItem('nexus_user') || '{}');
   const name = user.name || 'User';
   const welcomeEl = document.querySelector('.header-welcome');
   if (welcomeEl) {
-    welcomeEl.innerHTML = `${t.welcome}, <span style="color:var(--accent)">${name}</span>! 👋`;
+    welcomeEl.innerHTML = t.welcome + ', <span style="color:var(--accent)">' + name + '</span>! 👋';
   }
 
-  // Update section labels
+  // ── Overview label ────────────────────────────────
   document.querySelectorAll('.section-label').forEach(el => {
-    if (el.textContent.trim() === 'Overview' || el.textContent.trim() === t.overview) {
-      // Keep as is - overview handled above
-    }
+    const spanChild = el.querySelector('span:first-child');
+    if (spanChild) spanChild.textContent = t.overview;
   });
 
-  console.log('Language applied:', code, t.name);
+  // ── Share portal button ───────────────────────────
+  const portalBtns = document.querySelectorAll('[onclick="openPortalShare()"]');
+  portalBtns.forEach(btn => { btn.innerHTML = '🔗 ' + t.share_portal; });
+
+  // ── View all link ─────────────────────────────────
+  const viewAll = document.querySelector('.view-all');
+  if (viewAll) viewAll.textContent = t.view_all;
+
+  // ── Timer status badge ────────────────────────────
+  const badge = document.getElementById('timer-status-badge');
+  if (badge && badge.textContent === 'Ready') badge.textContent = t.ready;
+
+  console.log('✅ Language fully applied:', code, t.name);
 }
 
 function initLanguage() {
@@ -4512,7 +4664,7 @@ setTimeout(initLanguage, 800);
         margin-bottom:4px;">
         <div>
           <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🌙 Dark Mode</div>
-          <div style="font-size:11px;color:var(--txt-3);">Currently active</div>
+          <div style="font-size:11px;color:var(--txt-3);" data-i18n="currently_active">Currently active</div>
         </div>
         <div style="width:44px;height:24px;background:var(--accent);border-radius:20px;
           display:flex;align-items:center;padding:3px;cursor:pointer;">
@@ -4561,7 +4713,7 @@ setTimeout(initLanguage, 800);
         onmouseover="this.style.background='var(--bg-4)'" onmouseout="this.style.background='var(--bg-3)'"
         onclick="doLogout()">
         <div style="font-size:13px;font-weight:600;color:var(--high);">🚪 Sign Out</div>
-        <div style="font-size:11px;color:var(--txt-3);">Log out of Nexus</div>
+        <div style="font-size:11px;color:var(--txt-3);" data-i18n="logout">Log out of Nexus</div>
       </div>
 
     </div>
@@ -4591,7 +4743,7 @@ setTimeout(initLanguage, 800);
     <div id="profile-name-big" style="font-family:var(--font-head);font-size:20px;
       font-weight:800;color:var(--txt-1);margin-bottom:4px;">Asma</div>
     <div id="profile-email-big" style="font-size:13px;color:var(--txt-3);
-      margin-bottom:20px;">Loading...</div>
+      margin-bottom:20px;" data-i18n="loading">Loading...</div>
 
     <div style="background:rgba(79,124,255,0.1);border:1px solid rgba(79,124,255,0.2);
       border-radius:var(--radius-sm);padding:10px 16px;margin-bottom:20px;
@@ -4638,17 +4790,17 @@ setTimeout(initLanguage, 800);
     </div>
 
     <div class="psm-code-box">
-      <div class="psm-code-label">Access Code</div>
+      <div class="psm-code-label" data-i18n="access_code">Access Code</div>
       <div class="psm-code" id="psmCode">NEXUS-000000</div>
     </div>
 
     <div class="psm-code-box">
-      <div class="psm-code-label">Portal Link</div>
-      <div class="psm-link" id="psmLink">Loading...</div>
+      <div class="psm-code-label" data-i18n="portal_link_lbl">Portal Link</div>
+      <div class="psm-link" id="psmLink" data-i18n="loading">Loading...</div>
     </div>
 
     <div class="psm-code-box" style="margin-bottom:16px;">
-      <div class="psm-code-label">WhatsApp Message (Ready to Send!)</div>
+      <div class="psm-code-label" data-i18n="whatsapp_msg_lbl">WhatsApp Message (Ready to Send!)</div>
       <div style="font-size:12px;color:var(--txt-2);line-height:1.7;" id="psmWhatsApp">
         Loading...
       </div>
