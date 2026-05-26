@@ -1332,6 +1332,123 @@ tbody td {
   white-space: nowrap;
 }
 
+
+/* ─── Client Portal Button ───────────────────────────── */
+.portal-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,229,192,0.1);
+  border: 1px solid rgba(0,229,192,0.2);
+  color: var(--low);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.portal-share-btn:hover {
+  background: var(--low);
+  color: #0d1f14;
+}
+.portal-share-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.portal-share-modal.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.psm-box {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  padding: 28px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+.psm-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--txt-1);
+  margin-bottom: 6px;
+}
+.psm-sub {
+  font-size: 13px;
+  color: var(--txt-2);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+.psm-code-box {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.psm-code-label {
+  font-size: 11px;
+  color: var(--txt-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.psm-code {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--low);
+  letter-spacing: 2px;
+  font-family: monospace;
+}
+.psm-link {
+  font-size: 12px;
+  color: var(--txt-3);
+  word-break: break-all;
+  margin-top: 4px;
+}
+.psm-btns {
+  display: flex;
+  gap: 10px;
+}
+.psm-copy-btn {
+  flex: 1;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--low), #00c48c);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #0d1f14;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.psm-copy-btn:hover { transform: translateY(-1px); }
+.psm-close-btn {
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  color: var(--txt-2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.psm-close-btn:hover { color: var(--txt-1); }
+
 </style>
 </head>
 <body>
@@ -2710,6 +2827,48 @@ document.getElementById('inv-btn').addEventListener('click', function() {
       cursor:pointer;font-family:var(--font-body);">
       🚪 Sign Out
     </button>
+  </div>
+</div>
+
+
+<!-- ── Client Portal Share Modal ─────────────────────── -->
+<div class="portal-share-modal" id="portalShareModal">
+  <div class="psm-box">
+    <div class="psm-title">🔗 Share Client Portal</div>
+    <div class="psm-sub">
+      Share this link and access code with your client.<br>
+      They can view their invoices and send messages!
+    </div>
+
+    <div class="psm-code-box">
+      <div class="psm-code-label">Access Code</div>
+      <div class="psm-code" id="psmCode">NEXUS-000000</div>
+    </div>
+
+    <div class="psm-code-box">
+      <div class="psm-code-label">Portal Link</div>
+      <div class="psm-link" id="psmLink">Loading...</div>
+    </div>
+
+    <div class="psm-code-box" style="margin-bottom:16px;">
+      <div class="psm-code-label">WhatsApp Message (Ready to Send!)</div>
+      <div style="font-size:12px;color:var(--txt-2);line-height:1.7;" id="psmWhatsApp">
+        Loading...
+      </div>
+    </div>
+
+    <div class="psm-btns">
+      <button class="psm-copy-btn" onclick="copyPortalLink()">
+        📋 Copy Link
+      </button>
+      <button class="psm-copy-btn" onclick="shareWhatsApp()"
+        style="background:linear-gradient(135deg,#25D366,#128C7E);">
+        📱 Share on WhatsApp
+      </button>
+      <button class="psm-close-btn" onclick="closePortalShare()">
+        Close
+      </button>
+    </div>
   </div>
 </div>
 
@@ -4120,6 +4279,97 @@ Object.defineProperty(window, '_currencyRefreshKey', {
   set: function(v) { setTimeout(refreshCurrencyDisplays, 100); }
 });
 
+
+// ══════════════════════════════════════════════════════
+//  CLIENT PORTAL — Share System
+// ══════════════════════════════════════════════════════
+
+function generatePortalCode() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = 'NEXUS-';
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
+function getPortalCode() {
+  let code = localStorage.getItem('nexus_portal_code');
+  if (!code) {
+    code = generatePortalCode();
+    localStorage.setItem('nexus_portal_code', code);
+  }
+  return code;
+}
+
+window.openPortalShare = function() {
+  const code    = getPortalCode();
+  const baseUrl = window.location.href.replace('dashboard.html', '');
+  const link    = baseUrl + 'client-portal.html';
+  const fullLink = link + '?code=' + code;
+
+  document.getElementById('psmCode').textContent = code;
+  document.getElementById('psmLink').textContent = fullLink;
+
+  const user = JSON.parse(localStorage.getItem('nexus_user') || '{}');
+  const name = user.name || 'Your Service Provider';
+
+  document.getElementById('psmWhatsApp').innerHTML =
+    `Hello! 👋 I'm sharing your client portal access:<br><br>` +
+    `🔗 <strong>Link:</strong> ${fullLink}<br>` +
+    `🔑 <strong>Code:</strong> ${code}<br><br>` +
+    `Use your email + this code to login and view your invoices. — ${name}`;
+
+  document.getElementById('portalShareModal').classList.add('open');
+};
+
+window.closePortalShare = function() {
+  document.getElementById('portalShareModal').classList.remove('open');
+};
+
+window.copyPortalLink = function() {
+  const code    = getPortalCode();
+  const baseUrl = window.location.href.replace('dashboard.html', '');
+  const link    = baseUrl + 'client-portal.html?code=' + code;
+
+  navigator.clipboard.writeText(link).then(() => {
+    const btn = document.querySelector('.psm-copy-btn');
+    btn.innerHTML = '✅ Copied!';
+    setTimeout(() => btn.innerHTML = '📋 Copy Link', 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = link;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.querySelector('.psm-copy-btn');
+    btn.innerHTML = '✅ Copied!';
+    setTimeout(() => btn.innerHTML = '📋 Copy Link', 2000);
+  });
+};
+
+window.shareWhatsApp = function() {
+  const code    = getPortalCode();
+  const baseUrl = window.location.href.replace('dashboard.html', '');
+  const link    = baseUrl + 'client-portal.html?code=' + code;
+  const user    = JSON.parse(localStorage.getItem('nexus_user') || '{}');
+  const name    = user.name || 'Your Service Provider';
+  const msg     = encodeURIComponent(
+    `Hello! 👋 Here is your Nexus Client Portal access:\n\n` +
+    `🔗 Link: ${link}\n` +
+    `🔑 Code: ${code}\n\n` +
+    `Login with your email + this code to view your invoices.\n\n— ${name}`
+  );
+  window.open('https://wa.me/?text=' + msg, '_blank');
+};
+
+// Close on backdrop click
+document.getElementById('portalShareModal').addEventListener('click', function(e) {
+  if (e.target === this) closePortalShare();
+});
+
 </script>
 
 <!-- ── Settings Modal ──────────────────────────────── -->
@@ -4258,6 +4508,48 @@ Object.defineProperty(window, '_currencyRefreshKey', {
       cursor:pointer;font-family:var(--font-body);">
       🚪 Sign Out
     </button>
+  </div>
+</div>
+
+
+<!-- ── Client Portal Share Modal ─────────────────────── -->
+<div class="portal-share-modal" id="portalShareModal">
+  <div class="psm-box">
+    <div class="psm-title">🔗 Share Client Portal</div>
+    <div class="psm-sub">
+      Share this link and access code with your client.<br>
+      They can view their invoices and send messages!
+    </div>
+
+    <div class="psm-code-box">
+      <div class="psm-code-label">Access Code</div>
+      <div class="psm-code" id="psmCode">NEXUS-000000</div>
+    </div>
+
+    <div class="psm-code-box">
+      <div class="psm-code-label">Portal Link</div>
+      <div class="psm-link" id="psmLink">Loading...</div>
+    </div>
+
+    <div class="psm-code-box" style="margin-bottom:16px;">
+      <div class="psm-code-label">WhatsApp Message (Ready to Send!)</div>
+      <div style="font-size:12px;color:var(--txt-2);line-height:1.7;" id="psmWhatsApp">
+        Loading...
+      </div>
+    </div>
+
+    <div class="psm-btns">
+      <button class="psm-copy-btn" onclick="copyPortalLink()">
+        📋 Copy Link
+      </button>
+      <button class="psm-copy-btn" onclick="shareWhatsApp()"
+        style="background:linear-gradient(135deg,#25D366,#128C7E);">
+        📱 Share on WhatsApp
+      </button>
+      <button class="psm-close-btn" onclick="closePortalShare()">
+        Close
+      </button>
+    </div>
   </div>
 </div>
 

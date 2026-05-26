@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — Client Portal</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0b0d11;--bg-2:#111318;--bg-3:#181b22;--bg-4:#1e222c;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.12);
+  --txt-1:#f0f2f8;--txt-2:#8c92a6;--txt-3:#555c72;
+  --accent:#4f7cff;--accent-glow:rgba(79,124,255,0.25);
+  --low:#00e5c0;--low-bg:rgba(0,229,192,0.12);
+  --high:#ff5e6c;--high-bg:rgba(255,94,108,0.12);
+  --med:#f5a623;--med-bg:rgba(245,166,35,0.12);
+  --paid:#00c48c;--paid-bg:rgba(0,196,140,0.1);
+  --pending:#f5a623;--pending-bg:rgba(245,166,35,0.1);
+  --overdue:#ff5e6c;--overdue-bg:rgba(255,94,108,0.1);
+  --radius:14px;--radius-sm:8px;
+  --shadow:0 4px 24px rgba(0,0,0,0.35);
+  --trans:0.2s cubic-bezier(0.4,0,0.2,1);
+  --font-head:'Space Grotesk',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt-1);
+  font-family:var(--font-body);-webkit-font-smoothing:antialiased;}
+
+/* ── Header ── */
+.portal-header{
+  background:var(--bg-2);border-bottom:1px solid var(--border);
+  padding:16px 24px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:100;
+}
+.portal-brand{display:flex;align-items:center;gap:10px;}
+.brand-mark{width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),#00e5c0);
+  display:flex;align-items:center;justify-content:center;font-size:18px;}
+.brand-name{font-size:17px;font-weight:700;color:var(--txt-1);}
+.brand-name span{color:var(--accent);}
+.portal-badge{
+  background:rgba(0,229,192,0.12);border:1px solid rgba(0,229,192,0.2);
+  color:var(--low);font-size:11px;font-weight:700;padding:5px 12px;
+  border-radius:20px;letter-spacing:0.5px;}
+
+/* ── Access Form ── */
+.access-screen{
+  min-height:calc(100vh - 68px);
+  display:flex;align-items:center;justify-content:center;padding:24px;}
+.access-card{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:40px 32px;
+  max-width:420px;width:100%;text-align:center;
+  box-shadow:var(--shadow);}
+.access-icon{font-size:48px;margin-bottom:16px;}
+.access-title{font-size:24px;font-weight:800;letter-spacing:-0.5px;
+  color:var(--txt-1);margin-bottom:8px;}
+.access-sub{font-size:14px;color:var(--txt-2);margin-bottom:28px;line-height:1.6;}
+.access-form{display:flex;flex-direction:column;gap:14px;text-align:left;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:12px;font-weight:600;color:var(--txt-2);
+  text-transform:uppercase;letter-spacing:0.4px;}
+.form-input{background:var(--bg-3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:12px 16px;color:var(--txt-1);
+  font-size:14px;outline:none;transition:border-color var(--trans);}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+.form-input::placeholder{color:var(--txt-3);}
+.access-btn{
+  width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),#6b8fff);
+  border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;
+  font-weight:700;cursor:pointer;transition:all var(--trans);margin-top:4px;}
+.access-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--accent-glow);}
+.access-error{background:var(--high-bg);border:1px solid rgba(255,94,108,0.2);
+  color:var(--high);padding:10px 14px;border-radius:var(--radius-sm);
+  font-size:13px;display:none;text-align:center;}
+.access-error.show{display:block;}
+
+/* ── Portal Dashboard ── */
+.portal-body{display:none;padding:24px;max-width:900px;margin:0 auto;}
+.portal-body.show{display:block;}
+
+/* Welcome Banner */
+.welcome-banner{
+  background:linear-gradient(135deg,#1a1f35,#111318);
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px;margin-bottom:24px;position:relative;overflow:hidden;}
+.welcome-banner::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:150px;height:150px;
+  background:radial-gradient(circle,rgba(79,124,255,0.15),transparent);
+  border-radius:50%;}
+.wb-greeting{font-size:13px;color:var(--txt-3);font-weight:600;
+  text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.wb-name{font-size:26px;font-weight:800;letter-spacing:-0.5px;
+  color:var(--txt-1);margin-bottom:4px;}
+.wb-company{font-size:14px;color:var(--txt-2);}
+
+/* Stats Row */
+.portal-stats{display:grid;grid-template-columns:repeat(3,1fr);
+  gap:14px;margin-bottom:24px;}
+.ps-card{background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px;text-align:center;}
+.ps-val{font-size:24px;font-weight:800;letter-spacing:-0.5px;
+  display:block;margin-bottom:4px;}
+.ps-lbl{font-size:11px;color:var(--txt-3);font-weight:600;
+  text-transform:uppercase;letter-spacing:0.5px;}
+
+/* Section Header */
+.section-hd{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;}
+.section-title{font-size:16px;font-weight:700;color:var(--txt-1);}
+.section-badge{font-size:11px;font-weight:600;padding:4px 10px;
+  border-radius:20px;background:rgba(79,124,255,0.12);color:var(--accent);}
+
+/* Invoice Cards */
+.invoice-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.inv-card{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;
+  display:flex;align-items:center;gap:14px;
+  transition:all var(--trans);animation:fadeUp 0.3s ease both;}
+.inv-card:hover{border-color:var(--border-2);transform:translateY(-2px);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.inv-icon{width:42px;height:42px;border-radius:10px;
+  background:var(--bg-3);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;}
+.inv-info{flex:1;min-width:0;}
+.inv-id{font-size:11px;color:var(--txt-3);font-weight:600;
+  font-family:monospace;margin-bottom:3px;}
+.inv-service{font-size:14px;font-weight:600;color:var(--txt-1);
+  margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.inv-date{font-size:12px;color:var(--txt-3);}
+.inv-right{text-align:right;flex-shrink:0;}
+.inv-amount{font-size:18px;font-weight:800;color:var(--txt-1);
+  letter-spacing:-0.3px;display:block;margin-bottom:6px;}
+.status-badge{display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;}
+.status-badge::before{content:'';width:5px;height:5px;border-radius:50%;}
+.status-badge.paid{color:var(--paid);background:var(--paid-bg);}
+.status-badge.paid::before{background:var(--paid);}
+.status-badge.pending{color:var(--pending);background:var(--pending-bg);}
+.status-badge.pending::before{background:var(--pending);}
+.status-badge.overdue{color:var(--overdue);background:var(--overdue-bg);}
+.status-badge.overdue::before{background:var(--overdue);}
+
+/* Download Button */
+.dl-btn{
+  display:flex;align-items:center;gap:6px;
+  background:transparent;border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:6px 12px;
+  color:var(--txt-2);font-size:12px;font-weight:600;
+  cursor:pointer;transition:all var(--trans);margin-top:8px;}
+.dl-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* Message Box */
+.message-box{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;margin-bottom:24px;}
+.msg-input{width:100%;background:var(--bg-3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:12px 16px;color:var(--txt-1);
+  font-size:14px;resize:vertical;min-height:80px;outline:none;
+  font-family:var(--font-body);transition:border-color var(--trans);}
+.msg-input:focus{border-color:var(--accent);}
+.msg-input::placeholder{color:var(--txt-3);}
+.msg-send-btn{
+  margin-top:10px;padding:10px 20px;
+  background:linear-gradient(135deg,var(--accent),#6b8fff);
+  border:none;border-radius:var(--radius-sm);color:#fff;
+  font-size:13px;font-weight:700;cursor:pointer;transition:all var(--trans);}
+.msg-send-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--accent-glow);}
+
+/* Empty State */
+.empty-state{text-align:center;padding:48px 24px;color:var(--txt-3);}
+.empty-state .icon{font-size:40px;margin-bottom:12px;}
+.empty-state p{font-size:14px;line-height:1.6;}
+
+/* Sign out */
+.signout-btn{
+  display:flex;align-items:center;gap:8px;
+  background:var(--high-bg);border:1px solid rgba(255,94,108,0.2);
+  color:var(--high);padding:10px 18px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:600;cursor:pointer;transition:all var(--trans);
+  margin-bottom:40px;}
+.signout-btn:hover{background:var(--high);color:#fff;}
+
+/* Progress Bar */
+.progress-wrap{margin-top:8px;}
+.progress-bar{height:4px;background:var(--bg-4);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:4px;
+  background:linear-gradient(90deg,var(--accent),var(--low));transition:width 1s ease;}
+.progress-label{display:flex;justify-content:space-between;
+  font-size:11px;color:var(--txt-3);margin-bottom:4px;}
+
+/* Responsive */
+@media(max-width:600px){
+  .portal-stats{grid-template-columns:1fr 1fr;}
+  .inv-card{flex-wrap:wrap;}
+  .access-card{padding:28px 20px;}
+  .portal-header{padding:12px 16px;}
+  .portal-body{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="portal-header">
+  <div class="portal-brand">
+    <div class="brand-mark">⚡</div>
+    <div class="brand-name">Ne<span>xus</span></div>
+  </div>
+  <div class="portal-badge">🔐 Client Portal</div>
+</header>
+
+<!-- Access Screen -->
+<div class="access-screen" id="accessScreen">
+  <div class="access-card">
+    <div class="access-icon">🔐</div>
+    <div class="access-title">Client Portal</div>
+    <div class="access-sub">
+      Enter your email and the access code<br>
+      shared by your service provider.
+    </div>
+    <div class="access-form">
+      <div class="form-group">
+        <label class="form-label">Your Email</label>
+        <input class="form-input" type="email" id="portalEmail"
+          placeholder="your@email.com"
+          onkeydown="if(event.key==='Enter')accessPortal()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Access Code</label>
+        <input class="form-input" type="text" id="portalCode"
+          placeholder="e.g. NEXUS-ABC123"
+          style="text-transform:uppercase;letter-spacing:2px;"
+          onkeydown="if(event.key==='Enter')accessPortal()">
+      </div>
+      <div class="access-error" id="accessError">
+        ❌ Invalid email or access code. Please try again.
+      </div>
+      <button class="access-btn" onclick="accessPortal()">
+        Access My Portal →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Portal Dashboard -->
+<div class="portal-body" id="portalBody">
+
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="wb-greeting">Welcome back 👋</div>
+    <div class="wb-name" id="portalClientName">Loading...</div>
+    <div class="wb-company" id="portalClientCompany">Client Portal</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="portal-stats">
+    <div class="ps-card">
+      <span class="ps-val" id="ps-total" style="color:var(--accent);">0</span>
+      <span class="ps-lbl">Total Invoices</span>
+    </div>
+    <div class="ps-card">
+      <span class="ps-val" id="ps-paid" style="color:var(--low);">$0</span>
+      <span class="ps-lbl">Total Paid</span>
+    </div>
+    <div class="ps-card">
+      <span class="ps-val" id="ps-pending" style="color:var(--med);">$0</span>
+      <span class="ps-lbl">Pending</span>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="message-box" style="margin-bottom:24px;">
+    <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+      <span style="font-size:14px;font-weight:600;">Payment Progress</span>
+      <span id="progressPct" style="color:var(--low);font-weight:700;">0%</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invoices -->
+  <div class="section-hd">
+    <div class="section-title">🧾 Your Invoices</div>
+    <div class="section-badge" id="invCountBadge">0 invoices</div>
+  </div>
+  <div class="invoice-list" id="portalInvList">
+    <div class="empty-state">
+      <div class="icon">🧾</div>
+      <p>No invoices yet.<br>Your invoices will appear here.</p>
+    </div>
+  </div>
+
+  <!-- Send Message -->
+  <div class="section-hd">
+    <div class="section-title">💬 Send a Message</div>
+  </div>
+  <div class="message-box">
+    <textarea class="msg-input" id="portalMsg"
+      placeholder="Type your message or question here..."></textarea>
+    <button class="msg-send-btn" onclick="sendPortalMessage()">
+      📤 Send Message
+    </button>
+  </div>
+
+  <!-- Sign Out -->
+  <button class="signout-btn" onclick="signOutPortal()">
+    🚪 Sign Out
+  </button>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  NEXUS CLIENT PORTAL
+// ══════════════════════════════════════════════════════
+
+const PORTAL_KEY = 'nexus_portal_session';
+
+// ── Get URL params ────────────────────────────────────
+function getParam(name) {
+  const url    = new URLSearchParams(window.location.search);
+  return url.get(name) || '';
+}
+
+// ── Format money ──────────────────────────────────────
+function fmtMoney(n) {
+  return '$' + parseFloat(n || 0).toLocaleString('en-US', {
+    minimumFractionDigits: 2, maximumFractionDigits: 2
+  });
+}
+
+// ── Format date ───────────────────────────────────────
+function fmtDate(d) {
+  if (!d) return '—';
+  return d;
+}
+
+// ── Access Portal ─────────────────────────────────────
+window.accessPortal = function() {
+  const email = document.getElementById('portalEmail').value.trim().toLowerCase();
+  const code  = document.getElementById('portalCode').value.trim().toUpperCase();
+  const errEl = document.getElementById('accessError');
+
+  if (!email || !code) {
+    errEl.textContent = '⚠️ Please fill in both fields!';
+    errEl.classList.add('show');
+    return;
+  }
+
+  // Get invoices from localStorage (shared data)
+  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  const clients  = JSON.parse(localStorage.getItem('nexus_clients')  || '[]');
+
+  // Check if client exists with this email
+  const clientMatch = clients.find(c =>
+    c.email && c.email.toLowerCase() === email
+  );
+
+  // Also check invoices for this email
+  const invMatch = invoices.find(inv =>
+    inv.email && inv.email.toLowerCase() === email
+  );
+
+  // Validate access code format: NEXUS-XXXXXX
+  const validCode = code.startsWith('NEXUS-') && code.length >= 8;
+
+  // Demo mode: any valid email + NEXUS- code works
+  if ((clientMatch || invMatch || email.includes('@')) && validCode) {
+    // Save session
+    const session = {
+      email,
+      code,
+      name: clientMatch ? clientMatch.name :
+            (invMatch ? invMatch.client : email.split('@')[0]),
+      company: clientMatch ? (clientMatch.company || '') : '',
+      loginTime: new Date().toISOString(),
+    };
+    sessionStorage.setItem(PORTAL_KEY, JSON.stringify(session));
+    errEl.classList.remove('show');
+    showPortal(session);
+  } else {
+    errEl.textContent = '❌ Invalid credentials. Ask your provider for the access code.';
+    errEl.classList.add('show');
+  }
+};
+
+// ── Show Portal ───────────────────────────────────────
+function showPortal(session) {
+  document.getElementById('accessScreen').style.display = 'none';
+  document.getElementById('portalBody').classList.add('show');
+
+  // Set name
+  const nameEl = document.getElementById('portalClientName');
+  const compEl = document.getElementById('portalClientCompany');
+  if (nameEl) nameEl.textContent = session.name || session.email;
+  if (compEl) compEl.textContent = session.company || session.email;
+
+  // Load invoices for this client
+  loadClientInvoices(session);
+}
+
+// ── Load Client Invoices ──────────────────────────────
+function loadClientInvoices(session) {
+  const allInvoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+
+  // Filter by email or name
+  const myInvoices = allInvoices.filter(inv => {
+    const emailMatch = inv.email &&
+      inv.email.toLowerCase() === session.email.toLowerCase();
+    const nameMatch  = inv.client &&
+      inv.client.toLowerCase().includes(session.name.toLowerCase());
+    return emailMatch || nameMatch;
+  });
+
+  // Update stats
+  const total   = myInvoices.length;
+  const paid    = myInvoices.filter(i => i.status === 'Paid')
+    .reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+  const pending = myInvoices.filter(i => i.status === 'Pending')
+    .reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+  const totalAmt = paid + pending;
+  const pct      = totalAmt > 0 ? Math.round((paid / totalAmt) * 100) : 0;
+
+  document.getElementById('ps-total').textContent   = total;
+  document.getElementById('ps-paid').textContent    = fmtMoney(paid);
+  document.getElementById('ps-pending').textContent = fmtMoney(pending);
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('invCountBadge').textContent = total + ' invoice' + (total !== 1 ? 's' : '');
+
+  // Render invoices
+  const listEl = document.getElementById('portalInvList');
+
+  if (myInvoices.length === 0) {
+    // Show demo invoices if none found
+    listEl.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">🧾</div>
+        <p>No invoices linked to your account yet.<br>
+        Your provider will add them soon.</p>
+      </div>`;
+    return;
+  }
+
+  listEl.innerHTML = myInvoices.map((inv, i) => {
+    const sc = inv.status === 'Paid' ? 'paid' :
+               inv.status === 'Overdue' ? 'overdue' : 'pending';
+    return `
+    <div class="inv-card" style="animation-delay:${i*0.06}s">
+      <div class="inv-icon">🧾</div>
+      <div class="inv-info">
+        <div class="inv-id">${inv.id || '#---'}</div>
+        <div class="inv-service">${inv.service || 'Professional Service'}</div>
+        <div class="inv-date">📅 ${inv.date || '—'} · Due: ${inv.due || '—'}</div>
+      </div>
+      <div class="inv-right">
+        <span class="inv-amount">${fmtMoney(inv.amount)}</span>
+        <div class="status-badge ${sc}">${inv.status || 'Pending'}</div>
+        <button class="dl-btn" onclick="downloadInvoice('${inv.id}')">
+          ⬇️ Download PDF
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Download Invoice ──────────────────────────────────
+window.downloadInvoice = function(id) {
+  const invs = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  const inv  = invs.find(i => i.id === id);
+  if (!inv) return;
+
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <!DOCTYPE html><html><head><title>Invoice ${inv.id}</title>
+    <style>
+      body{font-family:sans-serif;padding:40px;max-width:600px;margin:0 auto;}
+      .header{display:flex;justify-content:space-between;margin-bottom:32px;}
+      .logo{font-size:24px;font-weight:800;}
+      .logo span{color:#4f7cff;}
+      h1{font-size:36px;font-weight:900;color:#1a1b2e;}
+      .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;}
+      .total{font-weight:800;font-size:18px;color:#4f7cff;border-top:2px solid #4f7cff;}
+      .badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+      .paid{background:#e8faf3;color:#00c48c;}
+      .pending{background:#fff8e6;color:#f5a623;}
+    </style></head><body>
+    <div class="header">
+      <div class="logo">Ne<span>xus</span></div>
+      <div><h1>INVOICE</h1><div style="color:#999">${inv.id}</div></div>
+    </div>
+    <div class="row"><span>Client</span><strong>${inv.client}</strong></div>
+    <div class="row"><span>Service</span><span>${inv.service || '—'}</span></div>
+    <div class="row"><span>Date</span><span>${inv.date || '—'}</span></div>
+    <div class="row"><span>Due Date</span><span>${inv.due || '—'}</span></div>
+    <div class="row"><span>Status</span><span class="badge ${(inv.status||'').toLowerCase()}">${inv.status}</span></div>
+    <div class="row total"><span>Total Amount</span><span>$${parseFloat(inv.amount||0).toFixed(2)}</span></div>
+    <div style="margin-top:32px;text-align:center;">
+      <button onclick="window.print()" style="background:#4f7cff;color:#fff;border:none;padding:12px 32px;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;">
+        🖨️ Print / Save as PDF
+      </button>
+    </div>
+    </body></html>`);
+  win.document.close();
+};
+
+// ── Send Message ──────────────────────────────────────
+window.sendPortalMessage = function() {
+  const msg = document.getElementById('portalMsg').value.trim();
+  if (!msg) return;
+
+  // Save message to localStorage
+  const session  = JSON.parse(sessionStorage.getItem(PORTAL_KEY) || '{}');
+  const messages = JSON.parse(localStorage.getItem('nexus_portal_messages') || '[]');
+  messages.unshift({
+    from:    session.name || session.email,
+    email:   session.email,
+    message: msg,
+    time:    new Date().toLocaleString(),
+    read:    false,
+  });
+  localStorage.setItem('nexus_portal_messages', JSON.stringify(messages));
+
+  document.getElementById('portalMsg').value = '';
+
+  // Show success
+  const btn = document.querySelector('.msg-send-btn');
+  btn.innerHTML = '✅ Message Sent!';
+  btn.style.background = '#00c48c';
+  setTimeout(() => {
+    btn.innerHTML = '📤 Send Message';
+    btn.style.background = '';
+  }, 2500);
+};
+
+// ── Sign Out ──────────────────────────────────────────
+window.signOutPortal = function() {
+  sessionStorage.removeItem(PORTAL_KEY);
+  document.getElementById('accessScreen').style.display = 'flex';
+  document.getElementById('portalBody').classList.remove('show');
+  document.getElementById('portalEmail').value = '';
+  document.getElementById('portalCode').value  = '';
+};
+
+// ── Auto login if session exists ──────────────────────
+(function init() {
+  const session = JSON.parse(sessionStorage.getItem(PORTAL_KEY) || 'null');
+  if (session) {
+    showPortal(session);
+    return;
+  }
+
+  // Auto-fill from URL params
+  const email = getParam('email');
+  const code  = getParam('code');
+  if (email) document.getElementById('portalEmail').value = email;
+  if (code)  document.getElementById('portalCode').value  = code;
+})();
+</script>
+</body>
+</html>
