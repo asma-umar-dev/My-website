@@ -1445,6 +1445,51 @@ tbody td {
 }
 .psm-close-btn:hover { color: var(--txt-1); }
 
+
+/* ─── Language Selector ─────────────────────────────── */
+.lang-selector-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: border-color var(--trans);
+}
+.lang-selector-wrap:hover { border-color: var(--border-2); }
+.lang-flag { font-size: 14px; line-height: 1; }
+.lang-select {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--txt-1);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  max-width: 50px;
+}
+.lang-select option { background: #111318; color: #fff; }
+
+/* RTL Support for Urdu/Arabic */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+body.rtl .sidebar {
+  left: auto;
+  right: 0;
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+body.rtl .main { margin-left: 0; margin-right: var(--sidebar-w); }
+body.rtl .nav-link { flex-direction: row-reverse; }
+body.rtl .header-actions { flex-direction: row-reverse; }
+
 </style>
 </head>
 <body>
@@ -1670,6 +1715,19 @@ tbody td {
           Overview
         </div>
         <!-- Currency Selector -->
+        <!-- Language Selector -->
+        <div class="lang-selector-wrap" title="Change Language">
+          <span class="lang-flag" id="langFlag">🇺🇸</span>
+          <select class="lang-select" id="langSelect"
+            onchange="changeLang(this.value)">
+            <option value="en">EN</option>
+            <option value="ur">UR</option>
+            <option value="hi">HI</option>
+            <option value="ar">AR</option>
+          </select>
+          <span style="color:var(--txt-3);font-size:9px;">▼</span>
+        </div>
+
         <div style="display:flex;align-items:center;gap:6px;
                     background:var(--bg-3);border:1px solid var(--border-2);
                     border-radius:50px;padding:5px 10px;cursor:pointer;"
@@ -4155,6 +4213,291 @@ document.getElementById('portalShareModal').addEventListener('click', function(e
   const code = getPortalCode();
   console.log('Portal code ready:', code);
 })();
+
+
+// ══════════════════════════════════════════════════════
+//  LANGUAGE SYSTEM — Urdu / Hindi / Arabic / English
+// ══════════════════════════════════════════════════════
+
+const LANG_KEY = 'nexus_language';
+
+const TRANSLATIONS = {
+  en: {
+    flag: '🇺🇸', name: 'English', rtl: false,
+    welcome: 'Welcome back',
+    overview: 'Overview',
+    totalEarnings: 'Total Earnings this month',
+    pendingInvoices: 'Pending Invoices',
+    activeTasks: 'Active Tasks this week',
+    aiScore: 'AI Productivity Score',
+    generateInvoice: 'Generate New Invoice',
+    clientName: 'Client Name',
+    clientEmail: 'Client Email',
+    serviceDesc: 'Service Description',
+    amount: 'Amount',
+    dueDate: 'Due Date',
+    generateBtn: '✦ Generate Invoice with AI',
+    tasks: 'AI Prioritized Tasks',
+    addTask: 'Add new task...',
+    expenses: 'Expense Tracker',
+    expenseName: 'Expense name...',
+    addBtn: '+ Add',
+    recentInvoices: 'Recent Invoices',
+    viewAll: 'View all →',
+    timeTracker: 'Time Tracker',
+    project: 'Project / Task',
+    client: 'Client',
+    hourlyRate: 'Hourly Rate ($)',
+    billable: 'Billable?',
+    startTimer: '▶ Start Timer',
+    pause: '⏸ Pause',
+    stopSave: '⏹ Stop & Save',
+    today: 'Today',
+    sessions: 'Sessions',
+    earned: 'Earned',
+    convertInvoice: '🧾 Convert to Invoice',
+    timeEntries: 'Time Entries',
+    clearAll: 'Clear All',
+  },
+  ur: {
+    flag: '🇵🇰', name: 'اردو', rtl: false,
+    welcome: 'خوش آمدید',
+    overview: 'خلاصہ',
+    totalEarnings: 'اس مہینے کی کل آمدنی',
+    pendingInvoices: 'زیر التواء انوائسز',
+    activeTasks: 'اس ہفتے کے فعال کام',
+    aiScore: 'AI پیداواریت سکور',
+    generateInvoice: 'نئی انوائس بنائیں',
+    clientName: 'کلائنٹ کا نام',
+    clientEmail: 'کلائنٹ کی ای میل',
+    serviceDesc: 'خدمت کی تفصیل',
+    amount: 'رقم',
+    dueDate: 'آخری تاریخ',
+    generateBtn: '✦ AI سے انوائس بنائیں',
+    tasks: 'AI ترجیحی کام',
+    addTask: 'نیا کام شامل کریں...',
+    expenses: 'خرچ ٹریکر',
+    expenseName: 'خرچ کا نام...',
+    addBtn: '+ شامل کریں',
+    recentInvoices: 'حالیہ انوائسز',
+    viewAll: 'سب دیکھیں →',
+    timeTracker: 'وقت ٹریکر',
+    project: 'پروجیکٹ / کام',
+    client: 'کلائنٹ',
+    hourlyRate: 'فی گھنٹہ ریٹ',
+    billable: 'قابل ادائیگی؟',
+    startTimer: '▶ ٹائمر شروع کریں',
+    pause: '⏸ روکیں',
+    stopSave: '⏹ بند کریں اور محفوظ کریں',
+    today: 'آج',
+    sessions: 'سیشن',
+    earned: 'کمائی',
+    convertInvoice: '🧾 انوائس بنائیں',
+    timeEntries: 'وقت کی اندراجات',
+    clearAll: 'سب صاف کریں',
+  },
+  hi: {
+    flag: '🇮🇳', name: 'हिंदी', rtl: false,
+    welcome: 'वापस स्वागत है',
+    overview: 'अवलोकन',
+    totalEarnings: 'इस महीने की कुल कमाई',
+    pendingInvoices: 'लंबित चालान',
+    activeTasks: 'इस सप्ताह के सक्रिय काम',
+    aiScore: 'AI उत्पादकता स्कोर',
+    generateInvoice: 'नया चालान बनाएं',
+    clientName: 'ग्राहक का नाम',
+    clientEmail: 'ग्राहक का ईमेल',
+    serviceDesc: 'सेवा विवरण',
+    amount: 'राशि',
+    dueDate: 'देय तिथि',
+    generateBtn: '✦ AI से चालान बनाएं',
+    tasks: 'AI प्राथमिकता कार्य',
+    addTask: 'नया कार्य जोड़ें...',
+    expenses: 'खर्च ट्रैकर',
+    expenseName: 'खर्च का नाम...',
+    addBtn: '+ जोड़ें',
+    recentInvoices: 'हाल के चालान',
+    viewAll: 'सब देखें →',
+    timeTracker: 'समय ट्रैकर',
+    project: 'प्रोजेक्ट / कार्य',
+    client: 'ग्राहक',
+    hourlyRate: 'प्रति घंटे दर',
+    billable: 'बिल योग्य?',
+    startTimer: '▶ टाइमर शुरू करें',
+    pause: '⏸ रोकें',
+    stopSave: '⏹ बंद करें और सहेजें',
+    today: 'आज',
+    sessions: 'सत्र',
+    earned: 'कमाई',
+    convertInvoice: '🧾 चालान बनाएं',
+    timeEntries: 'समय प्रविष्टियां',
+    clearAll: 'सब साफ करें',
+  },
+  ar: {
+    flag: '🇸🇦', name: 'العربية', rtl: true,
+    welcome: 'مرحباً بعودتك',
+    overview: 'نظرة عامة',
+    totalEarnings: 'إجمالي أرباح هذا الشهر',
+    pendingInvoices: 'الفواتير المعلقة',
+    activeTasks: 'المهام النشطة هذا الأسبوع',
+    aiScore: 'درجة الإنتاجية بالذكاء الاصطناعي',
+    generateInvoice: 'إنشاء فاتورة جديدة',
+    clientName: 'اسم العميل',
+    clientEmail: 'بريد العميل الإلكتروني',
+    serviceDesc: 'وصف الخدمة',
+    amount: 'المبلغ',
+    dueDate: 'تاريخ الاستحقاق',
+    generateBtn: '✦ إنشاء فاتورة بالذكاء الاصطناعي',
+    tasks: 'المهام ذات الأولوية بالذكاء الاصطناعي',
+    addTask: 'إضافة مهمة جديدة...',
+    expenses: 'تتبع المصروفات',
+    expenseName: 'اسم المصروف...',
+    addBtn: '+ إضافة',
+    recentInvoices: 'الفواتير الأخيرة',
+    viewAll: 'عرض الكل →',
+    timeTracker: 'تتبع الوقت',
+    project: 'المشروع / المهمة',
+    client: 'العميل',
+    hourlyRate: 'السعر بالساعة',
+    billable: 'قابل للفوترة؟',
+    startTimer: '▶ بدء المؤقت',
+    pause: '⏸ إيقاف مؤقت',
+    stopSave: '⏹ إيقاف وحفظ',
+    today: 'اليوم',
+    sessions: 'الجلسات',
+    earned: 'المكتسب',
+    convertInvoice: '🧾 تحويل إلى فاتورة',
+    timeEntries: 'سجلات الوقت',
+    clearAll: 'مسح الكل',
+  },
+};
+
+function loadLang() {
+  return localStorage.getItem(LANG_KEY) || 'en';
+}
+function saveLang(code) {
+  localStorage.setItem(LANG_KEY, code);
+}
+
+window.changeLang = function(code) {
+  if (!TRANSLATIONS[code]) return;
+  saveLang(code);
+  applyLanguage(code);
+
+  // Show toast
+  const lang = TRANSLATIONS[code];
+  let toast = document.getElementById('lang-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'lang-toast';
+    toast.style.cssText = 'position:fixed;top:80px;left:20px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--radius-sm);padding:10px 16px;font-size:13px;font-weight:600;color:var(--txt-1);z-index:999;transition:opacity 0.4s;box-shadow:var(--shadow);';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = lang.flag + ' ' + lang.name + ' language applied!';
+  toast.style.opacity = '1';
+  setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+};
+
+function applyLanguage(code) {
+  const t = TRANSLATIONS[code];
+  if (!t) return;
+
+  // Update flag
+  const flagEl = document.getElementById('langFlag');
+  const selEl  = document.getElementById('langSelect');
+  if (flagEl) flagEl.textContent = t.flag;
+  if (selEl)  selEl.value = code;
+
+  // RTL support
+  if (t.rtl) {
+    document.body.classList.add('rtl');
+  } else {
+    document.body.classList.remove('rtl');
+  }
+
+  // ── Translate all elements ────────────────────────
+  const els = {
+    // Overview section
+    '.section-label':       t.overview,
+    // Stat card labels
+    '#stat-label-1':        t.totalEarnings,
+    '#stat-label-2':        t.pendingInvoices,
+    '#stat-label-3':        t.activeTasks,
+    '#stat-label-4':        t.aiScore,
+    // Invoice form
+    '#inv-label-client':    t.clientName,
+    '#inv-label-email':     t.clientEmail,
+    '#inv-label-service':   t.serviceDesc,
+    '#inv-label-amount':    t.amount,
+    '#inv-label-due':       t.dueDate,
+    '#inv-btn':             t.generateBtn,
+    // Tasks
+    '#tasks-label':         t.tasks,
+    // Time tracker
+    '#timer-label':         t.timeTracker,
+    '#timer-project-label': t.project,
+    '#timer-client-label':  t.client,
+    '#timer-rate-label':    t.hourlyRate,
+    '#timer-billable-label':t.billable,
+    '#timerStartBtn':       t.startTimer,
+    '#timerPauseBtn':       t.pause,
+    '#timerStopBtn':        t.stopSave,
+    '#ts-lbl-today':        t.today,
+    '#ts-lbl-sessions':     t.sessions,
+    '#ts-lbl-earned':       t.earned,
+    '#billToInvoiceBtn':    t.convertInvoice,
+    '#entries-label':       t.timeEntries,
+    // Recent invoices
+    '#recent-inv-label':    t.recentInvoices,
+    '#view-all-link':       t.viewAll,
+    // Expense
+    '#exp-label':           t.expenses,
+  };
+
+  // Apply translations
+  Object.entries(els).forEach(([sel, text]) => {
+    if (!text) return;
+    const el = document.querySelector(sel);
+    if (el) el.textContent = text;
+  });
+
+  // Translate placeholders
+  const phs = {
+    '#task-inp':     t.addTask,
+    '#exp-name-inp': t.expenseName,
+    '#timerDesc':    t.project + '...',
+    '#timerClient':  t.client + '...',
+  };
+  Object.entries(phs).forEach(([sel, ph]) => {
+    const el = document.querySelector(sel);
+    if (el && ph) el.placeholder = ph;
+  });
+
+  // Update welcome message
+  const user = JSON.parse(localStorage.getItem('nexus_user') || '{}');
+  const name = user.name || 'User';
+  const welcomeEl = document.querySelector('.header-welcome');
+  if (welcomeEl) {
+    welcomeEl.innerHTML = `${t.welcome}, <span style="color:var(--accent)">${name}</span>! 👋`;
+  }
+
+  // Update section labels
+  document.querySelectorAll('.section-label').forEach(el => {
+    if (el.textContent.trim() === 'Overview' || el.textContent.trim() === t.overview) {
+      // Keep as is - overview handled above
+    }
+  });
+
+  console.log('Language applied:', code, t.name);
+}
+
+function initLanguage() {
+  const code = loadLang();
+  applyLanguage(code);
+}
+
+// Run on load
+setTimeout(initLanguage, 800);
 
 </script>
 
