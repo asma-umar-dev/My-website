@@ -1475,20 +1475,11 @@ tbody td {
 }
 .lang-select option { background: #111318; color: #fff; }
 
-/* RTL Support for Urdu/Arabic */
-body.rtl {
-  direction: rtl;
-  text-align: right;
-}
-body.rtl .sidebar {
-  left: auto;
-  right: 0;
-  border-right: none;
-  border-left: 1px solid var(--border);
-}
-body.rtl .main { margin-left: 0; margin-right: var(--sidebar-w); }
-body.rtl .nav-link { flex-direction: row-reverse; }
-body.rtl .header-actions { flex-direction: row-reverse; }
+/* RTL Support — NO layout change, just text direction */
+body.rtl { direction: rtl; }
+body.rtl .header-inner { direction: rtl; }
+body.rtl .panel-head { direction: rtl; }
+body.rtl .stat-card { direction: rtl; }
 
 </style>
 </head>
@@ -4408,12 +4399,8 @@ function applyLanguage(code) {
   if (flagEl) flagEl.textContent = t.flag;
   if (selEl)  selEl.value = code;
 
-  // RTL support
-  if (t.rtl) {
-    document.body.classList.add('rtl');
-  } else {
-    document.body.classList.remove('rtl');
-  }
+  // RTL - only text direction, no layout flip
+  // Removed to prevent sidebar overlap on mobile
 
   // ── Translate all elements ────────────────────────
   const els = {
