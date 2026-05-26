@@ -1434,21 +1434,7 @@ tbody td {
 
           <div class="header-actions" style="position:relative;">
 
-        <!-- Currency Selector -->
-        <div class="currency-selector-wrap" title="Select Currency">
-          <span class="currency-flag" id="currencyFlag">🇺🇸</span>
-          <select class="currency-select" id="currencySelect"
-            onchange="changeCurrency(this.value)">
-            <option value="USD">USD $</option>
-            <option value="PKR">PKR ₨</option>
-            <option value="INR">INR ₹</option>
-            <option value="AED">AED د.إ</option>
-            <option value="GBP">GBP £</option>
-            <option value="EUR">EUR €</option>
-            <option value="SAR">SAR ﷼</option>
-            <option value="CAD">CAD C$</option>
-          </select>
-        </div>
+
 
         <!-- Notification Bell -->
         <div class="icon-btn" id="notif-btn" title="Notifications" onclick="toggleNotif(event)">
@@ -1545,7 +1531,28 @@ tbody td {
 
     <!-- Stats Grid -->
     <div>
-      <div class="section-label">Overview</div>
+      <div class="section-label" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>Overview</span>
+        <div style="display:flex;align-items:center;gap:8px;
+                    background:var(--bg-3);border:1px solid var(--border);
+                    border-radius:var(--radius-sm);padding:6px 12px;">
+          <span id="currencyFlag" style="font-size:16px;">🇺🇸</span>
+          <select id="currencySelect"
+            onchange="changeCurrency(this.value)"
+            style="background:none;border:none;outline:none;
+                   color:var(--txt-1);font-family:var(--font-body);
+                   font-size:13px;font-weight:600;cursor:pointer;">
+            <option value="USD">USD $</option>
+            <option value="PKR">PKR Rs</option>
+            <option value="INR">INR ₹</option>
+            <option value="AED">AED د.إ</option>
+            <option value="GBP">GBP £</option>
+            <option value="EUR">EUR €</option>
+            <option value="SAR">SAR SR</option>
+            <option value="CAD">CAD C$</option>
+          </select>
+        </div>
+      </div>
       <div class="stats-grid">
 
         <div class="stat-card earnings">
@@ -4000,53 +4007,71 @@ window.changeCurrency = function(code) {
 
 function refreshCurrencyDisplays() {
   try {
-    // Stat cards
     const invData  = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
     const expData  = typeof loadExpenses === 'function' ? loadExpenses() : [];
     const taskData = typeof loadTasks    === 'function' ? loadTasks()    : [];
 
-    const totalEarnings = invData.reduce((a, i) => a + (i.amount || 0), 0);
-    const pendingAmt    = invData.filter(i => i.status === 'Pending').reduce((a, i) => a + (i.amount || 0), 0);
-    const expTotal      = expData.reduce((a, e) => a + (e.amount || 0), 0);
-    const doneTasks     = taskData.filter(t => t.done).length;
-    const allTasks      = taskData.length;
-    const score         = allTasks > 0 ? Math.round((doneTasks / allTasks) * 100) : 0;
-    const profit        = totalEarnings - expTotal;
+    const totalEarnings = invData.reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+    const pendingAmt    = invData
+      .filter(i => i.status === 'Pending')
+      .reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+    const expTotal  = expData.reduce((a, e) => a + (parseFloat(e.amount) || 0), 0);
+    const profit    = totalEarnings - expTotal;
 
+    // Stat cards
     const s1 = document.getElementById('stat-earnings');
     const s2 = document.getElementById('stat-pending');
+    if (s1) s1.textContent = formatCurrency(totalEarnings);
+    if (s2) s2.textContent = formatCurrency(pendingAmt);
+
+    // Chart summary
     const c1 = document.getElementById('chart-total');
     const c2 = document.getElementById('chart-expenses');
     const c3 = document.getElementById('chart-profit');
-    const et = document.getElementById('exp-total');
-    const ot = document.getElementById('orderTotal');
-
-    if (s1) s1.textContent = formatCurrency(totalEarnings);
-    if (s2) s2.textContent = formatCurrency(pendingAmt);
     if (c1) c1.textContent = formatCurrency(totalEarnings);
     if (c2) c2.textContent = formatCurrency(expTotal);
     if (c3) {
       c3.textContent = (profit >= 0 ? '+' : '') + formatCurrency(Math.abs(profit));
       c3.style.color = profit >= 0 ? 'var(--low)' : 'var(--high)';
     }
+
+    // Expense total
+    const et = document.getElementById('exp-total');
     if (et) et.textContent = formatCurrency(expTotal);
 
-    // Time tracker today earned
+    // Order button total
+    const ot = document.getElementById('orderTotal');
+
+    // Time tracker earned today
     if (typeof loadTimeEntries === 'function') {
       const entries = loadTimeEntries();
-      const today   = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      const earned  = entries
+      const today   = new Date().toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+      const earned = entries
         .filter(e => e.date === today && e.billable)
         .reduce((a, e) => a + parseFloat(e.earned || 0), 0);
       const earnEl = document.getElementById('ts-earned');
       if (earnEl) earnEl.textContent = formatCurrency(earned);
     }
 
-    // Update invoice amount placeholder
+    // Invoice amount label
+    const invAmtLabel = document.querySelector('label[for="inv-amount"], .form-label');
     const invAmt = document.getElementById('inv-amount');
-    const code   = loadCurrencyCode();
-    const cur    = CURRENCIES_DATA[code] || CURRENCIES_DATA['USD'];
-    if (invAmt) invAmt.placeholder = '0.00 (' + cur.symbol + ')';
+    const code = loadCurrencyCode();
+    const cur  = CURRENCIES_DATA[code] || CURRENCIES_DATA.USD;
+    if (invAmt) {
+      invAmt.placeholder = '0.00';
+      // Update label
+      const labels = document.querySelectorAll('.form-label');
+      labels.forEach(l => {
+        if (l.textContent.includes('Amount')) {
+          l.textContent = 'Amount (' + cur.symbol + ')';
+        }
+      });
+    }
+
+    console.log('Currency refreshed:', code, '| Earnings:', totalEarnings, '→', formatCurrency(totalEarnings));
 
   } catch(err) {
     console.log('Currency refresh error:', err);
@@ -4065,6 +4090,24 @@ function initCurrencyUI() {
 
 // Run on load
 setTimeout(initCurrencyUI, 600);
+setTimeout(refreshCurrencyDisplays, 1200);
+setTimeout(refreshCurrencyDisplays, 2500);
+
+// Also run when any localStorage changes
+window.addEventListener('storage', refreshCurrencyDisplays);
+
+// Patch invoice generation to trigger refresh
+const _origInvSave = localStorage.setItem.bind(localStorage);
+const _patchedSetItem = function(key, value) {
+  _origInvSave(key, value);
+  if (key === 'nexus_invoices' || key === 'nexus_expenses' || key === 'nexus_tasks') {
+    setTimeout(refreshCurrencyDisplays, 200);
+  }
+};
+// Override localStorage for currency refresh
+Object.defineProperty(window, '_currencyRefreshKey', {
+  set: function(v) { setTimeout(refreshCurrencyDisplays, 100); }
+});
 
 </script>
 
