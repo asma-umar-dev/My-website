@@ -1814,7 +1814,7 @@ tbody td {
 
           <!-- Empty state -->
           <div id="task-empty" style="display:none;text-align:center;padding:32px 0;color:var(--txt-3);font-size:13px;">
-            <div style="font-size:32px;margin-bottom:8px;">checkmark</div>
+            <div style="font-size:32px;margin-bottom:8px;">✅</div>
             No tasks here! Add one above.
           </div>
 
@@ -1822,6 +1822,36 @@ tbody td {
       </div>
 
 
+    </div>
+
+    <!-- Share Client Portal Card -->
+    <div style="background:linear-gradient(135deg,#1a1f35,#111318);
+                border:1px solid rgba(79,124,255,0.25);
+                border-radius:var(--radius);padding:20px 24px;
+                display:flex;align-items:center;justify-content:space-between;
+                flex-wrap:wrap;gap:14px;
+                box-shadow:0 4px 20px rgba(79,124,255,0.1);
+                animation:fadeUp 0.4s 0.4s ease both;">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--txt-1);margin-bottom:4px;">
+          🔗 Client Portal
+        </div>
+        <div style="font-size:12px;color:var(--txt-2);line-height:1.5;">
+          Share a secure portal link with your clients.<br>
+          They can view invoices & send messages!
+        </div>
+      </div>
+      <button onclick="openPortalShare()"
+        style="display:flex;align-items:center;gap:8px;
+               background:linear-gradient(135deg,var(--accent),#6b8fff);
+               border:none;border-radius:var(--radius-sm);
+               color:#fff;font-size:13px;font-weight:700;
+               padding:11px 20px;cursor:pointer;white-space:nowrap;
+               transition:all var(--trans);flex-shrink:0;"
+        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(79,124,255,0.3)'"
+        onmouseout="this.style.transform='';this.style.boxShadow=''">
+        🔗 Share Portal
+      </button>
     </div>
 
     <!-- Recent Activity Table -->
