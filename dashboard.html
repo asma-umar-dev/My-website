@@ -1539,28 +1539,28 @@ tbody td {
           Overview
         </div>
         <!-- Currency Selector -->
-        <div style="display:flex;align-items:center;gap:8px;
-                    background:var(--bg-3);border:1.5px solid var(--accent);
-                    border-radius:50px;padding:7px 14px;cursor:pointer;"
+        <div style="display:flex;align-items:center;gap:6px;
+                    background:var(--bg-3);border:1px solid var(--border-2);
+                    border-radius:50px;padding:5px 10px;cursor:pointer;"
              title="Change Currency">
-          <span id="currencyFlag" style="font-size:15px;line-height:1;">🇺🇸</span>
+          <span id="currencyFlag" style="font-size:13px;line-height:1;">🇺🇸</span>
           <select id="currencySelect"
             onchange="changeCurrency(this.value)"
             style="background:transparent;border:none;outline:none;
-                   color:var(--accent);font-family:var(--font-body);
-                   font-size:13px;font-weight:700;cursor:pointer;
+                   color:var(--txt-1);font-family:var(--font-body);
+                   font-size:11px;font-weight:600;cursor:pointer;
                    -webkit-appearance:none;appearance:none;
-                   padding-right:4px;">
-            <option value="USD" style="background:#111318;color:#fff;">USD — Dollar $</option>
-            <option value="PKR" style="background:#111318;color:#fff;">PKR — Rupee Rs</option>
-            <option value="INR" style="background:#111318;color:#fff;">INR — Rupee ₹</option>
-            <option value="AED" style="background:#111318;color:#fff;">AED — Dirham</option>
-            <option value="GBP" style="background:#111318;color:#fff;">GBP — Pound £</option>
-            <option value="EUR" style="background:#111318;color:#fff;">EUR — Euro €</option>
-            <option value="SAR" style="background:#111318;color:#fff;">SAR — Riyal</option>
-            <option value="CAD" style="background:#111318;color:#fff;">CAD — Dollar C$</option>
+                   max-width:60px;">
+            <option value="USD" style="background:#111318;color:#fff;">USD $</option>
+            <option value="PKR" style="background:#111318;color:#fff;">PKR Rs</option>
+            <option value="INR" style="background:#111318;color:#fff;">INR ₹</option>
+            <option value="AED" style="background:#111318;color:#fff;">AED</option>
+            <option value="GBP" style="background:#111318;color:#fff;">GBP £</option>
+            <option value="EUR" style="background:#111318;color:#fff;">EUR €</option>
+            <option value="SAR" style="background:#111318;color:#fff;">SAR</option>
+            <option value="CAD" style="background:#111318;color:#fff;">CAD C$</option>
           </select>
-          <span style="color:var(--accent);font-size:10px;">▼</span>
+          <span style="color:var(--txt-3);font-size:9px;">▼</span>
         </div>
       </div>
       <div class="stats-grid">
