@@ -908,35 +908,24 @@ tbody td {
   .welcome-msg { font-size: 15px; }
   .welcome-sub { display: none; }
 
-  /* Search: tap icon → expands smoothly */
+  /* Search - simple expand on mobile */
   .search-wrap {
     width: 38px;
     padding: 0 11px;
     overflow: hidden;
-    transition: width 0.35s cubic-bezier(0.4,0,0.2,1),
-                padding 0.35s ease,
-                border-color 0.2s ease;
+    transition: width 0.3s ease, border-color 0.2s ease;
     cursor: pointer;
   }
-  .search-wrap.expanded {
-    width: 200px;
-    padding: 0 14px;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
+  .search-wrap.expanded,
   .search-wrap:focus-within {
-    width: 200px;
-    padding: 0 14px;
+    width: 190px;
+    padding: 0 12px;
+    border-color: var(--accent);
   }
-  .search-input {
-    display: none;
-    width: 0;
-    transition: width 0.3s ease;
-  }
+  .search-input { display: none; }
   .search-wrap.expanded .search-input,
   .search-wrap:focus-within .search-input {
     display: block;
-    width: 100%;
   }
 
   /* --- Content padding --- */
@@ -4216,7 +4205,7 @@ document.getElementById('portalShareModal').addEventListener('click', function(e
 
 
 
-// ── Search Bar — Mobile Expand ────────────────────────
+// ── Search Bar — Click to expand ─────────────────────
 window.expandSearch = function() {
   const wrap  = document.getElementById('search-wrap-main');
   const input = document.getElementById('global-search');
@@ -4224,22 +4213,21 @@ window.expandSearch = function() {
 
   wrap.classList.add('expanded');
   input.style.display = 'block';
+  input.focus();
 
-  // Focus after short delay
-  setTimeout(() => { input.focus(); }, 50);
-
-  // Collapse when clicking outside
-  document.addEventListener('click', function collapseSearch(e) {
+  // Click outside = close
+  function outside(e) {
     if (!wrap.contains(e.target)) {
       wrap.classList.remove('expanded');
+      input.style.display = '';
       if (!input.value) {
-        input.style.display = 'none';
-        const results = document.getElementById('search-results');
-        if (results) results.style.display = 'none';
+        const sr = document.getElementById('search-results');
+        if (sr) sr.style.display = 'none';
       }
-      document.removeEventListener('click', collapseSearch);
+      document.removeEventListener('click', outside);
     }
-  });
+  }
+  setTimeout(() => document.addEventListener('click', outside), 200);
 };
 
 </script>
