@@ -266,20 +266,28 @@ body {
 
 .header-welcome {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .welcome-msg {
   font-family: var(--font-head);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--txt-1);
   letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .welcome-sub {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--txt-3);
   margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .search-wrap {
@@ -905,8 +913,10 @@ tbody td {
     gap: 10px;
   }
   .menu-toggle { display: flex; }
-  .welcome-msg { font-size: 15px; }
+  .welcome-msg { font-size: 13px; }
   .welcome-sub { display: none; }
+  .search-wrap.expanded ~ * .header-welcome,
+  .header-welcome { max-width: 100px; }
 
   /* Search - simple expand on mobile */
   .search-wrap {
@@ -1587,8 +1597,8 @@ body.rtl .stat-card { direction: rtl; }
     </button>
 
     <div class="header-welcome">
-      <div class="welcome-msg" id="welcome-msg">Welcome back! 👋</div>
-      <div class="welcome-sub">Sunday, May 17 · 3 tasks due today</div>
+      <div class="welcome-msg" id="welcome-msg">Hi there! 👋</div>
+      <div class="welcome-sub" id="welcome-sub">Today's Overview</div>
     </div>
 
     <div class="search-wrap" id="search-wrap-main"
@@ -2293,7 +2303,7 @@ onAuthStateChanged(_fbAuth, user => {
 
   // Welcome message
   const wEl = document.getElementById('welcome-msg');
-  if (wEl) wEl.innerHTML = `Welcome back, <span style="color:var(--accent)">${name}</span>! 👋`;
+  if (wEl) wEl.innerHTML = `Hi, <span style="color:var(--accent)">${name.split(' ')[0]}</span>! 👋`;
 
   // Avatar
   const aEl = document.getElementById('user-avatar');
