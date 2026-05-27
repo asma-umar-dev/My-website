@@ -908,19 +908,36 @@ tbody td {
   .welcome-msg { font-size: 15px; }
   .welcome-sub { display: none; }
 
-  /* Search: icon only on very small, visible on 480+ */
+  /* Search: tap icon → expands smoothly */
   .search-wrap {
     width: 38px;
     padding: 0 11px;
     overflow: hidden;
-    transition: width 0.3s ease, padding 0.3s ease;
+    transition: width 0.35s cubic-bezier(0.4,0,0.2,1),
+                padding 0.35s ease,
+                border-color 0.2s ease;
+    cursor: pointer;
+  }
+  .search-wrap.expanded {
+    width: 200px;
+    padding: 0 14px;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
   }
   .search-wrap:focus-within {
-    width: 180px;
+    width: 200px;
     padding: 0 14px;
   }
-  .search-input { display: none; }
-  .search-wrap:focus-within .search-input { display: block; }
+  .search-input {
+    display: none;
+    width: 0;
+    transition: width 0.3s ease;
+  }
+  .search-wrap.expanded .search-input,
+  .search-wrap:focus-within .search-input {
+    display: block;
+    width: 100%;
+  }
 
   /* --- Content padding --- */
   .content { padding: 12px; gap: 14px; }
@@ -1585,7 +1602,9 @@ body.rtl .stat-card { direction: rtl; }
       <div class="welcome-sub">Sunday, May 17 · 3 tasks due today</div>
     </div>
 
-    <div class="search-wrap" id="search-wrap-main">
+    <div class="search-wrap" id="search-wrap-main"
+  onclick="expandSearch()"
+  title="Click to search">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
@@ -4195,6 +4214,33 @@ document.getElementById('portalShareModal').addEventListener('click', function(e
 
 // Language system removed - coming soon!
 
+
+
+// ── Search Bar — Mobile Expand ────────────────────────
+window.expandSearch = function() {
+  const wrap  = document.getElementById('search-wrap-main');
+  const input = document.getElementById('global-search');
+  if (!wrap || !input) return;
+
+  wrap.classList.add('expanded');
+  input.style.display = 'block';
+
+  // Focus after short delay
+  setTimeout(() => { input.focus(); }, 50);
+
+  // Collapse when clicking outside
+  document.addEventListener('click', function collapseSearch(e) {
+    if (!wrap.contains(e.target)) {
+      wrap.classList.remove('expanded');
+      if (!input.value) {
+        input.style.display = 'none';
+        const results = document.getElementById('search-results');
+        if (results) results.style.display = 'none';
+      }
+      document.removeEventListener('click', collapseSearch);
+    }
+  });
+};
 
 </script>
 
