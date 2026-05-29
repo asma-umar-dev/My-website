@@ -1660,6 +1660,91 @@ body.rtl .stat-card { direction: rtl; }
   transition: width 1.2s ease;
 }
 
+
+/* ── Advanced Charts Section ─────────────────────── */
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.chart-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  transition: all var(--trans);
+}
+.chart-card:hover { border-color: var(--border-2); }
+.chart-card.full { grid-column: 1 / -1; }
+.chart-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--txt-1);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chart-card-sub {
+  font-size: 11px;
+  color: var(--txt-3);
+  margin-bottom: 14px;
+}
+.chart-wrap {
+  position: relative;
+  width: 100%;
+}
+.adv-canvas {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius-sm);
+}
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--txt-2);
+  font-weight: 600;
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.chart-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.chart-tab {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  color: var(--txt-3);
+  background: transparent;
+  transition: all var(--trans);
+}
+.chart-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+@media(max-width:600px) {
+  .charts-section { grid-template-columns: 1fr; }
+  .chart-card.full { grid-column: 1; }
+}
+
 </style>
 </head>
 <body>
@@ -2059,6 +2144,50 @@ body.rtl .stat-card { direction: rtl; }
 
     </div>
 
+
+
+    <!-- Advanced Charts Section -->
+    <div style="font-size:11px;font-weight:600;letter-spacing:1.2px;
+                text-transform:uppercase;color:var(--txt-3);margin-bottom:12px;
+                animation:fadeUp 0.3s ease both;">
+      📊 Analytics & Reports
+    </div>
+    <div class="charts-section" style="animation:fadeUp 0.4s 0.1s ease both;">
+
+      <!-- Earnings Bar Chart (Full Width) -->
+      <div class="chart-card full">
+        <div class="chart-card-title">📈 Monthly Earnings</div>
+        <div class="chart-card-sub">Last 6 months income overview</div>
+        <div class="chart-tabs">
+          <button class="chart-tab active" onclick="switchEarningsView('monthly',this)">Monthly</button>
+          <button class="chart-tab" onclick="switchEarningsView('weekly',this)">Weekly</button>
+        </div>
+        <div class="chart-wrap">
+          <canvas class="adv-canvas" id="advEarningsChart" height="180"></canvas>
+        </div>
+      </div>
+
+      <!-- Expense Pie Chart -->
+      <div class="chart-card">
+        <div class="chart-card-title">💸 Expenses</div>
+        <div class="chart-card-sub">By category</div>
+        <div class="chart-wrap">
+          <canvas class="adv-canvas" id="advExpenseChart" height="160"></canvas>
+        </div>
+        <div class="chart-legend" id="expense-legend"></div>
+      </div>
+
+      <!-- Invoice Status Chart -->
+      <div class="chart-card">
+        <div class="chart-card-title">🧾 Invoices</div>
+        <div class="chart-card-sub">Status breakdown</div>
+        <div class="chart-wrap">
+          <canvas class="adv-canvas" id="advInvoiceChart" height="160"></canvas>
+        </div>
+        <div class="chart-legend" id="invoice-legend"></div>
+      </div>
+
+    </div>
 
     <!-- AI Income Prediction -->
     <div class="ai-predict-card" style="animation:fadeUp 0.4s 0.3s ease both;">
@@ -4643,6 +4772,285 @@ function generateInsights(invoices, expenses, tasks, growth, collectRate, predic
 
 // Auto-run on load
 setTimeout(calculateAIPrediction, 1200);
+
+
+// ══════════════════════════════════════════════════════
+//  ADVANCED CHARTS ENGINE
+// ══════════════════════════════════════════════════════
+
+let advChartMode = 'monthly';
+
+function switchEarningsView(mode, btn) {
+  advChartMode = mode;
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  drawAdvEarningsChart();
+}
+
+function drawAdvEarningsChart() {
+  const canvas = document.getElementById('advEarningsChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 300;
+  canvas.width = W;
+  canvas.height = 180;
+
+  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+
+  let labels = [];
+  let data   = [];
+
+  if (advChartMode === 'monthly') {
+    // Last 6 months
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date();
+      d.setMonth(d.getMonth() - i);
+      const label = d.toLocaleDateString('en-US', { month: 'short' });
+      const m = d.getMonth();
+      const y = d.getFullYear();
+      const total = invoices
+        .filter(inv => {
+          if (!inv.date) return false;
+          const id = new Date(inv.date);
+          return id.getMonth() === m && id.getFullYear() === y;
+        })
+        .reduce((a, inv) => a + (parseFloat(inv.amount) || 0), 0);
+      labels.push(label);
+      data.push(total);
+    }
+  } else {
+    // Last 7 days
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const label = d.toLocaleDateString('en-US', { weekday: 'short' });
+      const dateStr = d.toLocaleDateString('en-US');
+      const total = invoices
+        .filter(inv => inv.date && new Date(inv.date).toLocaleDateString('en-US') === dateStr)
+        .reduce((a, inv) => a + (parseFloat(inv.amount) || 0), 0);
+      labels.push(label);
+      data.push(total);
+    }
+  }
+
+  const maxVal = Math.max(...data, 100);
+  const pad = { t: 20, r: 20, b: 40, l: 55 };
+  const cW = W - pad.l - pad.r;
+  const cH = 180 - pad.t - pad.b;
+
+  ctx.clearRect(0, 0, W, 180);
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (cH / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y);
+    ctx.lineTo(pad.l + cW, y);
+    ctx.stroke();
+    // Y labels
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '10px system-ui';
+    ctx.textAlign = 'right';
+    const val = maxVal - (maxVal / 4) * i;
+    ctx.fillText('$' + (val >= 1000 ? (val/1000).toFixed(1)+'k' : val.toFixed(0)), pad.l - 6, y + 4);
+  }
+
+  // Bars
+  const barW = (cW / labels.length) * 0.6;
+  const gap  = (cW / labels.length) * 0.4;
+
+  labels.forEach((lbl, i) => {
+    const x = pad.l + i * (cW / labels.length) + gap / 2;
+    const h = data[i] > 0 ? (data[i] / maxVal) * cH : 4;
+    const y = pad.t + cH - h;
+
+    // Gradient bar
+    const grad = ctx.createLinearGradient(0, y, 0, y + h);
+    grad.addColorStop(0, '#4f7cff');
+    grad.addColorStop(1, 'rgba(79,124,255,0.3)');
+
+    ctx.beginPath();
+    ctx.roundRect(x, y, barW, h, [4, 4, 0, 0]);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Value on top
+    if (data[i] > 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.font = '9px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText('$' + (data[i] >= 1000 ? (data[i]/1000).toFixed(1)+'k' : data[i].toFixed(0)),
+        x + barW / 2, y - 4);
+    }
+
+    // X labels
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.font = '10px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(lbl, x + barW / 2, pad.t + cH + 16);
+  });
+}
+
+function drawAdvExpenseChart() {
+  const canvas = document.getElementById('advExpenseChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 160;
+  canvas.width  = W;
+  canvas.height = 160;
+
+  const expenses = JSON.parse(localStorage.getItem('nexus_expenses') || '[]');
+
+  // Group by category
+  const cats = {};
+  expenses.forEach(e => {
+    const cat = e.category || 'Other';
+    cats[cat] = (cats[cat] || 0) + (parseFloat(e.amount) || 0);
+  });
+
+  const entries = Object.entries(cats);
+  const total   = entries.reduce((a, [,v]) => a + v, 0);
+
+  const colors = ['#4f7cff','#00e5c0','#f5a623','#ff5e6c','#9b7ffd','#00c48c'];
+
+  if (total === 0 || entries.length === 0) {
+    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.beginPath();
+    ctx.arc(W/2, 75, 55, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '11px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('No expenses', W/2, 79);
+    return;
+  }
+
+  // Donut chart
+  let startAngle = -Math.PI / 2;
+  const cx = W / 2, cy = 72;
+  const outerR = 55, innerR = 30;
+
+  entries.forEach(([cat, val], i) => {
+    const slice = (val / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, outerR, startAngle, startAngle + slice);
+    ctx.closePath();
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.fill();
+    startAngle += slice;
+  });
+
+  // Center hole
+  ctx.beginPath();
+  ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
+  ctx.fillStyle = '#111318';
+  ctx.fill();
+
+  // Center text
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.font = 'bold 13px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('$' + total.toFixed(0), cx, cy + 5);
+
+  // Legend
+  const legend = document.getElementById('expense-legend');
+  if (legend) {
+    legend.innerHTML = entries.slice(0,4).map(([cat, val], i) =>
+      `<div class="legend-item">
+        <div class="legend-dot" style="background:${colors[i % colors.length]}"></div>
+        ${cat}: $${val.toFixed(0)}
+      </div>`
+    ).join('');
+  }
+}
+
+function drawAdvInvoiceChart() {
+  const canvas = document.getElementById('advInvoiceChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 160;
+  canvas.width  = W;
+  canvas.height = 160;
+
+  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+
+  const paid    = invoices.filter(i => i.status === 'Paid').reduce((a,i) => a+(parseFloat(i.amount)||0),0);
+  const pending = invoices.filter(i => i.status === 'Pending').reduce((a,i) => a+(parseFloat(i.amount)||0),0);
+  const overdue = invoices.filter(i => i.status === 'Overdue').reduce((a,i) => a+(parseFloat(i.amount)||0),0);
+  const total   = paid + pending + overdue;
+
+  const segments = [
+    { label: 'Paid',    val: paid,    color: '#00e5c0' },
+    { label: 'Pending', val: pending, color: '#f5a623' },
+    { label: 'Overdue', val: overdue, color: '#ff5e6c' },
+  ].filter(s => s.val > 0);
+
+  const cx = W / 2, cy = 72;
+  const outerR = 55, innerR = 30;
+
+  if (total === 0) {
+    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, outerR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
+    ctx.fillStyle = '#111318';
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '11px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('No invoices', cx, cy + 5);
+    return;
+  }
+
+  let startAngle = -Math.PI / 2;
+  segments.forEach(s => {
+    const slice = (s.val / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, outerR, startAngle, startAngle + slice);
+    ctx.closePath();
+    ctx.fillStyle = s.color;
+    ctx.fill();
+    startAngle += slice;
+  });
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
+  ctx.fillStyle = '#111318';
+  ctx.fill();
+
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.font = 'bold 13px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('$' + total.toFixed(0), cx, cy + 5);
+
+  const legend = document.getElementById('invoice-legend');
+  if (legend) {
+    legend.innerHTML = segments.map(s =>
+      `<div class="legend-item">
+        <div class="legend-dot" style="background:${s.color}"></div>
+        ${s.label}: $${s.val.toFixed(0)}
+      </div>`
+    ).join('');
+  }
+}
+
+function drawAllAdvCharts() {
+  setTimeout(() => {
+    drawAdvEarningsChart();
+    drawAdvExpenseChart();
+    drawAdvInvoiceChart();
+  }, 500);
+}
+
+// Draw on load
+window.addEventListener('load', drawAllAdvCharts);
+setTimeout(drawAllAdvCharts, 800);
 
 </script>
 
