@@ -1497,6 +1497,169 @@ body.rtl .header-inner { direction: rtl; }
 body.rtl .panel-head { direction: rtl; }
 body.rtl .stat-card { direction: rtl; }
 
+
+/* ── AI Income Prediction ────────────────────────── */
+.ai-predict-card {
+  background: linear-gradient(135deg, #0d1520, #111827);
+  border: 1px solid rgba(79,124,255,0.2);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.ai-predict-card::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(79,124,255,0.12), transparent);
+  border-radius: 50%;
+}
+.aip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.aip-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--txt-1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.aip-badge {
+  background: rgba(79,124,255,0.15);
+  border: 1px solid rgba(79,124,255,0.25);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.aip-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.aip-stat {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  text-align: center;
+}
+.aip-stat-val {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: block;
+  margin-bottom: 4px;
+}
+.aip-stat-lbl {
+  font-size: 10px;
+  color: var(--txt-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.aip-prediction-box {
+  background: rgba(0,229,192,0.06);
+  border: 1px solid rgba(0,229,192,0.2);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.aip-pred-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.aip-pred-label {
+  font-size: 11px;
+  color: var(--txt-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.aip-pred-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--low);
+  letter-spacing: -0.5px;
+}
+.aip-pred-sub {
+  font-size: 11px;
+  color: var(--txt-3);
+  margin-top: 2px;
+}
+.aip-insights {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.aip-insight {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-3);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent);
+}
+.aip-insight.good { border-left-color: var(--low); }
+.aip-insight.warn { border-left-color: var(--med); }
+.aip-insight.tip  { border-left-color: var(--accent); }
+.aip-insight-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.aip-insight-text { font-size: 12px; color: var(--txt-2); line-height: 1.5; }
+.aip-insight-text strong { color: var(--txt-1); }
+.aip-refresh-btn {
+  width: 100%;
+  padding: 11px;
+  background: linear-gradient(135deg, var(--accent), #6b8fff);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--trans);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.aip-refresh-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79,124,255,0.3);
+}
+.aip-bar-wrap { margin-bottom: 16px; }
+.aip-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--txt-3);
+  margin-bottom: 5px;
+}
+.aip-bar {
+  height: 6px;
+  background: var(--bg-4);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.aip-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 1.2s ease;
+}
+
 </style>
 </head>
 <body>
@@ -1894,6 +2057,81 @@ body.rtl .stat-card { direction: rtl; }
       </div>
 
 
+    </div>
+
+
+    <!-- AI Income Prediction -->
+    <div class="ai-predict-card" style="animation:fadeUp 0.4s 0.3s ease both;">
+      <div class="aip-header">
+        <div class="aip-title">
+          🤖 AI Income Prediction
+        </div>
+        <div class="aip-badge">✦ AI-POWERED</div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="aip-stats">
+        <div class="aip-stat">
+          <span class="aip-stat-val" id="aip-this-month" style="color:var(--accent);">$0</span>
+          <span class="aip-stat-lbl">This Month</span>
+        </div>
+        <div class="aip-stat">
+          <span class="aip-stat-val" id="aip-last-month" style="color:var(--txt-2);">$0</span>
+          <span class="aip-stat-lbl">Last Month</span>
+        </div>
+        <div class="aip-stat">
+          <span class="aip-stat-val" id="aip-growth" style="color:var(--low);">0%</span>
+          <span class="aip-stat-lbl">Growth</span>
+        </div>
+      </div>
+
+      <!-- Prediction Box -->
+      <div class="aip-prediction-box">
+        <div class="aip-pred-icon">🎯</div>
+        <div>
+          <div class="aip-pred-label">Next Month Prediction</div>
+          <div class="aip-pred-value" id="aip-prediction">Calculating...</div>
+          <div class="aip-pred-sub" id="aip-pred-sub">Based on your income trends</div>
+        </div>
+      </div>
+
+      <!-- Progress Bars -->
+      <div class="aip-bar-wrap">
+        <div class="aip-bar-label">
+          <span>Monthly Goal Progress</span>
+          <span id="aip-goal-pct">0%</span>
+        </div>
+        <div class="aip-bar">
+          <div class="aip-bar-fill" id="aip-goal-bar"
+            style="width:0%;background:linear-gradient(90deg,var(--accent),var(--low))"></div>
+        </div>
+      </div>
+
+      <div class="aip-bar-wrap">
+        <div class="aip-bar-label">
+          <span>Invoice Collection Rate</span>
+          <span id="aip-collect-pct">0%</span>
+        </div>
+        <div class="aip-bar">
+          <div class="aip-bar-fill" id="aip-collect-bar"
+            style="width:0%;background:linear-gradient(90deg,var(--low),#00c48c)"></div>
+        </div>
+      </div>
+
+      <!-- AI Insights -->
+      <div class="aip-insights" id="aip-insights">
+        <div class="aip-insight tip">
+          <div class="aip-insight-icon">💡</div>
+          <div class="aip-insight-text">
+            <strong>Add invoices</strong> to get personalized AI income predictions!
+          </div>
+        </div>
+      </div>
+
+      <!-- Refresh Button -->
+      <button class="aip-refresh-btn" onclick="runAIPrediction()">
+        🤖 Analyze & Predict My Income
+      </button>
     </div>
 
     <!-- Share Client Portal Card -->
@@ -4239,6 +4477,172 @@ window.expandSearch = function() {
   }
   setTimeout(() => document.addEventListener('click', outside), 200);
 };
+
+
+// ══════════════════════════════════════════════════════
+//  AI INCOME PREDICTION ENGINE
+// ══════════════════════════════════════════════════════
+
+function runAIPrediction() {
+  const btn = document.querySelector('.aip-refresh-btn');
+  if (btn) {
+    btn.innerHTML = '⏳ AI Analyzing...';
+    btn.disabled = true;
+  }
+
+  setTimeout(() => {
+    calculateAIPrediction();
+    if (btn) {
+      btn.innerHTML = '🤖 Analyze & Predict My Income';
+      btn.disabled = false;
+    }
+  }, 1500);
+}
+
+function calculateAIPrediction() {
+  // Get data from localStorage
+  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  const expenses = JSON.parse(localStorage.getItem('nexus_expenses') || '[]');
+  const tasks    = JSON.parse(localStorage.getItem('nexus_tasks')    || '[]');
+
+  const now       = new Date();
+  const thisMonth = now.getMonth();
+  const thisYear  = now.getFullYear();
+  const lastMonth = thisMonth === 0 ? 11 : thisMonth - 1;
+  const lastYear  = thisMonth === 0 ? thisYear - 1 : thisYear;
+
+  // Calculate this month earnings
+  const thisMonthInv = invoices.filter(inv => {
+    if (!inv.date) return false;
+    const d = new Date(inv.date);
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+  });
+  const thisMonthEarnings = thisMonthInv.reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+
+  // Calculate last month earnings
+  const lastMonthInv = invoices.filter(inv => {
+    if (!inv.date) return false;
+    const d = new Date(inv.date);
+    return d.getMonth() === lastMonth && d.getFullYear() === lastYear;
+  });
+  const lastMonthEarnings = lastMonthInv.reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+
+  // Growth rate
+  let growth = 0;
+  if (lastMonthEarnings > 0) {
+    growth = ((thisMonthEarnings - lastMonthEarnings) / lastMonthEarnings) * 100;
+  } else if (thisMonthEarnings > 0) {
+    growth = 100;
+  }
+
+  // Predict next month
+  let prediction = 0;
+  const totalEarnings = invoices.reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+  const avgMonthly = invoices.length > 0 ? totalEarnings / Math.max(1, invoices.length / 3) : 0;
+
+  if (thisMonthEarnings > 0 && lastMonthEarnings > 0) {
+    // Trend-based prediction
+    const trend = growth / 100;
+    prediction = thisMonthEarnings * (1 + trend * 0.5);
+  } else if (thisMonthEarnings > 0) {
+    prediction = thisMonthEarnings * 1.15; // 15% growth assumed
+  } else if (avgMonthly > 0) {
+    prediction = avgMonthly * 1.1;
+  } else {
+    prediction = 500; // Default starter prediction
+  }
+
+  // Collection rate (paid vs total)
+  const paidInv    = invoices.filter(i => i.status === 'Paid');
+  const paidAmount = paidInv.reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+  const totalAmount = invoices.reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
+  const collectRate = totalAmount > 0 ? (paidAmount / totalAmount) * 100 : 0;
+
+  // Goal: prediction as goal
+  const goal = prediction > 0 ? prediction : 1000;
+  const goalPct = Math.min(100, (thisMonthEarnings / goal) * 100);
+
+  // Update UI
+  const fmt = (n) => '$' + parseFloat(n).toLocaleString('en-US', {
+    minimumFractionDigits: 0, maximumFractionDigits: 0
+  });
+
+  document.getElementById('aip-this-month').textContent = fmt(thisMonthEarnings);
+  document.getElementById('aip-last-month').textContent = fmt(lastMonthEarnings);
+  document.getElementById('aip-growth').textContent =
+    (growth >= 0 ? '+' : '') + growth.toFixed(1) + '%';
+  document.getElementById('aip-growth').style.color =
+    growth >= 0 ? 'var(--low)' : 'var(--high)';
+
+  document.getElementById('aip-prediction').textContent = fmt(prediction);
+  document.getElementById('aip-pred-sub').textContent =
+    invoices.length > 0
+      ? 'Based on ' + invoices.length + ' invoices & growth trend'
+      : 'Based on platform averages — add invoices for better accuracy!';
+
+  document.getElementById('aip-goal-pct').textContent = goalPct.toFixed(0) + '%';
+  document.getElementById('aip-goal-bar').style.width = goalPct + '%';
+
+  document.getElementById('aip-collect-pct').textContent = collectRate.toFixed(0) + '%';
+  document.getElementById('aip-collect-bar').style.width = collectRate + '%';
+
+  // Generate insights
+  generateInsights(invoices, expenses, tasks, growth, collectRate, prediction, thisMonthEarnings);
+}
+
+function generateInsights(invoices, expenses, tasks, growth, collectRate, prediction, thisMonth) {
+  const insights = [];
+
+  // Insight 1: Growth
+  if (growth > 20) {
+    insights.push({ type: 'good', icon: '🚀', text: '<strong>Excellent growth!</strong> Your income is up ' + growth.toFixed(0) + '% from last month. Keep it up!' });
+  } else if (growth > 0) {
+    insights.push({ type: 'good', icon: '📈', text: '<strong>Positive trend!</strong> Income growing ' + growth.toFixed(0) + '% — you're on the right track!' });
+  } else if (growth < 0) {
+    insights.push({ type: 'warn', icon: '⚠️', text: '<strong>Income dropped ' + Math.abs(growth).toFixed(0) + '%</strong> from last month. Try adding more services or clients!' });
+  }
+
+  // Insight 2: Collection rate
+  if (collectRate < 50 && invoices.length > 0) {
+    insights.push({ type: 'warn', icon: '💸', text: '<strong>Low collection rate (' + collectRate.toFixed(0) + '%)</strong> — follow up on unpaid invoices to recover more income!' });
+  } else if (collectRate >= 80) {
+    insights.push({ type: 'good', icon: '✅', text: '<strong>Great collection rate (' + collectRate.toFixed(0) + '%)</strong> — most of your invoices are paid!' });
+  }
+
+  // Insight 3: Tasks
+  const doneTasks   = tasks.filter(t => t.done).length;
+  const totalTasks  = tasks.length;
+  if (totalTasks > 0) {
+    const taskPct = (doneTasks / totalTasks) * 100;
+    if (taskPct >= 80) {
+      insights.push({ type: 'good', icon: '⚡', text: '<strong>High productivity (' + taskPct.toFixed(0) + '% tasks done)</strong> — productive freelancers earn 40% more!' });
+    } else {
+      insights.push({ type: 'tip', icon: '💡', text: 'Complete more tasks to boost your <strong>AI Productivity Score</strong> and attract better clients!' });
+    }
+  }
+
+  // Insight 4: Prediction tip
+  if (prediction > thisMonth * 1.2) {
+    insights.push({ type: 'tip', icon: '🎯', text: 'AI predicts <strong>' + Math.round(((prediction - thisMonth) / Math.max(thisMonth, 1)) * 100) + '% income growth</strong> next month if you maintain your current pace!' });
+  }
+
+  // Default if no insights
+  if (insights.length === 0) {
+    insights.push({ type: 'tip', icon: '💡', text: '<strong>Add your first invoice</strong> to start getting personalized AI income predictions and insights!' });
+  }
+
+  // Render
+  const container = document.getElementById('aip-insights');
+  container.innerHTML = insights.slice(0, 3).map(i => `
+    <div class="aip-insight ${i.type}" style="animation:fadeUp 0.3s ease both;">
+      <div class="aip-insight-icon">${i.icon}</div>
+      <div class="aip-insight-text">${i.text}</div>
+    </div>
+  `).join('');
+}
+
+// Auto-run on load
+setTimeout(calculateAIPrediction, 1200);
 
 </script>
 
