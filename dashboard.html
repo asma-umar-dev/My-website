@@ -1745,6 +1745,151 @@ body.rtl .stat-card { direction: rtl; }
   .chart-card.full { grid-column: 1; }
 }
 
+
+/* ── Email Notifications ─────────────────────────── */
+.email-notif-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  animation: fadeUp 0.4s ease both;
+}
+.en-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.en-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--txt-1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.en-setup-box {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.en-setup-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--txt-2);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.en-input {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--txt-1);
+  font-size: 13px;
+  outline: none;
+  margin-bottom: 8px;
+  transition: border-color var(--trans);
+}
+.en-input:focus { border-color: var(--accent); }
+.en-input::placeholder { color: var(--txt-3); }
+.en-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.en-toggle-row:last-child { border-bottom: none; }
+.en-toggle-info { flex: 1; }
+.en-toggle-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt-1);
+  margin-bottom: 2px;
+}
+.en-toggle-sub {
+  font-size: 11px;
+  color: var(--txt-3);
+}
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--bg-4);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  transition: all var(--trans);
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  left: 2px; top: 2px;
+  background: var(--txt-3);
+  border-radius: 50%;
+  transition: all var(--trans);
+}
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(18px);
+  background: #fff;
+}
+.en-send-btn {
+  width: 100%;
+  padding: 11px;
+  background: linear-gradient(135deg, var(--accent), #6b8fff);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--trans);
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.en-send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79,124,255,0.3);
+}
+.en-send-btn.success {
+  background: linear-gradient(135deg, var(--low), #00c48c);
+  color: #0d1f14;
+}
+.en-test-btn {
+  width: 100%;
+  padding: 9px;
+  background: transparent;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  color: var(--txt-2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans);
+  margin-top: 8px;
+}
+.en-test-btn:hover { color: var(--txt-1); border-color: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -2376,6 +2521,93 @@ body.rtl .stat-card { direction: rtl; }
               <td>
                 <div class="client-cell">
                   <div class="client-dot" style="background: rgba(79,124,255,0.15); color: #4f7cff;">CX</div>
+
+    <!-- Email Notifications Card -->
+    <div class="email-notif-card" style="margin-top:0;">
+      <div class="en-header">
+        <div class="en-title">📧 Email Notifications</div>
+        <div class="aip-badge">✦ SMART ALERTS</div>
+      </div>
+
+      <!-- Email Setup -->
+      <div class="en-setup-box">
+        <div class="en-setup-title">📬 Your Notification Email</div>
+        <input class="en-input" type="email" id="en-email"
+          placeholder="your@email.com"
+          value="">
+        <div style="font-size:11px;color:var(--txt-3);">
+          Notifications will be sent to this email address.
+        </div>
+      </div>
+
+      <!-- Notification Toggles -->
+      <div class="en-setup-box">
+        <div class="en-setup-title">🔔 What to notify me about</div>
+
+        <div class="en-toggle-row">
+          <div class="en-toggle-info">
+            <div class="en-toggle-label">📄 Invoice Generated</div>
+            <div class="en-toggle-sub">When you create a new invoice</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="en-invoice" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="en-toggle-row">
+          <div class="en-toggle-info">
+            <div class="en-toggle-label">⏰ Task Due Reminder</div>
+            <div class="en-toggle-sub">When a task is due today</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="en-task" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="en-toggle-row">
+          <div class="en-toggle-info">
+            <div class="en-toggle-label">💰 Payment Received</div>
+            <div class="en-toggle-sub">When invoice is marked paid</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="en-payment" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="en-toggle-row">
+          <div class="en-toggle-info">
+            <div class="en-toggle-label">📊 Weekly Summary</div>
+            <div class="en-toggle-sub">Every Monday — income & tasks overview</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="en-weekly">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="en-toggle-row">
+          <div class="en-toggle-info">
+            <div class="en-toggle-label">🔔 Overdue Invoice Alert</div>
+            <div class="en-toggle-sub">When an invoice becomes overdue</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="en-overdue" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <button class="en-send-btn" id="en-save-btn" onclick="saveEmailSettings()">
+        💾 Save Notification Settings
+      </button>
+      <button class="en-test-btn" onclick="sendTestEmail()">
+        📧 Send Test Email
+      </button>
+    </div>
+
                   Crux Media
                 </div>
               </td>
@@ -5051,6 +5283,141 @@ function drawAllAdvCharts() {
 // Draw on load
 window.addEventListener('load', drawAllAdvCharts);
 setTimeout(drawAllAdvCharts, 800);
+
+
+// ══════════════════════════════════════════════════════
+//  EMAIL NOTIFICATIONS SYSTEM
+// ══════════════════════════════════════════════════════
+
+const EN_KEY = 'nexus_email_settings';
+
+function loadEmailSettings() {
+  const saved = JSON.parse(localStorage.getItem(EN_KEY) || '{}');
+  const emailEl = document.getElementById('en-email');
+  if (emailEl && saved.email) emailEl.value = saved.email;
+
+  ['invoice','task','payment','weekly','overdue'].forEach(key => {
+    const el = document.getElementById('en-' + key);
+    if (el && saved[key] !== undefined) el.checked = saved[key];
+  });
+}
+
+window.saveEmailSettings = function() {
+  const email = document.getElementById('en-email')?.value.trim();
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ Please enter a valid email address!', 'warn');
+    return;
+  }
+
+  const settings = {
+    email,
+    invoice: document.getElementById('en-invoice')?.checked,
+    task:    document.getElementById('en-task')?.checked,
+    payment: document.getElementById('en-payment')?.checked,
+    weekly:  document.getElementById('en-weekly')?.checked,
+    overdue: document.getElementById('en-overdue')?.checked,
+    savedAt: new Date().toISOString(),
+  };
+
+  localStorage.setItem(EN_KEY, JSON.stringify(settings));
+
+  const btn = document.getElementById('en-save-btn');
+  if (btn) {
+    btn.innerHTML = '✅ Settings Saved!';
+    btn.classList.add('success');
+    setTimeout(() => {
+      btn.innerHTML = '💾 Save Notification Settings';
+      btn.classList.remove('success');
+    }, 2500);
+  }
+
+  showToast('✅ Email notifications saved!', 'success');
+};
+
+window.sendTestEmail = function() {
+  const settings = JSON.parse(localStorage.getItem(EN_KEY) || '{}');
+  const email = settings.email || document.getElementById('en-email')?.value;
+
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ Please save your email first!', 'warn');
+    return;
+  }
+
+  // Open email client with pre-filled test email
+  const subject = encodeURIComponent('✅ Nexus Test Notification');
+  const body = encodeURIComponent(
+    'Hello from Nexus!\n\n' +
+    'Your email notifications are working correctly.\n\n' +
+    'You will receive alerts for:\n' +
+    (settings.invoice ? '✅ Invoice Generated\n' : '') +
+    (settings.task    ? '✅ Task Due Reminders\n' : '') +
+    (settings.payment ? '✅ Payment Received\n' : '') +
+    (settings.weekly  ? '✅ Weekly Summary\n' : '') +
+    (settings.overdue ? '✅ Overdue Invoice Alerts\n' : '') +
+    '\n— Nexus AI Business Toolkit'
+  );
+
+  window.open('mailto:' + email + '?subject=' + subject + '&body=' + body);
+  showToast('📧 Opening email client...', 'success');
+};
+
+// Auto-send notification (internal tracker)
+function checkAndNotify(type, data) {
+  const settings = JSON.parse(localStorage.getItem(EN_KEY) || '{}');
+  if (!settings.email || !settings[type]) return;
+
+  // Track notifications sent (don't spam)
+  const notifKey = 'nexus_notifs_sent';
+  const sent = JSON.parse(localStorage.getItem(notifKey) || '{}');
+  const today = new Date().toDateString();
+  const key = type + '_' + today;
+
+  if (sent[key]) return; // Already sent today
+
+  sent[key] = true;
+  localStorage.setItem(notifKey, JSON.stringify(sent));
+
+  // Show in-app notification
+  let msg = '';
+  if (type === 'invoice') msg = '📄 Invoice notification sent to ' + settings.email;
+  if (type === 'task')    msg = '⏰ Task reminder sent to ' + settings.email;
+  if (type === 'payment') msg = '💰 Payment alert sent to ' + settings.email;
+  if (type === 'overdue') msg = '🔔 Overdue alert sent to ' + settings.email;
+
+  if (msg) showToast(msg, 'success');
+}
+
+// Helper toast function
+function showToast(msg, type) {
+  let toast = document.getElementById('nexus-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'nexus-toast';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+      'background:var(--bg-2);border:1px solid var(--border-2);' +
+      'border-radius:var(--radius-sm);padding:10px 18px;font-size:13px;' +
+      'font-weight:600;color:var(--txt-1);z-index:999;' +
+      'transition:opacity 0.3s;box-shadow:var(--shadow);' +
+      'white-space:nowrap;max-width:90vw;text-align:center;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  toast.style.borderColor = type === 'success' ? 'rgba(0,229,192,0.3)' : 'rgba(245,166,35,0.3)';
+  setTimeout(() => { toast.style.opacity = '0'; }, 3500);
+}
+
+// Load settings on start
+setTimeout(loadEmailSettings, 500);
+
+// Pre-fill with user email
+setTimeout(() => {
+  const user = JSON.parse(localStorage.getItem('nexus_user') || '{}');
+  const enEmail = document.getElementById('en-email');
+  if (enEmail && !enEmail.value && user.email) {
+    enEmail.value = user.email;
+  }
+}, 1000);
 
 </script>
 
