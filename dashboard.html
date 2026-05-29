@@ -5019,7 +5019,7 @@ function drawAdvEarningsChart() {
     grad.addColorStop(1, 'rgba(79,124,255,0.3)');
 
     ctx.beginPath();
-    ctx.roundRect(x, y, barW, h, [4, 4, 0, 0]);
+    ctx.rect(x, y, barW, h, [4, 4, 0, 0]);
     ctx.fillStyle = grad;
     ctx.fill();
 
