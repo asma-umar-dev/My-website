@@ -1754,97 +1754,6 @@ body.rtl .stat-card { direction: rtl; }
   padding: 20px;
   animation: fadeUp 0.4s ease both;
 }
-
-/* ══ BOTTOM SHEET — NOTIFICATION SETTINGS ══ */
-.bs-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(4px);
-  z-index: 800;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-.bs-overlay.bs-open { opacity: 1; pointer-events: all; }
-
-.bs-sheet {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  z-index: 801;
-  background: var(--bg-2);
-  border-radius: 22px 22px 0 0;
-  border-top: 1px solid var(--border-2);
-  max-height: 88vh;
-  display: flex; flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-  box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
-}
-.bs-sheet.bs-open { transform: translateY(0); }
-
-.bs-handle {
-  width: 38px; height: 4px;
-  background: var(--border-2); border-radius: 4px;
-  margin: 12px auto 0; flex-shrink: 0; cursor: grab;
-}
-.bs-head {
-  padding: 14px 20px 12px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-shrink: 0;
-}
-.bs-head-left { display: flex; align-items: center; gap: 10px; }
-.bs-head h2 {
-  font-family: var(--font-head); font-size: 15px; font-weight: 700;
-  color: var(--txt-1);
-}
-.bs-close-btn {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: var(--bg-3); border: 1px solid var(--border);
-  color: var(--txt-2); cursor: pointer; font-size: 15px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all var(--trans);
-}
-.bs-close-btn:hover { border-color: var(--high); color: var(--high); }
-.bs-body {
-  flex: 1; overflow-y: auto; padding: 18px 20px;
-  display: flex; flex-direction: column; gap: 14px;
-}
-.bs-section {
-  background: var(--bg-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-.bs-section-title {
-  padding: 10px 14px 8px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
-  text-transform: uppercase; color: var(--txt-2);
-  border-bottom: 1px solid var(--border);
-}
-.bs-foot {
-  padding: 14px 20px 28px;
-  border-top: 1px solid var(--border);
-  display: flex; gap: 10px; flex-shrink: 0;
-}
-.bs-save-btn {
-  flex: 1; padding: 12px;
-  background: linear-gradient(135deg, var(--accent), #6b8fff);
-  border: none; border-radius: var(--radius-sm);
-  color: #fff; font-size: 13px; font-weight: 700;
-  cursor: pointer; display: flex; align-items: center;
-  justify-content: center; gap: 8px;
-  transition: all var(--trans); font-family: var(--font-body);
-}
-.bs-save-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,124,255,0.35); }
-.bs-save-btn.success { background: linear-gradient(135deg, var(--low), #00c48c); color: #0d1f14; }
-.bs-test-btn {
-  padding: 12px 16px;
-  background: transparent; border: 1px solid var(--border-2);
-  border-radius: var(--radius-sm); color: var(--txt-2);
-  font-size: 12px; font-weight: 600; font-family: var(--font-body);
-  cursor: pointer; transition: all var(--trans); white-space: nowrap;
-}
-.bs-test-btn:hover { border-color: var(--accent); color: var(--txt-1); }
 .en-header {
   display: flex;
   align-items: center;
@@ -2107,7 +2016,7 @@ body.rtl .stat-card { direction: rtl; }
 
 
         <!-- Notification Bell -->
-        <div class="icon-btn" id="notif-btn" title="Notification Settings" onclick="openNotifBS()">
+        <div class="icon-btn" id="notif-btn" title="Notifications" onclick="toggleNotif(event)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
@@ -2612,7 +2521,6 @@ body.rtl .stat-card { direction: rtl; }
               <td>
                 <div class="client-cell">
                   <div class="client-dot" style="background: rgba(79,124,255,0.15); color: #4f7cff;">CX</div>
-
 
 
                   Crux Media
@@ -3312,107 +3220,6 @@ document.getElementById('inv-btn').addEventListener('click', function() {
     <p style="margin-top:12px;font-size:11px;color:#c0c3d4;">Tip: In print dialog → "Save as PDF" to download</p>
   </div>
 </div>
-
-<!-- ══ BOTTOM SHEET — NOTIFICATION SETTINGS ══ -->
-<div class="bs-overlay" id="bsOverlay" onclick="closeNotifBS()"></div>
-
-<div class="bs-sheet" id="bsSheet">
-  <div class="bs-handle"></div>
-
-  <div class="bs-head">
-    <div class="bs-head-left">
-      <span style="font-size:20px;">📧</span>
-      <h2>Email Notifications</h2>
-      <div class="aip-badge">✦ SMART ALERTS</div>
-    </div>
-    <button class="bs-close-btn" onclick="closeNotifBS()">✕</button>
-  </div>
-
-  <div class="bs-body">
-
-    <!-- Email input -->
-    <div class="bs-section">
-      <div class="bs-section-title">📬 Your Notification Email</div>
-      <div style="padding:14px;">
-        <input class="en-input" type="email" id="en-email"
-          placeholder="your@email.com" value=""
-          style="margin-bottom:6px;">
-        <div style="font-size:11px;color:var(--txt-3);">
-          Notifications will be sent to this email address.
-        </div>
-      </div>
-    </div>
-
-    <!-- Toggles -->
-    <div class="bs-section">
-      <div class="bs-section-title">🔔 What to notify me about</div>
-
-      <div class="en-toggle-row" style="padding:12px 14px;">
-        <div class="en-toggle-info">
-          <div class="en-toggle-label">📄 Invoice Generated</div>
-          <div class="en-toggle-sub">When you create a new invoice</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="en-invoice" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div class="en-toggle-row" style="padding:12px 14px;">
-        <div class="en-toggle-info">
-          <div class="en-toggle-label">⏰ Task Due Reminder</div>
-          <div class="en-toggle-sub">When a task is due today</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="en-task" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div class="en-toggle-row" style="padding:12px 14px;">
-        <div class="en-toggle-info">
-          <div class="en-toggle-label">💰 Payment Received</div>
-          <div class="en-toggle-sub">When invoice is marked paid</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="en-payment" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div class="en-toggle-row" style="padding:12px 14px;">
-        <div class="en-toggle-info">
-          <div class="en-toggle-label">📊 Weekly Summary</div>
-          <div class="en-toggle-sub">Every Monday — income & tasks overview</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="en-weekly">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div class="en-toggle-row" style="padding:12px 14px;border-bottom:none;">
-        <div class="en-toggle-info">
-          <div class="en-toggle-label">🔔 Overdue Invoice Alert</div>
-          <div class="en-toggle-sub">When an invoice becomes overdue</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="en-overdue" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="bs-foot">
-    <button class="bs-save-btn" id="bs-save-btn" onclick="saveEmailSettings()">
-      💾 Save Notification Settings
-    </button>
-    <button class="bs-test-btn" onclick="sendTestEmail()">📧 Test</button>
-  </div>
-</div>
-
 </body>
 </html>`;
 
@@ -5528,39 +5335,18 @@ setTimeout(() => {
 }, 1000);
 
 
-// ══ BOTTOM SHEET FUNCTIONS ══
-window.openNotifBS = function() {
-  loadEmailSettingsIntoBS();
-  document.getElementById('bsOverlay').classList.add('bs-open');
-  document.getElementById('bsSheet').classList.add('bs-open');
-  document.body.style.overflow = 'hidden';
+window.toggleNotifSettings = function() {
+  const panel = document.getElementById('notif-settings-panel');
+  const arrow = document.getElementById('notif-arrow');
+  if (!panel) return;
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.textContent = isOpen ? '▼' : '▲';
+  if (!isOpen) {
+    setTimeout(loadEmailSettings, 100);
+  }
 };
-window.closeNotifBS = function() {
-  document.getElementById('bsOverlay').classList.remove('bs-open');
-  document.getElementById('bsSheet').classList.remove('bs-open');
-  document.body.style.overflow = '';
-};
-function loadEmailSettingsIntoBS() {
-  try {
-    const s = JSON.parse(localStorage.getItem('nexus_email_settings') || '{}');
-    if(s.email) document.getElementById('en-email').value = s.email;
-    if(typeof s.invoice  !== 'undefined') document.getElementById('en-invoice').checked  = s.invoice;
-    if(typeof s.task     !== 'undefined') document.getElementById('en-task').checked     = s.task;
-    if(typeof s.payment  !== 'undefined') document.getElementById('en-payment').checked  = s.payment;
-    if(typeof s.weekly   !== 'undefined') document.getElementById('en-weekly').checked   = s.weekly;
-    if(typeof s.overdue  !== 'undefined') document.getElementById('en-overdue').checked  = s.overdue;
-  } catch(e) {}
-}
-// Override saveEmailSettings to also close bottom sheet
-const _origSave = window.saveEmailSettings;
-window.saveEmailSettings = function() {
-  if(_origSave) _origSave();
-  setTimeout(() => closeNotifBS(), 400);
-};
-// ESC key
-document.addEventListener('keydown', function(e) {
-  if(e.key === 'Escape') closeNotifBS();
-});
+
 </script>
 
 <!-- ── Settings Modal ──────────────────────────────── -->
@@ -5596,17 +5382,91 @@ document.addEventListener('keydown', function(e) {
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;justify-content:space-between;
-        padding:14px 16px;background:var(--bg-3);border-radius:var(--radius-sm);
-        margin-bottom:4px;">
-        <div>
-          <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🔔 Notifications</div>
-          <div style="font-size:11px;color:var(--txt-3);">Email & push alerts</div>
+      <!-- Notifications Expandable Section -->
+      <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+        margin-bottom:4px;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;
+          padding:14px 16px;cursor:pointer;"
+          onclick="toggleNotifSettings()">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🔔 Notifications</div>
+            <div style="font-size:11px;color:var(--txt-3);">Email & push alerts</div>
+          </div>
+          <span id="notif-arrow" style="color:var(--txt-3);font-size:12px;">▼</span>
         </div>
-        <div style="width:44px;height:24px;background:var(--accent);border-radius:20px;
-          display:flex;align-items:center;padding:3px;cursor:pointer;">
-          <div style="width:18px;height:18px;background:#fff;border-radius:50%;
-            margin-left:auto;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>
+
+        <!-- Expanded Notification Settings -->
+        <div id="notif-settings-panel" style="display:none;
+          border-top:1px solid var(--border);padding:14px 16px;">
+
+          <div style="font-size:11px;font-weight:600;color:var(--txt-3);
+            text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+            📬 Notification Email
+          </div>
+          <input class="en-input" type="email" id="en-email"
+            placeholder="your@email.com" style="margin-bottom:12px;">
+
+          <div style="font-size:11px;font-weight:600;color:var(--txt-3);
+            text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">
+            🔔 Alert Types
+          </div>
+
+          <div class="en-toggle-row">
+            <div class="en-toggle-info">
+              <div class="en-toggle-label">📄 Invoice Generated</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="en-invoice" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="en-toggle-row">
+            <div class="en-toggle-info">
+              <div class="en-toggle-label">⏰ Task Due Reminder</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="en-task" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="en-toggle-row">
+            <div class="en-toggle-info">
+              <div class="en-toggle-label">💰 Payment Received</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="en-payment" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="en-toggle-row">
+            <div class="en-toggle-info">
+              <div class="en-toggle-label">📊 Weekly Summary</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="en-weekly">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="en-toggle-row" style="margin-bottom:12px;">
+            <div class="en-toggle-info">
+              <div class="en-toggle-label">🔔 Overdue Invoice Alert</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="en-overdue" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <button class="en-send-btn" id="en-save-btn" onclick="saveEmailSettings()">
+            💾 Save Settings
+          </button>
+          <button class="en-test-btn" onclick="sendTestEmail()" style="margin-top:6px;">
+            📧 Send Test Email
+          </button>
         </div>
       </div>
 
