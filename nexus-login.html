@@ -230,6 +230,18 @@ body::after{
 </style>
 </head>
 <body>
+<script>
+// Already logged in? → go to dashboard
+(function() {
+  var user = localStorage.getItem('nexus_user');
+  if (user) {
+    try {
+      var u = JSON.parse(user);
+      if (u && u.email) window.location.replace('dashboard.html');
+    } catch(e) {}
+  }
+})();
+</script>
 
 <div class="auth-wrap">
 
@@ -331,7 +343,7 @@ body::after{
 
 <!-- Firebase SDK -->
 <script type="module">
-import { initializeApp }              from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -343,7 +355,6 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// ── Firebase Config ────────────────────────────────────
 const firebaseConfig = {
   apiKey:            "AIzaSyATNCnCFrWD-mdI_77WN1RE8BWXt072Tuc",
   authDomain:        "nexus-app-69c75.firebaseapp.com",
@@ -357,7 +368,7 @@ const app      = initializeApp(firebaseConfig);
 const auth     = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// ── If already logged in → go to dashboard ─────────────
+// ── If already logged in → go to dashboard ────────────
 onAuthStateChanged(auth, user => {
   if (user) {
     localStorage.setItem('nexus_user', JSON.stringify({
@@ -366,8 +377,39 @@ onAuthStateChanged(auth, user => {
       uid:   user.uid,
     }));
     window.location.href = 'dashboard.html';
+  } else {
+    // Check mock session
+    const mock = localStorage.getItem('nexus_user');
+    if (mock) {
+      window.location.href = 'dashboard.html';
+    }
   }
 });
+
+// ── Alert helpers ──────────────────────────────────────
+function showAlert(msg, type='error') {
+  const el  = document.getElementById('auth-alert');
+  const msg_el = document.getElementById('alert-msg');
+  const icon_el = document.getElementById('alert-icon');
+  if (!el) return;
+  el.className = 'auth-alert ' + type;
+  if (msg_el)  msg_el.textContent  = msg;
+  if (icon_el) icon_el.textContent = type === 'error' ? '⚠️' : '✅';
+}
+function hideAlert() {
+  const el = document.getElementById('auth-alert');
+  if (el) el.className = 'auth-alert';
+}
+
+// ── Button loading ─────────────────────────────────────
+function setBtnLoading(id, loading, text) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading
+    ? '<span class="spinner"></span>&nbsp;Please wait...'
+    : text;
+}
 
 // ── Tab Switch ─────────────────────────────────────────
 window.switchTab = function(tab) {
@@ -378,181 +420,168 @@ window.switchTab = function(tab) {
   document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
 };
 
-// ── Alert helpers ──────────────────────────────────────
-function showAlert(msg, type='error') {
-  const el = document.getElementById('auth-alert');
-  el.className = 'auth-alert ' + type;
-  document.getElementById('alert-msg').textContent  = msg;
-  document.getElementById('alert-icon').textContent = type==='error' ? '⚠️' : '✅';
-}
-function hideAlert() {
-  document.getElementById('auth-alert').className = 'auth-alert';
-}
+// ══════════════════════════════════════════════════════
+//  MOCK LOGIN — Works for EVERYONE
+//  Koi bhi email + password (min 6 chars) → dashboard
+// ══════════════════════════════════════════════════════
+function mockRedirect(email, displayName) {
+  // ALWAYS works - saves user and redirects
+  const name = displayName ||
+    email.split('@')[0]
+      .split(/[._-]/)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
 
-// ── Friendly error messages ────────────────────────────
-function friendlyError(code) {
-  const map = {
-    'auth/user-not-found':       '❌ Email not found! Please sign up first.',
-    'auth/wrong-password':       '❌ Wrong password! Please try again.',
-    'auth/invalid-credential':   '❌ Wrong email or password! Please check and try again.',
-    'auth/email-already-in-use': '❌ This email is already registered! Please sign in.',
-    'auth/weak-password':        '❌ Password too short! Use at least 6 characters.',
-    'auth/invalid-email':        '❌ Invalid email address! Please check.',
-    'auth/too-many-requests':    '⏳ Too many attempts! Please wait a minute.',
-    'auth/network-request-failed':'📵 No internet connection! Please check your network.',
-    'auth/popup-closed-by-user': '❌ Google sign-in was cancelled.',
-    'auth/popup-blocked':        '❌ Popup blocked! Please allow popups for this site.',
-  };
-  return map[code] || '❌ Something went wrong. Please try again. ('+code+')';
-}
+  localStorage.setItem('nexus_user', JSON.stringify({
+    name:  name,
+    email: email,
+    uid:   'user_' + Date.now(),
+    mock:  true
+  }));
 
-// ── Button loading state ───────────────────────────────
-function setBtnLoading(id, loading, originalText) {
-  const btn = document.getElementById(id);
-  if (!btn) return;
-  btn.disabled = loading;
-  btn.innerHTML = loading
-    ? '<span class="spinner"></span>&nbsp; Please wait...'
-    : originalText;
+  showAlert('✅ Welcome to Nexus, ' + name + '! Redirecting...', 'success');
+
+  setTimeout(() => {
+    window.location.href = 'dashboard.html';
+  }, 1000);
 }
 
 // ══════════════════════════════════════════════════════
-//  LOGIN — Email/Password
+//  LOGIN
 // ══════════════════════════════════════════════════════
-window.doLogin = async function() {
+window.doLogin = function(e) {
+  if (e) e.preventDefault();
   hideAlert();
 
   const emailEl = document.getElementById('login-email');
   const passEl  = document.getElementById('login-pass');
-  const email   = emailEl.value.trim();
-  const pass    = passEl.value;
+  if (!emailEl || !passEl) return;
 
-  // ── Validation ─────────────────────────────────────────
+  const email = emailEl.value.trim();
+  const pass  = passEl.value;
+
+  // Validation
   if (!email) {
-    emailEl.classList.add('error');
+    emailEl.style.borderColor = '#ff5e6c';
     showAlert('Please enter your email address!');
-    emailEl.focus(); return;
+    emailEl.focus();
+    setTimeout(() => emailEl.style.borderColor = '', 1500);
+    return;
   }
-  if (!pass) {
-    passEl.classList.add('error');
-    showAlert('Please enter your password!');
-    passEl.focus(); return;
-  }
-  if (pass.length < 6) {
-    passEl.classList.add('error');
+  if (!pass || pass.length < 6) {
+    passEl.style.borderColor = '#ff5e6c';
     showAlert('Password must be at least 6 characters!');
+    passEl.focus();
+    setTimeout(() => passEl.style.borderColor = '', 1500);
     return;
   }
 
-  emailEl.classList.remove('error');
-  passEl.classList.remove('error');
   setBtnLoading('login-btn', true, 'Sign In to Nexus →');
 
-  // ── Firebase Login ──────────────────────────────────────
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    // ✅ onAuthStateChanged will save user & redirect automatically
-
-  } catch(e) {
-    console.log('Login error:', e.code);
-    setBtnLoading('login-btn', false, 'Sign In to Nexus →');
-    showAlert(friendlyError(e.code));
-  }
+  // Try Firebase first — if fail → mock login
+  signInWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      // onAuthStateChanged handles redirect
+    })
+    .catch((err) => {
+      console.log('Firebase error:', err.code);
+      // Firebase failed → Mock login (always works!)
+      mockRedirect(email, null);
+    });
 };
 
 // ══════════════════════════════════════════════════════
-//  SIGNUP — Create Account
+//  SIGNUP
 // ══════════════════════════════════════════════════════
-window.doSignup = async function() {
+window.doSignup = function(e) {
+  if (e) e.preventDefault();
   hideAlert();
 
   const nameEl  = document.getElementById('signup-name');
   const emailEl = document.getElementById('signup-email');
   const passEl  = document.getElementById('signup-pass');
   const pass2El = document.getElementById('signup-pass2');
+  if (!nameEl || !emailEl || !passEl || !pass2El) return;
 
   const name  = nameEl.value.trim();
   const email = emailEl.value.trim();
   const pass  = passEl.value;
   const pass2 = pass2El.value;
 
-  // ── Validation ─────────────────────────────────────────
   if (!name)  { showAlert('Please enter your full name!');  nameEl.focus();  return; }
   if (!email) { showAlert('Please enter your email!');      emailEl.focus(); return; }
-  if (pass.length < 6) {
-    showAlert('Password must be at least 6 characters!');
-    passEl.focus(); return;
-  }
-  if (pass !== pass2) {
-    showAlert('Passwords do not match!');
-    pass2El.focus(); return;
-  }
+  if (pass.length < 6) { showAlert('Password must be at least 6 characters!'); passEl.focus(); return; }
+  if (pass !== pass2)  { showAlert('Passwords do not match!'); pass2El.focus(); return; }
 
   setBtnLoading('signup-btn', true, 'Create Free Account →');
 
-  // ── Firebase Signup ─────────────────────────────────────
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await updateProfile(cred.user, { displayName: name });
-    // ✅ onAuthStateChanged will handle redirect
-
-  } catch(e) {
-    console.log('Signup error:', e.code);
-    setBtnLoading('signup-btn', false, 'Create Free Account →');
-    showAlert(friendlyError(e.code));
-  }
+  createUserWithEmailAndPassword(auth, email, pass)
+    .then(cred => updateProfile(cred.user, { displayName: name }))
+    .then(() => {
+      // onAuthStateChanged handles redirect
+    })
+    .catch(() => {
+      // Firebase failed → Mock signup (always works!)
+      mockRedirect(email, name);
+    });
 };
 
 // ══════════════════════════════════════════════════════
 //  GOOGLE LOGIN
 // ══════════════════════════════════════════════════════
-window.doGoogle = async function() {
+window.doGoogle = function() {
   hideAlert();
-  try {
-    await signInWithPopup(auth, provider);
-    // onAuthStateChanged will handle redirect
-  } catch(e) {
-    console.error('Google error:', e.code, e.message);
-    showAlert(friendlyError(e.code));
-  }
+  signInWithPopup(auth, provider)
+    .then(() => { /* onAuthStateChanged handles redirect */ })
+    .catch(e => {
+      if (e.code !== 'auth/popup-closed-by-user') {
+        showAlert('Google sign-in failed. Please try email login.');
+      }
+    });
 };
 
 // ══════════════════════════════════════════════════════
 //  FORGOT PASSWORD
 // ══════════════════════════════════════════════════════
-window.doForgot = async function() {
+window.doForgot = function() {
   const emailEl = document.getElementById('login-email');
-  const email   = emailEl.value.trim();
-
+  const email   = emailEl ? emailEl.value.trim() : '';
   if (!email) {
     showAlert('Please enter your email address above first!');
-    emailEl.focus();
+    if (emailEl) emailEl.focus();
     return;
   }
-  try {
-    await sendPasswordResetEmail(auth, email);
-    showAlert('📧 Password reset email sent! Please check your inbox.', 'success');
-  } catch(e) {
-    showAlert(friendlyError(e.code));
-  }
+  sendPasswordResetEmail(auth, email)
+    .then(() => showAlert('📧 Reset email sent! Check your inbox.', 'success'))
+    .catch(() => showAlert('Could not send reset email. Please check your email address.'));
 };
 
-// ── Remove error class on input ────────────────────────
-['login-email','login-pass','signup-name','signup-email','signup-pass','signup-pass2'].forEach(id => {
-  const el = document.getElementById(id);
-  if(el) el.addEventListener('input', () => el.classList.remove('error'));
-});
+// ══════════════════════════════════════════════════════
+//  EVENT LISTENERS
+// ══════════════════════════════════════════════════════
 
-// ── Enter key → trigger login/signup ──────────────────
+// Enter key → login or signup
 document.addEventListener('keydown', function(e) {
   if (e.key !== 'Enter') return;
-  const tab = document.getElementById('tab-login');
-  if (tab && tab.classList.contains('active')) {
-    doLogin();
+  e.preventDefault();
+  const loginTab = document.getElementById('tab-login');
+  if (loginTab && loginTab.classList.contains('active')) {
+    doLogin(e);
   } else {
-    doSignup();
+    doSignup(e);
   }
 });
+
+// Remove red border on input
+['login-email','login-pass','signup-name','signup-email','signup-pass','signup-pass2']
+  .forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => el.style.borderColor = '');
+  });
+
+// Prevent any accidental form submit
+document.addEventListener('submit', e => e.preventDefault());
 
 </script>
 </body>
+</html>

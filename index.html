@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+// If already logged in → skip landing page → go to dashboard
+(function() {
+  var user = localStorage.getItem('nexus_user');
+  if (user) {
+    try {
+      var u = JSON.parse(user);
+      if (u && u.email) {
+        window.location.replace('dashboard.html');
+      }
+    } catch(e) {}
+  }
+})();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nexus — AI Business Toolkit for Freelancers</title>
