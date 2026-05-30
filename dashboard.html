@@ -4450,10 +4450,12 @@ setTimeout(() => {
 
     <!-- Dark Mode -->
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:12px 14px;background:var(--bg-3);border-radius:10px;margin-bottom:8px;">
+      padding:12px 14px;background:var(--bg-3);border-radius:10px;margin-bottom:8px;
+      cursor:pointer;" onclick="alert('🌙 Dark Mode is always ON for Nexus!
+Light mode coming soon!')">
       <div>
         <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🌙 Dark Mode</div>
-        <div style="font-size:11px;color:var(--txt-3);">Always active</div>
+        <div style="font-size:11px;color:var(--low);">Always active ✅</div>
       </div>
       <div style="width:42px;height:22px;background:var(--accent);border-radius:20px;
         display:flex;align-items:center;padding:2px;">
@@ -4502,16 +4504,17 @@ setTimeout(() => {
     </div>
 
     <!-- AI Features -->
-    <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:12px 14px;background:var(--bg-3);border-radius:10px;margin-bottom:8px;">
+    <div id="ai-toggle-row" style="display:flex;align-items:center;justify-content:space-between;
+      padding:12px 14px;background:var(--bg-3);border-radius:10px;margin-bottom:8px;
+      cursor:pointer;" onclick="toggleAIFeature()">
       <div>
         <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🤖 AI Features</div>
-        <div style="font-size:11px;color:var(--txt-3);">Smart suggestions</div>
+        <div id="ai-toggle-sub" style="font-size:11px;color:var(--low);">Active ✅</div>
       </div>
-      <div style="width:42px;height:22px;background:var(--accent);border-radius:20px;
-        display:flex;align-items:center;padding:2px;">
-        <div style="width:18px;height:18px;background:#fff;border-radius:50%;
-          margin-left:auto;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>
+      <div id="ai-toggle-track" style="width:42px;height:22px;background:var(--accent);
+        border-radius:20px;display:flex;align-items:center;padding:2px;transition:background 0.3s;">
+        <div id="ai-toggle-dot" style="width:18px;height:18px;background:#fff;border-radius:50%;
+          margin-left:auto;box-shadow:0 1px 3px rgba(0,0,0,0.3);transition:margin 0.3s;"></div>
       </div>
     </div>
 
@@ -4742,6 +4745,31 @@ window.saveEnMaster = function(checked) {
     }
   }, 800);
 })();
+
+
+// ── AI Feature Toggle ─────────────────────────────────
+window.toggleAIFeature = function() {
+  var track = document.getElementById('ai-toggle-track');
+  var dot   = document.getElementById('ai-toggle-dot');
+  var sub   = document.getElementById('ai-toggle-sub');
+  if (!track) return;
+  var isOn = dot.style.marginLeft === 'auto' || dot.style.marginLeft === '';
+  if (isOn) {
+    dot.style.marginLeft = '0';
+    dot.style.marginRight = 'auto';
+    track.style.background = 'var(--bg-4)';
+    sub.textContent = 'Disabled';
+    sub.style.color = 'var(--txt-3)';
+    localStorage.setItem('nexus_ai_features', 'off');
+  } else {
+    dot.style.marginLeft = 'auto';
+    dot.style.marginRight = '0';
+    track.style.background = 'var(--accent)';
+    sub.textContent = 'Active ✅';
+    sub.style.color = 'var(--low)';
+    localStorage.setItem('nexus_ai_features', 'on');
+  }
+};
 
 </script>
 
