@@ -2041,7 +2041,54 @@ body.rtl .stat-card { direction: rtl; }
     </div>
 
 
-    <!-- Recent Activity Table -->
+    
+    <!-- Advanced Charts -->
+    <div style="background:var(--bg-2);border:1px solid var(--border);
+      border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both;">
+      <div style="display:flex;align-items:center;justify-content:space-between;
+        padding:16px 20px;cursor:pointer;" onclick="toggleCharts()">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">📊</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--txt-1);">Analytics & Charts</div>
+            <div style="font-size:11px;color:var(--txt-3);">Earnings · Expenses · Invoices</div>
+          </div>
+        </div>
+        <span id="charts-arrow" style="color:var(--txt-3);font-size:16px;transition:transform 0.3s;">▼</span>
+      </div>
+      <div id="charts-content" style="display:none;border-top:1px solid var(--border);padding:16px;">
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:12px;font-weight:700;color:var(--txt-1);">📈 Monthly Earnings</div>
+            <div style="display:flex;gap:6px;">
+              <button id="btn-monthly" onclick="switchChart('monthly',this)"
+                style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;
+                  cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:#fff;">
+                Monthly</button>
+              <button id="btn-weekly" onclick="switchChart('weekly',this)"
+                style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;
+                  cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--txt-3);">
+                Weekly</button>
+            </div>
+          </div>
+          <canvas id="earningsBarChart" style="width:100%;height:160px;display:block;"></canvas>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--txt-1);margin-bottom:8px;">💸 Expenses</div>
+            <canvas id="expenseDonut" style="width:100%;height:140px;display:block;"></canvas>
+            <div id="exp-legend" style="margin-top:6px;font-size:10px;color:var(--txt-3);"></div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--txt-1);margin-bottom:8px;">🧾 Invoices</div>
+            <canvas id="invoiceDonut" style="width:100%;height:140px;display:block;"></canvas>
+            <div id="inv-legend2" style="margin-top:6px;font-size:10px;color:var(--txt-3);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Recent Activity Table -->
     <div style="background:var(--bg-2);border:1px solid var(--border);
       border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both;">
 
@@ -5001,6 +5048,87 @@ setTimeout(function() {
     preview.style.color = 'var(--low)';
   }
 }, 800);
+
+
+// ── Advanced Charts ───────────────────────────────────
+var chartMode = 'monthly';
+
+window.toggleCharts = function() {
+  var c = document.getElementById('charts-content');
+  var a = document.getElementById('charts-arrow');
+  if (!c) return;
+  var open = c.style.display !== 'none';
+  c.style.display = open ? 'none' : 'block';
+  if (a) a.style.transform = open ? '' : 'rotate(180deg)';
+  if (!open) { setTimeout(function(){drawEarningsBar();drawExpenseDonut();drawInvoiceDonut();},100); }
+};
+
+window.switchChart = function(mode) {
+  chartMode = mode;
+  var mb = document.getElementById('btn-monthly');
+  var wb = document.getElementById('btn-weekly');
+  if(mb){mb.style.background=mode==='monthly'?'var(--accent)':'transparent';mb.style.color=mode==='monthly'?'#fff':'var(--txt-3)';}
+  if(wb){wb.style.background=mode==='weekly'?'var(--accent)':'transparent';wb.style.color=mode==='weekly'?'#fff':'var(--txt-3)';}
+  drawEarningsBar();
+};
+
+function drawEarningsBar() {
+  var canvas = document.getElementById('earningsBarChart');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.offsetWidth || 300;
+  canvas.width = W; canvas.height = 160;
+  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var labels = [], data = [];
+  var now = new Date();
+  var n = chartMode === 'monthly' ? 6 : 7;
+  for (var i = n-1; i >= 0; i--) {
+    if (chartMode === 'monthly') {
+      var d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+      labels.push(d.toLocaleDateString('en-US',{month:'short'}));
+      var m=d.getMonth(), y=d.getFullYear();
+      data.push(invoices.reduce(function(a,inv){if(!inv.date)return a;var id=new Date(inv.date);return(id.getMonth()===m&&id.getFullYear()===y)?a+(parseFloat(inv.amount)||0):a;},0));
+    } else {
+      var d = new Date(); d.setDate(d.getDate()-i);
+      labels.push(d.toLocaleDateString('en-US',{weekday:'short'}));
+      var ds=d.toDateString();
+      data.push(invoices.reduce(function(a,inv){if(!inv.date)return a;return new Date(inv.date).toDateString()===ds?a+(parseFloat(inv.amount)||0):a;},0));
+    }
+  }
+  var maxV=Math.max.apply(null,data.concat([100]));
+  var pad={t:20,r:10,b:30,l:45};
+  var cW=W-pad.l-pad.r, cH=160-pad.t-pad.b;
+  ctx.clearRect(0,0,W,160);
+  for(var i=0;i<=3;i++){var y=pad.t+(cH/3)*i;ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+cW,y);ctx.stroke();ctx.fillStyle='rgba(255,255,255,0.25)';ctx.font='9px system-ui';ctx.textAlign='right';var val=maxV-(maxV/3)*i;ctx.fillText('$'+(val>=1000?(val/1000).toFixed(0)+'k':val.toFixed(0)),pad.l-4,y+3);}
+  var bw=(cW/labels.length)*0.6, gap=(cW/labels.length)*0.4;
+  labels.forEach(function(lbl,i){
+    var x=pad.l+i*(cW/labels.length)+gap/2, h=data[i]>0?(data[i]/maxV)*cH:3, y=pad.t+cH-h;
+    var g=ctx.createLinearGradient(0,y,0,y+h);g.addColorStop(0,'#4f7cff');g.addColorStop(1,'rgba(79,124,255,0.2)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.rect(x,y,bw,h);ctx.fill();
+    if(data[i]>0){ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='8px system-ui';ctx.textAlign='center';ctx.fillText('$'+(data[i]>=1000?(data[i]/1000).toFixed(0)+'k':data[i].toFixed(0)),x+bw/2,y-3);}
+    ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='9px system-ui';ctx.textAlign='center';ctx.fillText(lbl,x+bw/2,pad.t+cH+14);
+  });
+}
+
+function drawDonutChart(canvasId, segments, legendId) {
+  var canvas=document.getElementById(canvasId); if(!canvas)return;
+  var ctx=canvas.getContext('2d'), W=canvas.offsetWidth||140;
+  canvas.width=W; canvas.height=140;
+  var cx=W/2,cy=62,R=50,r=28;
+  var colors=['#4f7cff','#00e5c0','#f5a623','#ff5e6c','#9b7ffd'];
+  var total=segments.reduce(function(a,s){return a+s.val;},0);
+  ctx.clearRect(0,0,W,140);
+  if(total===0){ctx.fillStyle='rgba(255,255,255,0.07)';ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.fill();ctx.fillStyle='#111318';ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,0.2)';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('No data',cx,cy+4);return;}
+  var start=-Math.PI/2;
+  segments.forEach(function(s,i){var slice=(s.val/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,start,start+slice);ctx.closePath();ctx.fillStyle=colors[i%colors.length];ctx.fill();start+=slice;});
+  ctx.fillStyle='#111318';ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText('$'+total.toFixed(0),cx,cy+4);
+  var leg=document.getElementById(legendId);
+  if(leg)leg.innerHTML=segments.slice(0,3).map(function(s,i){return '<span style="display:inline-flex;align-items:center;gap:3px;margin-right:6px;"><span style="width:6px;height:6px;border-radius:50%;background:'+colors[i%colors.length]+';display:inline-block;"></span>'+s.label+'</span>';}).join('');
+}
+
+function drawExpenseDonut(){var e=JSON.parse(localStorage.getItem('nexus_expenses')||'[]'),cats={};e.forEach(function(x){var c=x.category||'Other';cats[c]=(cats[c]||0)+(parseFloat(x.amount)||0);});drawDonutChart('expenseDonut',Object.entries(cats).map(function(e){return{label:e[0],val:e[1]};}),'exp-legend');}
+function drawInvoiceDonut(){var inv=JSON.parse(localStorage.getItem('nexus_invoices')||'[]'),p=0,pe=0,o=0;inv.forEach(function(i){var a=parseFloat(i.amount)||0;if(i.status==='Paid')p+=a;else if(i.status==='Overdue')o+=a;else pe+=a;});drawDonutChart('invoiceDonut',[{label:'Paid',val:p},{label:'Pending',val:pe},{label:'Overdue',val:o}].filter(function(s){return s.val>0;}),'inv-legend2');}
 
 </script>
 
