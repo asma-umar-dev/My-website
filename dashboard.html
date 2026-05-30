@@ -1487,6 +1487,16 @@ body.rtl .stat-card { direction: rtl; }
 
 
 
+
+.wa-share-bar{display:none;background:#0d1f14;border:1px solid rgba(37,211,102,0.3);
+  border-radius:var(--radius-sm);padding:12px 16px;margin-top:10px;
+  align-items:center;gap:10px;flex-wrap:wrap;}
+.wa-share-bar.show{display:flex;}
+.wa-share-btn{display:flex;align-items:center;gap:8px;background:#25D366;border:none;
+  border-radius:var(--radius-sm);color:#fff;font-size:13px;font-weight:700;
+  padding:9px 16px;cursor:pointer;}
+.wa-share-close{background:none;border:none;color:var(--txt-3);cursor:pointer;font-size:16px;}
+
 </style>
 </head>
 <body>
@@ -1801,7 +1811,7 @@ body.rtl .stat-card { direction: rtl; }
 
             <div class="form-group">
               <label class="form-label">Client Name</label>
-              <input class="form-input" id="inv-client" type="text" placeholder="msl. ABC Company">
+              <input class="form-input" id="inv-client" type="text" placeholder="e.g. Acme Corp">
             </div>
 
             <div class="form-group">
@@ -1892,10 +1902,6 @@ body.rtl .stat-card { direction: rtl; }
 
 
 
-
-
-
-
     <!-- Share Client Portal Card -->
     <div style="background:linear-gradient(135deg,#1a1f35,#111318);
                 border:1px solid rgba(79,124,255,0.25);
@@ -1909,8 +1915,8 @@ body.rtl .stat-card { direction: rtl; }
           🔗 Share Client Link
         </div>
         <div style="font-size:12px;color:var(--txt-2);line-height:1.5;">
-          Share a secure portal link with your clients.<br>
-          Woh invoices dekh sakte hain!
+          Share a secure portal link!<br>
+          They can view invoices & send messages!
         </div>
       </div>
       <button onclick="openPortalShare()"
@@ -1922,11 +1928,40 @@ body.rtl .stat-card { direction: rtl; }
                transition:all var(--trans);flex-shrink:0;"
         onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(79,124,255,0.3)'"
         onmouseout="this.style.transform='';this.style.boxShadow=''">
-        🔗 Portal Share Karen
+        🔗 Share Portal
       </button>
     </div>
 
-    <!-- AI Amdani Prediction -->
+
+    <div style="background:linear-gradient(135deg,#1a0d2e,#0d1520);border:1px solid rgba(155,127,253,0.25);border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;" onclick="toggleAICoach()">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">🧠</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--txt-1);">AI Business Coach</div>
+            <div style="font-size:11px;color:var(--txt-3);">Personalized business advice</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="background:rgba(155,127,253,0.15);border:1px solid rgba(155,127,253,0.3);color:#9b7ffd;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;">✦ AI</div>
+          <span id="coach-arrow" style="color:var(--txt-3);font-size:16px;transition:transform 0.3s;">▼</span>
+        </div>
+      </div>
+      <div id="coach-content" style="display:none;border-top:1px solid rgba(155,127,253,0.15);padding:16px 20px;">
+        <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+          <button onclick="showCoachTab('pricing')" id="coach-tab-pricing" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #9b7ffd;background:#9b7ffd;color:#fff;">💰 Pricing</button>
+          <button onclick="showCoachTab('client')" id="coach-tab-client" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--txt-3);">🤝 Client Tips</button>
+          <button onclick="showCoachTab('opportunity')" id="coach-tab-opportunity" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--txt-3);">🚀 Opportunities</button>
+          <button onclick="showCoachTab('finance')" id="coach-tab-finance" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--txt-3);">📊 Finance</button>
+        </div>
+        <div id="coach-output" style="background:var(--bg-3);border-radius:var(--radius-sm);padding:14px;min-height:80px;margin-bottom:14px;border-left:3px solid #9b7ffd;font-size:12px;color:var(--txt-2);line-height:1.7;">
+          🧠 Select a category to get AI advice!
+        </div>
+        <button onclick="analyzeAndCoach()" style="width:100%;padding:11px;background:linear-gradient(135deg,#9b7ffd,#7c5cfc);border:none;border-radius:var(--radius-sm);color:#fff;font-size:13px;font-weight:700;cursor:pointer;">🧠 Analyze My Business & Get Advice</button>
+      </div>
+    </div>
+
+
     <div style="background:linear-gradient(135deg,#0d1520,#111827);
       border:1px solid rgba(79,124,255,0.2);border-radius:var(--radius);
       overflow:hidden;animation:fadeUp 0.4s ease both;">
@@ -2037,8 +2072,114 @@ body.rtl .stat-card { direction: rtl; }
     </div>
 
 
-    
-    <!-- Advanced Charts -->
+    <div style="background:linear-gradient(135deg,#0d1520,#111827);
+      border:1px solid rgba(79,124,255,0.2);border-radius:var(--radius);
+      overflow:hidden;animation:fadeUp 0.4s ease both;">
+
+      <!-- Collapsed Header - always visible -->
+      <div style="display:flex;align-items:center;justify-content:space-between;
+        padding:16px 20px;cursor:pointer;" onclick="toggleAIP()">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">🤖</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--txt-1);">
+              AI Amdani Prediction
+            </div>
+            <div id="aip-preview" style="font-size:11px;color:var(--txt-3);">
+              Tap to analyze your income
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="background:rgba(79,124,255,0.15);border:1px solid rgba(79,124,255,0.25);
+            color:var(--accent);font-size:10px;font-weight:700;padding:3px 8px;
+            border-radius:20px;">✦ AI</div>
+          <span id="aip-arrow" style="color:var(--accent);font-size:16px;
+            transition:transform 0.3s;">▼</span>
+        </div>
+      </div>
+
+      <!-- Expanded Content - hidden by default -->
+      <div id="aip-content" style="display:none;padding:0 20px 18px;">
+
+        <!-- Stats Row -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);
+          gap:8px;margin-bottom:14px;">
+          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+            padding:10px;text-align:center;">
+            <div id="aip-this" style="font-size:18px;font-weight:800;
+              color:var(--accent);">$0</div>
+            <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
+              margin-top:2px;">Is Mahine</div>
+          </div>
+          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+            padding:10px;text-align:center;">
+            <div id="aip-last" style="font-size:18px;font-weight:800;
+              color:var(--txt-2);">$0</div>
+            <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
+              margin-top:2px;">Pichle Mahine</div>
+          </div>
+          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+            padding:10px;text-align:center;">
+            <div id="aip-growth" style="font-size:18px;font-weight:800;
+              color:var(--low);">0%</div>
+            <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
+              margin-top:2px;">Izafa</div>
+          </div>
+        </div>
+
+        <!-- Prediction Box -->
+        <div style="background:rgba(0,229,192,0.06);border:1px solid rgba(0,229,192,0.2);
+          border-radius:var(--radius-sm);padding:12px;margin-bottom:12px;
+          display:flex;align-items:center;gap:10px;">
+          <span style="font-size:24px;">🎯</span>
+          <div>
+            <div style="font-size:10px;color:var(--txt-3);text-transform:uppercase;
+              letter-spacing:0.5px;margin-bottom:3px;">Next Month</div>
+            <div id="aip-pred" style="font-size:22px;font-weight:800;
+              color:var(--low);">--</div>
+            <div id="aip-pred-sub" style="font-size:10px;color:var(--txt-3);">
+              Add invoices for prediction
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bars -->
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;
+            font-size:10px;color:var(--txt-3);margin-bottom:3px;">
+            <span>Hadaf Ki Progress</span>
+            <span id="aip-goal-pct">0%</span>
+          </div>
+          <div style="height:4px;background:var(--bg-4);border-radius:4px;">
+            <div id="aip-goal-bar" style="height:100%;width:0%;border-radius:4px;
+              background:linear-gradient(90deg,var(--accent),var(--low));
+              transition:width 1s ease;"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;
+            font-size:10px;color:var(--txt-3);margin-bottom:3px;">
+            <span>Collection Rate</span>
+            <span id="aip-collect-pct">0%</span>
+          </div>
+          <div style="height:4px;background:var(--bg-4);border-radius:4px;">
+            <div id="aip-collect-bar" style="height:100%;width:0%;border-radius:4px;
+              background:linear-gradient(90deg,var(--low),#00c48c);
+              transition:width 1s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Insight -->
+        <div id="aip-insight" style="background:var(--bg-3);
+          border-left:3px solid var(--accent);border-radius:var(--radius-sm);
+          padding:8px 12px;font-size:11px;color:var(--txt-2);line-height:1.5;">
+          💡 Add invoices to get personalized predictions!
+        </div>
+
+      </div>
+    </div>
     <div style="background:var(--bg-2);border:1px solid var(--border);
       border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both;">
       <div style="display:flex;align-items:center;justify-content:space-between;
@@ -2055,7 +2196,7 @@ body.rtl .stat-card { direction: rtl; }
       <div id="charts-content" style="display:none;border-top:1px solid var(--border);padding:16px;">
         <div style="margin-bottom:16px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <div style="font-size:12px;font-weight:700;color:var(--txt-1);">📈 Monthly Kamai</div>
+            <div style="font-size:12px;font-weight:700;color:var(--txt-1);">📈 Monthly Earnings</div>
             <div style="display:flex;gap:6px;">
               <button id="btn-monthly" onclick="switchChart('monthly',this)"
                 style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;
@@ -2084,7 +2225,7 @@ body.rtl .stat-card { direction: rtl; }
       </div>
     </div>
 
-<!-- Recent Activity Table -->
+
     <div style="background:var(--bg-2);border:1px solid var(--border);
       border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both;">
 
@@ -2129,7 +2270,7 @@ body.rtl .stat-card { direction: rtl; }
             <tr>
               <td colspan="3" style="padding:20px;text-align:center;
                 color:var(--txt-3);font-size:13px;">
-                Abhi koi invoice nahi. Upar se pehli invoice banayein!
+                No invoices yet. Generate your first invoice above!
               </td>
             </tr>
           </tbody>
@@ -2138,12 +2279,271 @@ body.rtl .stat-card { direction: rtl; }
     </div>
 
 
-    <!-- ── Expense Tracker + Chart ─────────────────── --><!-- /expense-section -->
+    <div class="split-grid" id="expense-section">
+
+      <!-- Expense Tracker Panel -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title" data-i18n="expense_tracker">💸 Expense Tracker</div>
+          <div class="panel-badge" id="exp-count-badge" data-i18n="zero_exp">0 expenses</div>
+        </div>
+        <div class="panel-body">
+
+          <!-- Add Expense Form -->
+          <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+            <input id="exp-name" class="form-input" type="text" autocomplete="off"
+              placeholder="Expense name..."
+              style="flex:1;min-width:120px;padding:9px 12px;font-size:13px;"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();addExpense(event);}">
+            <input id="exp-amount" class="form-input" type="number"
+              placeholder="$0.00" min="0" step="0.01"
+              style="width:100px;padding:9px 12px;font-size:13px;"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();addExpense(event);}">
+            <select id="exp-cat" class="form-input"
+              style="width:120px;padding:9px 10px;font-size:12px;cursor:pointer;">
+              <option value="Food">🍔 Food</option>
+              <option value="Work">💼 Work</option>
+              <option value="Transport">🚗 Transport</option>
+              <option value="Shopping">🛍️ Shopping</option>
+              <option value="Bills">📄 Bills</option>
+              <option value="Other">📦 Other</option>
+            </select>
+            <button onclick="addExpense(event)"
+              style="background:linear-gradient(135deg,#ff6b82,#ff8e53);
+                     border:none;border-radius:var(--radius-sm);
+                     color:#fff;font-weight:700;font-size:13px;
+                     padding:9px 16px;cursor:pointer;white-space:nowrap;">
+              + Shamil Karen
+            </button>
+          </div>
+
+          <!-- Total bar -->
+          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+                      padding:12px 14px;margin-bottom:12px;
+                      display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:12px;color:var(--txt-2);font-weight:600;" data-i18n="total_spent">Total Spent</span>
+            <span id="exp-total" style="font-family:var(--font-head);font-size:20px;
+                  font-weight:800;color:var(--high);">$0.00</span>
+          </div>
+
+          <!-- Expense List -->
+          <div id="exp-list" style="display:flex;flex-direction:column;gap:8px;
+                max-height:280px;overflow-y:auto;"></div>
+
+          <!-- Empty state -->
+          <div id="exp-empty" style="text-align:center;padding:28px 0;
+                color:var(--txt-3);font-size:13px;">
+            <div style="font-size:28px;margin-bottom:8px;">💸</div>
+            No expenses yet! Add one above.
+          </div>
+
+          <!-- Clear all -->
+          <button onclick="clearExpenses()"
+            id="exp-clear-btn"
+            style="display:none;margin-top:12px;width:100%;
+                   background:transparent;border:1px solid var(--border);
+                   border-radius:var(--radius-sm);color:var(--txt-3);
+                   font-size:12px;font-weight:600;padding:8px;cursor:pointer;">
+            🗑️ Clear All Expenses
+          </button>
+
+        </div>
+      </div>
 
 
-    <!-- ── Time Tracker Section ─────────────────────── --><!-- /time-tracker-section -->
+    </div>
 
-  </div><!-- /content -->
+
+    <div class="time-tracker-section" id="time-tracker-section">
+      <div class="split-grid">
+
+        <!-- Timer Panel -->
+        <div class="panel">
+          <div class="panel-head" style="cursor:pointer;" onclick="toggleTimeEntries()">
+            <div class="panel-title" data-i18n="time_tracker">⏱️ Time Tracker</div>
+            <div class="panel-badge" id="timer-status-badge" data-i18n="ready_lbl">Ready</div>
+          </div>
+          <div class="panel-body">
+
+            <!-- Timer Display -->
+            <div class="timer-display" id="timerDisplay">00:00:00</div>
+
+            <!-- Timer Inputs -->
+            <div class="timer-inputs">
+              <div class="timer-input-group">
+                <label>Project / Task</label>
+                <input type="text" id="timerDesc"
+                  placeholder="e.g. Logo Design"
+                  autocomplete="off">
+              </div>
+              <div class="timer-input-group">
+                <label>Client</label>
+                <input type="text" id="timerClient"
+                  placeholder="e.g. Acme Corp"
+                  autocomplete="off">
+              </div>
+              <div class="timer-input-group">
+                <label>Hourly Rate ($)</label>
+                <input type="number" id="timerRate"
+                  placeholder="50" min="0" step="0.5" value="50">
+              </div>
+              <div class="timer-input-group">
+                <label>Billable?</label>
+                <select id="timerBillable">
+                  <option value="yes">✅ Billable</option>
+                  <option value="no">❌ Non-Billable</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Timer Controls -->
+            <div class="timer-controls">
+              <button class="timer-btn start" id="timerStartBtn"
+                onclick="startTimer()">
+                ▶ Start Timer
+              </button>
+              <button class="timer-btn pause" id="timerPauseBtn"
+                onclick="pauseTimer()" disabled>
+                ⏸ Pause
+              </button>
+              <button class="timer-btn stop" id="timerStopBtn"
+                onclick="stopTimer()" disabled>
+                ⏹ Stop & Save
+              </button>
+            </div>
+
+            <!-- Aaj Summary -->
+            <div class="time-summary" id="timeSummary">
+              <div class="ts-box">
+                <span class="ts-val" id="ts-hours" style="color:var(--low);">0h 0m</span>
+                <span class="ts-lbl" data-i18n="today_lbl">Aaj</span>
+              </div>
+              <div class="ts-box">
+                <span class="ts-val" id="ts-entries" style="color:var(--accent);">0</span>
+                <span class="ts-lbl" data-i18n="sessions_lbl">Sessions</span>
+              </div>
+              <div class="ts-box">
+                <span class="ts-val" id="ts-earned" style="color:var(--med);">$0</span>
+                <span class="ts-lbl" data-i18n="earned_lbl">Kamai</span>
+              </div>
+            </div>
+
+            <!-- Bill to Invoice Button -->
+            <button class="bill-to-invoice-btn" id="billToInvoiceBtn"
+              onclick="billTimeToInvoice()" disabled>
+              🧾 Convert to Invoice
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Time Entries Panel -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title" data-i18n="time_entries">📋 Time Entries</div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div class="panel-badge" id="entries-count-badge">0 entries</div>
+              <button onclick="clearTimeEntries()"
+                style="background:none;border:none;cursor:pointer;
+                       color:var(--txt-3);font-size:12px;font-weight:600;
+                       transition:color 0.2s;"
+                onmouseover="this.style.color='var(--high)'"
+                onmouseout="this.style.color='var(--txt-3)'">
+                Clear All
+              </button>
+            </div>
+          </div>
+          <div class="panel-body">
+
+            <!-- Entries List -->
+            <div class="time-entries-list" id="timeEntriesList"></div>
+
+            <!-- Empty State -->
+            <div id="timeEntriesEmpty"
+              style="text-align:center;padding:40px 0;color:var(--txt-3);">
+              <div style="font-size:32px;margin-bottom:8px;">⏱️</div>
+              <p style="font-size:13px;" data-i18n="no_entries">No time entries yet.<br>Start the timer to track your work!</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- AI Amdani Prediction -->
+
+
+
+
+    
+    <!-- Advanced Charts -->
+
+<!-- Recent Activity Table -->
+
+
+    <!-- ── Expense Tracker + Chart ─────────────────── --><!-- /time-tracker-section -->
+
+  </div><!-- /content --><!-- /expense-section -->
+
+
+    <!-- ── Time Tracker Section ─────────────────────── -->
+
+
+    <!-- AI Business Coach -->
+
+    <!-- Earnings Overview -->
+    <div class="split-grid">
+
+      <!-- Earnings Chart Panel -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">📈 Earnings Overview</div>
+          <div class="panel-badge">Last 7 days</div>
+        </div>
+        <div class="panel-body">
+
+          <!-- Chart Canvas -->
+          <canvas id="earningsChart"
+            style="width:100%;height:200px;display:block;"></canvas>
+
+          <!-- Summary rows -->
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;background:var(--bg-3);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">💰 Total Invoiced</span>
+              <span id="chart-total" style="font-weight:800;color:var(--low);
+                    font-family:var(--font-head);">$0.00</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;background:var(--bg-3);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">🧾 Invoices Created</span>
+              <span id="chart-count" style="font-weight:800;color:var(--accent);
+                    font-family:var(--font-head);">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;background:var(--bg-3);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">💸 Total Expenses</span>
+              <span id="chart-expenses" style="font-weight:800;color:var(--high);
+                    font-family:var(--font-head);">$0.00</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;
+                        background:rgba(79,124,255,0.08);
+                        border:1px solid rgba(79,124,255,0.15);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">🏆 Net Profit</span>
+              <span id="chart-profit" style="font-weight:800;color:var(--accent);
+                    font-family:var(--font-head);">$0.00</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
 <script type="module">
 
@@ -2661,6 +3061,7 @@ tbody td:last-child{text-align:right;font-weight:700;}
 
     // 7. Button → success state
     btn.innerHTML = '<span>✅</span> Invoice Generated!';
+    showWhatsAppBtn(client, email, total, invNum, dueDate, service);
     btn.style.background = 'linear-gradient(135deg,#00c48c,#00e5c0)';
 
     // 8. Reset after 3s
@@ -4353,7 +4754,7 @@ setTimeout(() => {
           p.style.display=p.style.display==='block'?'none':'block';">
         <div>
           <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🔔 Notifications</div>
-          <div style="font-size:11px;color:var(--txt-3);">Set email alerts</div>
+          <div style="font-size:11px;color:var(--txt-3);">Email alerts set karen</div>
         </div>
         <span style="color:var(--accent);font-size:20px;font-weight:300;line-height:1;">+</span>
       </div>
@@ -4529,256 +4930,6 @@ Pro Plan coming soon at $9/month!
         Close
       </button>
     </div>
-
-
-
-
-
-
-    <div class="split-grid" id="expense-section">
-
-      <!-- Expense Tracker Panel -->
-      <div class="panel">
-        <div class="panel-head">
-          <div class="panel-title" data-i18n="expense_tracker">💸 Expense Tracker</div>
-          <div class="panel-badge" id="exp-count-badge" data-i18n="zero_exp">0 expenses</div>
-        </div>
-        <div class="panel-body">
-
-          <!-- Add Expense Form -->
-          <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
-            <input id="exp-name" class="form-input" type="text" autocomplete="off"
-              placeholder="Expense name..."
-              style="flex:1;min-width:120px;padding:9px 12px;font-size:13px;"
-              onkeydown="if(event.key==='Enter'){event.preventDefault();addExpense(event);}">
-            <input id="exp-amount" class="form-input" type="number"
-              placeholder="$0.00" min="0" step="0.01"
-              style="width:100px;padding:9px 12px;font-size:13px;"
-              onkeydown="if(event.key==='Enter'){event.preventDefault();addExpense(event);}">
-            <select id="exp-cat" class="form-input"
-              style="width:120px;padding:9px 10px;font-size:12px;cursor:pointer;">
-              <option value="Food">🍔 Food</option>
-              <option value="Work">💼 Work</option>
-              <option value="Transport">🚗 Transport</option>
-              <option value="Shopping">🛍️ Shopping</option>
-              <option value="Bills">📄 Bills</option>
-              <option value="Other">📦 Other</option>
-            </select>
-            <button onclick="addExpense(event)"
-              style="background:linear-gradient(135deg,#ff6b82,#ff8e53);
-                     border:none;border-radius:var(--radius-sm);
-                     color:#fff;font-weight:700;font-size:13px;
-                     padding:9px 16px;cursor:pointer;white-space:nowrap;">
-              + Shamil Karen
-            </button>
-          </div>
-
-          <!-- Total bar -->
-          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
-                      padding:12px 14px;margin-bottom:12px;
-                      display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:12px;color:var(--txt-2);font-weight:600;" data-i18n="total_spent">Total Spent</span>
-            <span id="exp-total" style="font-family:var(--font-head);font-size:20px;
-                  font-weight:800;color:var(--high);">$0.00</span>
-          </div>
-
-          <!-- Expense List -->
-          <div id="exp-list" style="display:flex;flex-direction:column;gap:8px;
-                max-height:280px;overflow-y:auto;"></div>
-
-          <!-- Empty state -->
-          <div id="exp-empty" style="text-align:center;padding:28px 0;
-                color:var(--txt-3);font-size:13px;">
-            <div style="font-size:28px;margin-bottom:8px;">💸</div>
-            No expenses yet! Add one above.
-          </div>
-
-          <!-- Clear all -->
-          <button onclick="clearExpenses()"
-            id="exp-clear-btn"
-            style="display:none;margin-top:12px;width:100%;
-                   background:transparent;border:1px solid var(--border);
-                   border-radius:var(--radius-sm);color:var(--txt-3);
-                   font-size:12px;font-weight:600;padding:8px;cursor:pointer;">
-            🗑️ Clear All Expenses
-          </button>
-
-        </div>
-      </div>
-
-      
-
-    </div>
-
-    <div class="time-tracker-section" id="time-tracker-section">
-      <div class="split-grid">
-
-        <!-- Timer Panel -->
-        <div class="panel">
-          <div class="panel-head">
-            <div class="panel-title" data-i18n="time_tracker">⏱️ Time Tracker</div>
-            <div class="panel-badge" id="timer-status-badge" data-i18n="ready_lbl">Ready</div>
-          </div>
-          <div class="panel-body">
-
-            <!-- Timer Display -->
-            <div class="timer-display" id="timerDisplay">00:00:00</div>
-
-            <!-- Timer Inputs -->
-            <div class="timer-inputs">
-              <div class="timer-input-group">
-                <label>Project / Task</label>
-                <input type="text" id="timerDesc"
-                  placeholder="msl. Logo Design"
-                  autocomplete="off">
-              </div>
-              <div class="timer-input-group">
-                <label>Client</label>
-                <input type="text" id="timerClient"
-                  placeholder="msl. ABC Company"
-                  autocomplete="off">
-              </div>
-              <div class="timer-input-group">
-                <label>Hourly Rate ($)</label>
-                <input type="number" id="timerRate"
-                  placeholder="50" min="0" step="0.5" value="50">
-              </div>
-              <div class="timer-input-group">
-                <label>Billable?</label>
-                <select id="timerBillable">
-                  <option value="yes">✅ Billable</option>
-                  <option value="no">❌ Non-Billable</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Timer Controls -->
-            <div class="timer-controls">
-              <button class="timer-btn start" id="timerStartBtn"
-                onclick="startTimer()">
-                ▶ Start Timer
-              </button>
-              <button class="timer-btn pause" id="timerPauseBtn"
-                onclick="pauseTimer()" disabled>
-                ⏸ Pause
-              </button>
-              <button class="timer-btn stop" id="timerStopBtn"
-                onclick="stopTimer()" disabled>
-                ⏹ Stop & Save
-              </button>
-            </div>
-
-            <!-- Aaj Summary -->
-            <div class="time-summary" id="timeSummary">
-              <div class="ts-box">
-                <span class="ts-val" id="ts-hours" style="color:var(--low);">0h 0m</span>
-                <span class="ts-lbl" data-i18n="today_lbl">Aaj</span>
-              </div>
-              <div class="ts-box">
-                <span class="ts-val" id="ts-entries" style="color:var(--accent);">0</span>
-                <span class="ts-lbl" data-i18n="sessions_lbl">Sessions</span>
-              </div>
-              <div class="ts-box">
-                <span class="ts-val" id="ts-earned" style="color:var(--med);">$0</span>
-                <span class="ts-lbl" data-i18n="earned_lbl">Kamai</span>
-              </div>
-            </div>
-
-            <!-- Bill to Invoice Button -->
-            <button class="bill-to-invoice-btn" id="billToInvoiceBtn"
-              onclick="billTimeToInvoice()" disabled>
-              🧾 Convert to Invoice
-            </button>
-
-          </div>
-        </div>
-
-        <!-- Time Entries Panel -->
-        <div class="panel">
-          <div class="panel-head">
-            <div class="panel-title" data-i18n="time_entries">📋 Time Entries</div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <div class="panel-badge" id="entries-count-badge">0 entries</div>
-              <button onclick="clearTimeEntries()"
-                style="background:none;border:none;cursor:pointer;
-                       color:var(--txt-3);font-size:12px;font-weight:600;
-                       transition:color 0.2s;"
-                onmouseover="this.style.color='var(--high)'"
-                onmouseout="this.style.color='var(--txt-3)'">
-                Clear All
-              </button>
-            </div>
-          </div>
-          <div class="panel-body">
-
-            <!-- Entries List -->
-            <div class="time-entries-list" id="timeEntriesList"></div>
-
-            <!-- Empty State -->
-            <div id="timeEntriesEmpty"
-              style="text-align:center;padding:40px 0;color:var(--txt-3);">
-              <div style="font-size:32px;margin-bottom:8px;">⏱️</div>
-              <p style="font-size:13px;" data-i18n="no_entries">Abhi koi entry nahi.<br>Kaam track karne ke liye timer shuru karen!</p>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <!-- Earnings Overview -->
-    <div style="animation:fadeUp 0.4s ease both;">
-<!-- Earnings Chart Panel -->
-      <div class="panel">
-        <div class="panel-head">
-          <div class="panel-title">📈 Earnings Overview</div>
-          <div class="panel-badge">Last 7 days</div>
-        </div>
-        <div class="panel-body">
-
-          <!-- Chart Canvas -->
-          <canvas id="earningsChart"
-            style="width:100%;height:200px;display:block;"></canvas>
-
-          <!-- Summary rows -->
-          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;background:var(--bg-3);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">💰 Total Invoiced</span>
-              <span id="chart-total" style="font-weight:800;color:var(--low);
-                    font-family:var(--font-head);">$0.00</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;background:var(--bg-3);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">🧾 Invoices Created</span>
-              <span id="chart-count" style="font-weight:800;color:var(--accent);
-                    font-family:var(--font-head);">0</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;background:var(--bg-3);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">💸 Total Expenses</span>
-              <span id="chart-expenses" style="font-weight:800;color:var(--high);
-                    font-family:var(--font-head);">$0.00</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;
-                        background:rgba(79,124,255,0.08);
-                        border:1px solid rgba(79,124,255,0.15);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">🏆 Net Profit</span>
-              <span id="chart-profit" style="font-weight:800;color:var(--accent);
-                    font-family:var(--font-head);">$0.00</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-
   </div>
 </div>
 
@@ -5049,7 +5200,7 @@ function renderRecentInv() {
   }
 
   if (invoices.length === 0) {
-    body.innerHTML = '<tr><td colspan="3" style="padding:20px;text-align:center;color:var(--txt-3);font-size:13px;">Abhi koi invoice nahi. Upar se pehli invoice banayein!</td></tr>';
+    body.innerHTML = '<tr><td colspan="3" style="padding:20px;text-align:center;color:var(--txt-3);font-size:13px;">No invoices yet. Generate your first invoice above!</td></tr>';
     return;
   }
 
@@ -5162,29 +5313,70 @@ function drawExpenseDonut(){var e=JSON.parse(localStorage.getItem('nexus_expense
 function drawInvoiceDonut(){var inv=JSON.parse(localStorage.getItem('nexus_invoices')||'[]'),p=0,pe=0,o=0;inv.forEach(function(i){var a=parseFloat(i.amount)||0;if(i.status==='Paid')p+=a;else if(i.status==='Overdue')o+=a;else pe+=a;});drawDonutChart('invoiceDonut',[{label:'Paid',val:p},{label:'Pending',val:pe},{label:'Overdue',val:o}].filter(function(s){return s.val>0;}),'inv-legend2');}
 
 
-// ── WhatsApp Invoice Share ────────────────────────────
-var _waInvoiceData = {};
-
-function showWhatsAppBtn(client, email, total, invNum, dueDate, service) {
-  _waInvoiceData = { client: client, email: email, total: total, invNum: invNum, dueDate: dueDate, service: service };
-  var bar = document.getElementById('wa-share-bar');
-  if (bar) bar.classList.add('show');
+var _waData={};
+function showWhatsAppBtn(c,e,t,n,d,s){
+  _waData={client:c,email:e,total:t,invNum:n,dueDate:d,service:s};
+  var bar=document.getElementById('wa-share-bar');
+  if(bar)bar.classList.add('show');
 }
+window.sendInvoiceWhatsApp=function(){
+  var d=_waData,user=JSON.parse(localStorage.getItem('nexus_user')||'{}');
+  var msg='Assalam o Alaikum '+(d.client||'Client')+'!\n\nInvoice Ready:\n📄 '+(d.invNum||'')+'\n💰 $'+parseFloat(d.total||0).toFixed(2)+'\n📅 Due: '+(d.dueDate||'')+'\n\nThank you!\n— '+(user.name||'Nexus');
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+};
 
-window.sendInvoiceWhatsApp = function() {
-  var d = _waInvoiceData;
-  var user = JSON.parse(localStorage.getItem('nexus_user') || '{}');
-  var senderName = user.name || 'Your Service Provider';
-  var msg = 'السلام علیکم ' + (d.client || 'Client') + '!' +
-    '\n\nInvoice Ready:' +
-    '\n📄 ' + (d.invNum || '') +
-    '\n💼 ' + (d.service || '') +
-    '\n💰 $' + parseFloat(d.total || 0).toFixed(2) +
-    '\n📅 Due: ' + (d.dueDate || '') +
-    '\n\nPlease pay by due date.' +
-    '\nThank you! 🙏' +
-    '\n— ' + senderName + ' | Nexus AI';
-  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+
+window.toggleTimeEntries=function(){
+  var c=document.getElementById('time-entries-content'),a=document.getElementById('time-entries-arrow');
+  if(!c)return;var open=c.style.display!=='none';
+  c.style.display=open?'none':'block';
+  if(a)a.style.transform=open?'':'rotate(180deg)';
+};
+
+
+var _coachTab='pricing';
+window.toggleAICoach=function(){
+  var c=document.getElementById('coach-content'),a=document.getElementById('coach-arrow');
+  if(!c)return;var open=c.style.display!=='none';
+  c.style.display=open?'none':'block';
+  if(a)a.style.transform=open?'':'rotate(180deg)';
+  if(!open)analyzeAndCoach();
+};
+window.showCoachTab=function(tab){
+  _coachTab=tab;
+  ['pricing','client','opportunity','finance'].forEach(function(t){
+    var b=document.getElementById('coach-tab-'+t);if(!b)return;
+    b.style.background=t===tab?'#9b7ffd':'transparent';
+    b.style.color=t===tab?'#fff':'var(--txt-3)';
+    b.style.borderColor=t===tab?'#9b7ffd':'var(--border)';
+  });analyzeAndCoach();
+};
+window.analyzeAndCoach=function(){
+  var out=document.getElementById('coach-output');if(!out)return;
+  var inv=JSON.parse(localStorage.getItem('nexus_invoices')||'[]');
+  var exp=JSON.parse(localStorage.getItem('nexus_expenses')||'[]');
+  var earn=inv.reduce(function(a,i){return a+(parseFloat(i.amount)||0);},0);
+  var expTotal=exp.reduce(function(a,e){return a+(parseFloat(e.amount)||0);},0);
+  var avg=inv.length>0?earn/inv.length:0;
+  var pending=inv.filter(function(i){return i.status==='Pending';}).length;
+  var advice='';
+  if(_coachTab==='pricing'){
+    if(avg<100)advice='<b style="color:#9b7ffd;">💰 Pricing</b><br><br>⚠️ Avg invoice <b>$'+avg.toFixed(0)+'</b> is low!<br><br>✅ Recommended:<br>• Web Design: $300-$800<br>• Landing Page: $150-$400<br>• Dashboard: $500-$2000<br><br>💡 Raise rates 20-30%!';
+    else if(avg<500)advice='<b style="color:#9b7ffd;">💰 Pricing</b><br><br>✅ Avg: <b>$'+avg.toFixed(0)+'</b><br><br>🚀 Earn more:<br>• Add Basic/Pro/Premium packages<br>• Rush fee +30%<br>• Target $500+/project!';
+    else advice='<b style="color:#9b7ffd;">💰 Pricing</b><br><br>🏆 Excellent! $'+avg.toFixed(0)+'/project<br><br>💡 Scale: retainer $500-1000/month!';
+  }else if(_coachTab==='client'){
+    advice='<b style="color:#9b7ffd;">🤝 Client Tips</b><br><br>';
+    if(pending>1)advice+='⚠️ '+pending+' unpaid invoices! Follow up now!<br><br>';
+    advice+='✅ Best practices:<br>• 50% upfront payment<br>• Invoice immediately after delivery<br>• Follow up after 3 days<br>• Document everything';
+  }else if(_coachTab==='opportunity'){
+    advice='<b style="color:#9b7ffd;">🚀 Opportunities</b><br><br>✅ Hot markets:<br>• Pakistani startups: $300-800<br>• UAE/Saudi pays 3x more!<br>• Local businesses need sites<br><br>🎯 Actions:<br>• Apply WorkChest daily<br>• Share Nexus as portfolio<br>• Post LinkedIn weekly';
+  }else{
+    var margin=earn>0?((earn-expTotal)/earn*100):0;
+    advice='<b style="color:#9b7ffd;">📊 Finance</b><br><br>';
+    if(earn===0)advice+='💡 No earnings yet. Get first client on WorkChest!<br>🎯 Goal: 2 projects × $150 = $300';
+    else advice+='💰 Earned: $'+earn.toFixed(0)+'<br>💸 Spent: $'+expTotal.toFixed(0)+'<br>✅ Profit: $'+(earn-expTotal).toFixed(0)+'<br>📊 Margin: '+margin.toFixed(0)+'%<br><br>'+(margin<50?'⚠️ Low margin - raise rates!':'🏆 Great margin!');
+  }
+  out.innerHTML=advice;
 };
 
 </script>

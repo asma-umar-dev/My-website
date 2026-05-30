@@ -1922,6 +1922,35 @@ body.rtl .stat-card { direction: rtl; }
       </button>
     </div>
 
+
+    <div style="background:linear-gradient(135deg,#1a0d2e,#0d1520);border:1px solid rgba(155,127,253,0.25);border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;" onclick="toggleAICoach()">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">🧠</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--txt-1);">AI Business Coach</div>
+            <div style="font-size:11px;color:var(--txt-3);">Apne business ke liye mashware</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="background:rgba(155,127,253,0.15);border:1px solid rgba(155,127,253,0.3);color:#9b7ffd;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;">✦ AI</div>
+          <span id="coach-arrow" style="color:var(--txt-3);font-size:16px;transition:transform 0.3s;">▼</span>
+        </div>
+      </div>
+      <div id="coach-content" style="display:none;border-top:1px solid rgba(155,127,253,0.15);padding:16px 20px;">
+        <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+          <button onclick="showCoachTab('pricing')" id="coach-tab-pricing" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #9b7ffd;background:#9b7ffd;color:#fff;">💰 Pricing</button>
+          <button onclick="showCoachTab('client')" id="coach-tab-client" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--txt-3);">🤝 Client Tips</button>
+          <button onclick="showCoachTab('opportunity')" id="coach-tab-opportunity" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--txt-3);">🚀 Mawaqe</button>
+          <button onclick="showCoachTab('finance')" id="coach-tab-finance" style="padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--txt-3);">📊 Maaliyat</button>
+        </div>
+        <div id="coach-output" style="background:var(--bg-3);border-radius:var(--radius-sm);padding:14px;min-height:80px;margin-bottom:14px;border-left:3px solid #9b7ffd;font-size:12px;color:var(--txt-2);line-height:1.7;">
+          🧠 Category select karen AI mashwara lene ke liye!
+        </div>
+        <button onclick="analyzeAndCoach()" style="width:100%;padding:11px;background:linear-gradient(135deg,#9b7ffd,#7c5cfc);border:none;border-radius:var(--radius-sm);color:#fff;font-size:13px;font-weight:700;cursor:pointer;">🧠 Mere Business Ka Tajziya Karen</button>
+      </div>
+    </div>
+
     <!-- AI Amdani Prediction -->
     <div style="background:linear-gradient(135deg,#0d1520,#111827);
       border:1px solid rgba(79,124,255,0.2);border-radius:var(--radius);
@@ -2134,7 +2163,9 @@ body.rtl .stat-card { direction: rtl; }
     </div>
 
 
-    <!-- ── Expense Tracker + Chart ─────────────────── -->
+    <!-- ── Expense Tracker + Chart ─────────────────── --><!-- /time-tracker-section -->
+
+  </div><!-- /content -->
     <div class="split-grid" id="expense-section">
 
       <!-- Expense Tracker Panel -->
@@ -2206,54 +2237,6 @@ body.rtl .stat-card { direction: rtl; }
         </div>
       </div>
 
-      <!-- Earnings Chart Panel -->
-      <div class="panel">
-        <div class="panel-head">
-          <div class="panel-title">📈 Earnings Overview</div>
-          <div class="panel-badge">Last 7 days</div>
-        </div>
-        <div class="panel-body">
-
-          <!-- Chart Canvas -->
-          <canvas id="earningsChart"
-            style="width:100%;height:200px;display:block;"></canvas>
-
-          <!-- Summary rows -->
-          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;background:var(--bg-3);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">💰 Total Invoiced</span>
-              <span id="chart-total" style="font-weight:800;color:var(--low);
-                    font-family:var(--font-head);">$0.00</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;background:var(--bg-3);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">🧾 Invoices Created</span>
-              <span id="chart-count" style="font-weight:800;color:var(--accent);
-                    font-family:var(--font-head);">0</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;background:var(--bg-3);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">💸 Total Expenses</span>
-              <span id="chart-expenses" style="font-weight:800;color:var(--high);
-                    font-family:var(--font-head);">$0.00</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;
-                        padding:10px 14px;
-                        background:rgba(79,124,255,0.08);
-                        border:1px solid rgba(79,124,255,0.15);
-                        border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">🏆 Net Profit</span>
-              <span id="chart-profit" style="font-weight:800;color:var(--accent);
-                    font-family:var(--font-head);">$0.00</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
 
     </div><!-- /expense-section -->
 
@@ -2374,9 +2357,60 @@ body.rtl .stat-card { direction: rtl; }
         </div>
 
       </div>
-    </div><!-- /time-tracker-section -->
+    </div>
 
-  </div><!-- /content -->
+    <!-- Earnings Overview -->
+    <div class="split-grid">
+
+      <!-- Earnings Chart Panel -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">📈 Earnings Overview</div>
+          <div class="panel-badge">Last 7 days</div>
+        </div>
+        <div class="panel-body">
+
+          <!-- Chart Canvas -->
+          <canvas id="earningsChart"
+            style="width:100%;height:200px;display:block;"></canvas>
+
+          <!-- Summary rows -->
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;background:var(--bg-3);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">💰 Total Invoiced</span>
+              <span id="chart-total" style="font-weight:800;color:var(--low);
+                    font-family:var(--font-head);">$0.00</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;background:var(--bg-3);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">🧾 Invoices Created</span>
+              <span id="chart-count" style="font-weight:800;color:var(--accent);
+                    font-family:var(--font-head);">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;background:var(--bg-3);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">💸 Total Expenses</span>
+              <span id="chart-expenses" style="font-weight:800;color:var(--high);
+                    font-family:var(--font-head);">$0.00</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;
+                        padding:10px 14px;
+                        background:rgba(79,124,255,0.08);
+                        border:1px solid rgba(79,124,255,0.15);
+                        border-radius:var(--radius-sm);">
+              <span style="font-size:13px;color:var(--txt-2);">🏆 Net Profit</span>
+              <span id="chart-profit" style="font-weight:800;color:var(--accent);
+                    font-family:var(--font-head);">$0.00</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
 <script type="module">
 
