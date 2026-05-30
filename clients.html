@@ -286,14 +286,19 @@ const _fc = {
 const _app  = initializeApp(_fc);
 const _auth = getAuth(_app);
 
+let _pgAuthDone=false;
+let _pgAuthDone=false;
 onAuthStateChanged(_auth, user => {
-  if (!user) { window.location.href = 'nexus-login.html'; return; }
-  const name = user.displayName || user.email.split('@')[0];
+  if(_pgAuthDone)return;_pgAuthDone=true;
+  const _mock=JSON.parse(localStorage.getItem('nexus_user')||'null');
+  if (!user && !_mock) { window.location.href = 'nexus-login.html'; return; }
+  const _u = user || { displayName: (_mock||{}).name, email: (_mock||{}).email || 'user@nexus.io' };
+  const name = _u.displayName || (_u.email||'').split('@')[0];
   const el1 = document.getElementById('sidebar-name');
   const el2 = document.getElementById('sidebar-email');
   const el3 = document.getElementById('user-avatar');
   if(el1) el1.textContent = name;
-  if(el2) el2.textContent = user.email;
+  if(el2) el2.textContent = _u.email;
   if(el3) el3.textContent = name.charAt(0).toUpperCase();
 });
 
