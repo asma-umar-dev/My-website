@@ -2414,10 +2414,32 @@ const _fbApp  = initializeApp(_fbConfig);
 const _fbAuth = getAuth(_fbApp);
 
 // Check login state
+let _authInitDone = false;
 onAuthStateChanged(_fbAuth, user => {
-  if (!user) {
-    // Not logged in → redirect to login
+  if (_authInitDone) return; // Only run ONCE!
+  _authInitDone = true;
+
+  // Check Firebase user OR localStorage mock session
+  const mockUser = JSON.parse(localStorage.getItem('nexus_user') || 'null');
+  
+  if (!user && !mockUser) {
     window.location.href = 'nexus-login.html';
+    return;
+  }
+
+  // Use Firebase user OR mock user
+  if (!user && mockUser) {
+    // Mock session - update UI with stored data
+    const name     = mockUser.name || 'User';
+    const initials = name.charAt(0).toUpperCase();
+    const email    = mockUser.email || '';
+    const avatarEl = document.getElementById('header-avatar');
+    if (avatarEl) avatarEl.textContent = initials;
+    const profileEl = document.getElementById('profile-avatar-big');
+    if (profileEl) profileEl.textContent = initials;
+    updateStats();
+    drawChart();
+    renderRecentInvoices();
     return;
   }
 
