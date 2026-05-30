@@ -1487,6 +1487,55 @@ body.rtl .stat-card { direction: rtl; }
 
 
 
+
+/* ── WhatsApp Share Button ─────────────────────────── */
+.wa-share-bar {
+  display: none;
+  background: #0d1f14;
+  border: 1px solid rgba(37,211,102,0.3);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-top: 10px;
+  animation: fadeUp 0.3s ease both;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.wa-share-bar.show { display: flex; }
+.wa-share-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: all var(--trans);
+  flex-shrink: 0;
+}
+.wa-share-btn:hover {
+  background: #128C7E;
+  transform: translateY(-1px);
+}
+.wa-share-info {
+  font-size: 12px;
+  color: #25D366;
+  flex: 1;
+}
+.wa-share-close {
+  background: none;
+  border: none;
+  color: var(--txt-3);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  line-height: 1;
+}
+
 </style>
 </head>
 <body>
@@ -1831,6 +1880,20 @@ body.rtl .stat-card { direction: rtl; }
                 Generate Invoice with AI
               </button>
             </div>
+
+          <!-- WhatsApp Share Bar -->
+          <div class="wa-share-bar" id="wa-share-bar">
+            <div class="wa-share-info">
+              📲 Invoice Ready! Share on WhatsApp:
+            </div>
+            <button class="wa-share-btn" id="wa-share-btn" onclick="sendInvoiceWhatsApp()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              Share on WhatsApp
+            </button>
+            <button class="wa-share-close" onclick="document.getElementById('wa-share-bar').classList.remove('show')">✕</button>
+          </div>
 
           </div>
         </div>
@@ -2896,6 +2959,9 @@ tbody td:last-child{text-align:right;font-weight:700;}
     // 7. Button → success state
     btn.innerHTML = '<span>✅</span> Invoice Generated!';
     btn.style.background = 'linear-gradient(135deg,#00c48c,#00e5c0)';
+
+    // 7b. Show WhatsApp share button
+    showWhatsAppBtn(client, email, total, invNum, dueDate, service);
 
     // 8. Reset after 3s
     setTimeout(() => {
@@ -5144,6 +5210,39 @@ function drawDonutChart(canvasId, segments, legendId) {
 
 function drawExpenseDonut(){var e=JSON.parse(localStorage.getItem('nexus_expenses')||'[]'),cats={};e.forEach(function(x){var c=x.category||'Other';cats[c]=(cats[c]||0)+(parseFloat(x.amount)||0);});drawDonutChart('expenseDonut',Object.entries(cats).map(function(e){return{label:e[0],val:e[1]};}),'exp-legend');}
 function drawInvoiceDonut(){var inv=JSON.parse(localStorage.getItem('nexus_invoices')||'[]'),p=0,pe=0,o=0;inv.forEach(function(i){var a=parseFloat(i.amount)||0;if(i.status==='Paid')p+=a;else if(i.status==='Overdue')o+=a;else pe+=a;});drawDonutChart('invoiceDonut',[{label:'Paid',val:p},{label:'Pending',val:pe},{label:'Overdue',val:o}].filter(function(s){return s.val>0;}),'inv-legend2');}
+
+
+// ── WhatsApp Invoice Share ────────────────────────────
+var _waInvoiceData = {};
+
+function showWhatsAppBtn(client, email, total, invNum, dueDate, service) {
+  _waInvoiceData = { client, email, total, invNum, dueDate, service };
+  var bar = document.getElementById('wa-share-bar');
+  if (bar) bar.classList.add('show');
+}
+
+window.sendInvoiceWhatsApp = function() {
+  var d = _waInvoiceData;
+  var user = JSON.parse(localStorage.getItem('nexus_user') || '{}');
+  var senderName = user.name || 'Your Service Provider';
+
+  var msg = 'السلام علیکم ' + (d.client || 'Client') + '! 👋' +
+    '\n\nآپ کی invoice تیار ہے:' +
+    '\n\n📄 Invoice: ' + (d.invNum || '') +
+    '\n💼 Service: ' + (d.service || '') +
+    '\n💰 Amount: $' + parseFloat(d.total || 0).toFixed(2) +
+    '\n📅 Due Date: ' + (d.dueDate || '') +
+    '\n\nبراہ کرم مقررہ تاریخ تک ادائیگی کریں۔' +
+    '\n\nشکریہ! 🙏' +
+    '\n— ' + senderName +
+    '\n⚡ Nexus AI';
+
+  var encoded = encodeURIComponent(msg);
+
+  // If email has phone, try direct
+  var waUrl = 'https://wa.me/?text=' + encoded;
+  window.open(waUrl, '_blank');
+};
 
 </script>
 
