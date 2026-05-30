@@ -1930,97 +1930,164 @@ body.rtl .stat-card { direction: rtl; }
       </button>
     </div>
 
-    <!-- Recent Activity Table -->
-    <div class="table-wrap">
-      <div class="table-head">
-        <div class="table-title" data-i18n="recent_inv">Recent Invoices</div>
-        <a class="view-all" href="#">View all →</a>
+    <!-- AI Income Prediction -->
+    <div style="background:linear-gradient(135deg,#0d1520,#111827);
+      border:1px solid rgba(79,124,255,0.2);border-radius:var(--radius);
+      overflow:hidden;animation:fadeUp 0.4s ease both;">
+
+      <!-- Collapsed Header - always visible -->
+      <div style="display:flex;align-items:center;justify-content:space-between;
+        padding:16px 20px;cursor:pointer;" onclick="toggleAIP()">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">🤖</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--txt-1);">
+              AI Income Prediction
+            </div>
+            <div id="aip-preview" style="font-size:11px;color:var(--txt-3);">
+              Tap to analyze your income
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="background:rgba(79,124,255,0.15);border:1px solid rgba(79,124,255,0.25);
+            color:var(--accent);font-size:10px;font-weight:700;padding:3px 8px;
+            border-radius:20px;">✦ AI</div>
+          <span id="aip-arrow" style="color:var(--accent);font-size:16px;
+            transition:transform 0.3s;">▼</span>
+        </div>
       </div>
-      <div style="overflow-x: auto;">
-        <table>
+
+      <!-- Expanded Content - hidden by default -->
+      <div id="aip-content" style="display:none;padding:0 20px 18px;">
+
+        <!-- Stats Row -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);
+          gap:8px;margin-bottom:14px;">
+          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+            padding:10px;text-align:center;">
+            <div id="aip-this" style="font-size:18px;font-weight:800;
+              color:var(--accent);">$0</div>
+            <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
+              margin-top:2px;">This Month</div>
+          </div>
+          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+            padding:10px;text-align:center;">
+            <div id="aip-last" style="font-size:18px;font-weight:800;
+              color:var(--txt-2);">$0</div>
+            <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
+              margin-top:2px;">Last Month</div>
+          </div>
+          <div style="background:var(--bg-3);border-radius:var(--radius-sm);
+            padding:10px;text-align:center;">
+            <div id="aip-growth" style="font-size:18px;font-weight:800;
+              color:var(--low);">0%</div>
+            <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
+              margin-top:2px;">Growth</div>
+          </div>
+        </div>
+
+        <!-- Prediction Box -->
+        <div style="background:rgba(0,229,192,0.06);border:1px solid rgba(0,229,192,0.2);
+          border-radius:var(--radius-sm);padding:12px;margin-bottom:12px;
+          display:flex;align-items:center;gap:10px;">
+          <span style="font-size:24px;">🎯</span>
+          <div>
+            <div style="font-size:10px;color:var(--txt-3);text-transform:uppercase;
+              letter-spacing:0.5px;margin-bottom:3px;">Next Month</div>
+            <div id="aip-pred" style="font-size:22px;font-weight:800;
+              color:var(--low);">--</div>
+            <div id="aip-pred-sub" style="font-size:10px;color:var(--txt-3);">
+              Add invoices for prediction
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bars -->
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;
+            font-size:10px;color:var(--txt-3);margin-bottom:3px;">
+            <span>Goal Progress</span>
+            <span id="aip-goal-pct">0%</span>
+          </div>
+          <div style="height:4px;background:var(--bg-4);border-radius:4px;">
+            <div id="aip-goal-bar" style="height:100%;width:0%;border-radius:4px;
+              background:linear-gradient(90deg,var(--accent),var(--low));
+              transition:width 1s ease;"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;
+            font-size:10px;color:var(--txt-3);margin-bottom:3px;">
+            <span>Collection Rate</span>
+            <span id="aip-collect-pct">0%</span>
+          </div>
+          <div style="height:4px;background:var(--bg-4);border-radius:4px;">
+            <div id="aip-collect-bar" style="height:100%;width:0%;border-radius:4px;
+              background:linear-gradient(90deg,var(--low),#00c48c);
+              transition:width 1s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Insight -->
+        <div id="aip-insight" style="background:var(--bg-3);
+          border-left:3px solid var(--accent);border-radius:var(--radius-sm);
+          padding:8px 12px;font-size:11px;color:var(--txt-2);line-height:1.5;">
+          💡 Add invoices to get personalized predictions!
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Recent Activity Table -->
+    <div style="background:var(--bg-2);border:1px solid var(--border);
+      border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both;">
+
+      <!-- Header - always visible -->
+      <div style="display:flex;align-items:center;justify-content:space-between;
+        padding:16px 20px;cursor:pointer;" onclick="toggleRecentInv()">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">🧾</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--txt-1);">
+              Recent Invoices
+            </div>
+            <div id="inv-preview" style="font-size:11px;color:var(--txt-3);">
+              Tap to view invoices
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <a href="invoices.html" onclick="event.stopPropagation()"
+            style="font-size:12px;color:var(--accent);font-weight:600;
+              text-decoration:none;">View all →</a>
+          <span id="inv-arrow" style="color:var(--txt-3);font-size:16px;
+            transition:transform 0.3s;">▼</span>
+        </div>
+      </div>
+
+      <!-- Collapsed content -->
+      <div id="recent-inv-content" style="display:none;
+        border-top:1px solid var(--border);overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;">
           <thead>
-            <tr>
-              <th>Invoice</th>
-              <th>Client</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Status</th>
+            <tr style="background:var(--bg-3);">
+              <th style="padding:10px 16px;font-size:11px;font-weight:600;
+                color:var(--txt-3);text-align:left;">Client</th>
+              <th style="padding:10px 16px;font-size:11px;font-weight:600;
+                color:var(--txt-3);text-align:left;">Amount</th>
+              <th style="padding:10px 16px;font-size:11px;font-weight:600;
+                color:var(--txt-3);text-align:left;">Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="recent-inv-body">
             <tr>
-              <td><span class="invoice-id">#INV-2024</span></td>
-              <td>
-                <div class="client-cell">
-                  <div class="client-dot" style="background: rgba(79,124,255,0.15); color: #4f7cff;">MC</div>
-                  Meridian Corp
-                </div>
+              <td colspan="3" style="padding:20px;text-align:center;
+                color:var(--txt-3);font-size:13px;">
+                No invoices yet. Generate your first invoice above!
               </td>
-              <td class="date-cell">May 15, 2025</td>
-              <td class="amount-cell" style="color: var(--low);">$8,400</td>
-              <td><span class="status-badge paid">Paid</span></td>
-            </tr>
-            <tr>
-              <td><span class="invoice-id">#INV-2023</span></td>
-              <td>
-                <div class="client-cell">
-                  <div class="client-dot" style="background: rgba(245,166,35,0.15); color: #f5a623;">SN</div>
-                  Studio Nora
-                </div>
-              </td>
-              <td class="date-cell">May 12, 2025</td>
-              <td class="amount-cell" style="color: var(--txt-1);">$3,200</td>
-              <td><span class="status-badge pending">Pending</span></td>
-            </tr>
-            <tr>
-              <td><span class="invoice-id">#INV-2022</span></td>
-              <td>
-                <div class="client-cell">
-                  <div class="client-dot" style="background: rgba(0,229,192,0.15); color: #00e5c0;">VL</div>
-                  Vertex Labs
-                </div>
-              </td>
-              <td class="date-cell">May 8, 2025</td>
-              <td class="amount-cell" style="color: var(--txt-1);">$12,750</td>
-              <td><span class="status-badge pending">Pending</span></td>
-            </tr>
-            <tr>
-              <td><span class="invoice-id">#INV-2021</span></td>
-              <td>
-                <div class="client-cell">
-                  <div class="client-dot" style="background: rgba(255,94,108,0.15); color: #ff5e6c;">TW</div>
-                  TechWave Inc
-                </div>
-              </td>
-              <td class="date-cell">Apr 30, 2025</td>
-              <td class="amount-cell" style="color: var(--high);">$5,600</td>
-              <td><span class="status-badge overdue">Overdue</span></td>
-            </tr>
-            <tr>
-              <td><span class="invoice-id">#INV-2020</span></td>
-              <td>
-                <div class="client-cell">
-                  <div class="client-dot" style="background: rgba(167,139,250,0.15); color: #a78bfa;">BP</div>
-                  BluePeak Digital
-                </div>
-              </td>
-              <td class="date-cell">Apr 22, 2025</td>
-              <td class="amount-cell" style="color: var(--low);">$9,100</td>
-              <td><span class="status-badge paid">Paid</span></td>
-            </tr>
-            <tr>
-              <td><span class="invoice-id">#INV-2019</span></td>
-              <td>
-                <div class="client-cell">
-                  <div class="client-dot" style="background: rgba(79,124,255,0.15); color: #4f7cff;">CX</div>
-
-
-                  Crux Media
-                </div>
-              </td>
-              <td class="date-cell">Apr 18, 2025</td>
-              <td class="amount-cell" style="color: var(--low);">$2,800</td>
-              <td><span class="status-badge paid">Paid</span></td>
             </tr>
           </tbody>
         </table>
@@ -4756,6 +4823,184 @@ window.toggleAIFeature = function() {
     localStorage.setItem('nexus_ai_features', 'on');
   }
 };
+
+
+// ── AI Income Prediction ──────────────────────────────
+function calcAIP() {
+  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var now = new Date();
+  var thisM = now.getMonth();
+  var thisY = now.getFullYear();
+  var lastM = thisM === 0 ? 11 : thisM - 1;
+  var lastY = thisM === 0 ? thisY - 1 : thisY;
+
+  var thisTotal = 0;
+  var lastTotal = 0;
+  var paidTotal = 0;
+  var allTotal  = 0;
+
+  invoices.forEach(function(inv) {
+    var amt = parseFloat(inv.amount) || 0;
+    allTotal += amt;
+    if (inv.status === 'Paid') paidTotal += amt;
+    if (inv.date) {
+      var d = new Date(inv.date);
+      if (d.getMonth() === thisM && d.getFullYear() === thisY) thisTotal += amt;
+      if (d.getMonth() === lastM && d.getFullYear() === lastY) lastTotal += amt;
+    }
+  });
+
+  var growth = 0;
+  if (lastTotal > 0) growth = ((thisTotal - lastTotal) / lastTotal) * 100;
+  else if (thisTotal > 0) growth = 100;
+
+  var prediction = 500;
+  if (thisTotal > 0 && lastTotal > 0) {
+    prediction = thisTotal * (1 + (growth / 100) * 0.5);
+  } else if (thisTotal > 0) {
+    prediction = thisTotal * 1.15;
+  } else if (allTotal > 0) {
+    prediction = (allTotal / Math.max(invoices.length, 1)) * 1.1;
+  }
+
+  var collectRate = allTotal > 0 ? (paidTotal / allTotal) * 100 : 0;
+  var goalPct = prediction > 0 ? Math.min(100, (thisTotal / prediction) * 100) : 0;
+
+  function fmt(n) {
+    return '$' + parseFloat(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  // Update UI
+  var el;
+  el = document.getElementById('aip-this');    if(el) el.textContent = fmt(thisTotal);
+  el = document.getElementById('aip-last');    if(el) el.textContent = fmt(lastTotal);
+  el = document.getElementById('aip-growth');
+  if(el) {
+    el.textContent = (growth >= 0 ? '+' : '') + growth.toFixed(1) + '%';
+    el.style.color = growth >= 0 ? 'var(--low)' : 'var(--high)';
+  }
+  el = document.getElementById('aip-pred');
+  if(el) el.textContent = fmt(prediction);
+
+  el = document.getElementById('aip-pred-sub');
+  if(el) {
+    el.textContent = invoices.length > 0
+      ? 'Based on ' + invoices.length + ' invoices & growth trend'
+      : 'Add invoices for personalized prediction!';
+  }
+
+  el = document.getElementById('aip-goal-pct');  if(el) el.textContent = goalPct.toFixed(0) + '%';
+  el = document.getElementById('aip-goal-bar');   if(el) el.style.width = goalPct + '%';
+  el = document.getElementById('aip-collect-pct');if(el) el.textContent = collectRate.toFixed(0) + '%';
+  el = document.getElementById('aip-collect-bar');if(el) el.style.width = collectRate + '%';
+
+  // Insight
+  var insight = '';
+  if (growth > 20) insight = '🚀 Excellent! Income up ' + growth.toFixed(0) + '% — keep it up!';
+  else if (growth > 0) insight = '📈 Good trend! Income growing ' + growth.toFixed(0) + '% this month.';
+  else if (growth < 0) insight = '⚠️ Income dropped ' + Math.abs(growth).toFixed(0) + '% — try adding more clients!';
+  else if (invoices.length === 0) insight = '💡 Add your invoices to get personalized AI income predictions!';
+  else insight = '💡 AI predicts ' + fmt(prediction) + ' next month at current pace!';
+
+  if (collectRate < 50 && invoices.length > 0) insight += ' Follow up on unpaid invoices!';
+
+  el = document.getElementById('aip-insight');
+  if(el) el.textContent = insight;
+
+  // Update preview text
+  var preview = document.getElementById('aip-preview');
+  if(preview) {
+    if(invoices.length > 0) {
+      preview.textContent = 'This month: ' + fmt(thisTotal) + ' · Predicted: ' + fmt(prediction);
+      preview.style.color = 'var(--low)';
+    } else {
+      preview.textContent = 'Tap to analyze your income';
+    }
+  }
+}
+
+window.toggleAIP = function() {
+  var content = document.getElementById('aip-content');
+  var arrow   = document.getElementById('aip-arrow');
+  if (!content) return;
+  var isOpen = content.style.display !== 'none';
+  content.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  if (!isOpen) {
+    calcAIP();
+  }
+};
+
+window.runAIP = function() {
+  var btn = document.getElementById('aip-btn');
+  if(btn) { btn.textContent = '⏳ Analyzing...'; btn.disabled = true; }
+  setTimeout(function() {
+    calcAIP();
+    if(btn) { btn.textContent = '🤖 Analyze & Predict My Income'; btn.disabled = false; }
+  }, 1200);
+};
+
+// Auto run disabled - user taps to open
+
+
+// ── Recent Invoices Toggle ────────────────────────────
+window.toggleRecentInv = function() {
+  var content = document.getElementById('recent-inv-content');
+  var arrow   = document.getElementById('inv-arrow');
+  if (!content) return;
+  var isOpen = content.style.display !== 'none';
+  content.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+  if (!isOpen) renderRecentInv();
+};
+
+function renderRecentInv() {
+  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var body = document.getElementById('recent-inv-body');
+  var preview = document.getElementById('inv-preview');
+  if (!body) return;
+
+  // Update preview
+  if (preview) {
+    if (invoices.length > 0) {
+      preview.textContent = invoices.length + ' invoice' + (invoices.length !== 1 ? 's' : '');
+      preview.style.color = 'var(--low)';
+    } else {
+      preview.textContent = 'No invoices yet';
+    }
+  }
+
+  if (invoices.length === 0) {
+    body.innerHTML = '<tr><td colspan="3" style="padding:20px;text-align:center;color:var(--txt-3);font-size:13px;">No invoices yet. Generate your first invoice above!</td></tr>';
+    return;
+  }
+
+  var recent = invoices.slice(0, 5);
+  body.innerHTML = recent.map(function(inv) {
+    var statusColor = inv.status === 'Paid' ? 'var(--low)' :
+                      inv.status === 'Overdue' ? 'var(--high)' : 'var(--med)';
+    var statusBg = inv.status === 'Paid' ? 'rgba(0,229,192,0.1)' :
+                   inv.status === 'Overdue' ? 'rgba(255,94,108,0.1)' : 'rgba(245,166,35,0.1)';
+    return '<tr style="border-bottom:1px solid var(--border);">' +
+      '<td style="padding:12px 16px;font-size:13px;color:var(--txt-1);">' + (inv.client || '--') + '</td>' +
+      '<td style="padding:12px 16px;font-size:13px;font-weight:700;color:var(--txt-1);">$' + parseFloat(inv.amount || 0).toFixed(2) + '</td>' +
+      '<td style="padding:12px 16px;">' +
+        '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;' +
+        'color:' + statusColor + ';background:' + statusBg + ';">' +
+        (inv.status || 'Pending') + '</span></td>' +
+      '</tr>';
+  }).join('');
+}
+
+// Run on load to update preview
+setTimeout(function() {
+  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var preview = document.getElementById('inv-preview');
+  if (preview && invoices.length > 0) {
+    preview.textContent = invoices.length + ' invoice' + (invoices.length !== 1 ? 's' : '');
+    preview.style.color = 'var(--low)';
+  }
+}, 800);
 
 </script>
 
