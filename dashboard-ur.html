@@ -150,6 +150,8 @@ body {
 .logo-text span { color: var(--accent); }
 
 .sidebar-section {
+  font-family: 'Noto Nastaliq Urdu', serif !important;
+  direction: rtl;
   padding: 20px 16px 8px;
   font-size: 10px;
   font-weight: 600;
@@ -159,6 +161,7 @@ body {
 }
 
 .nav-link {
+  font-family: 'Noto Nastaliq Urdu', serif;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -416,8 +419,8 @@ body {
 }
 
 .stat-card.earnings::after  { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
-.stat-card.invoices::after  { background: linear-gradient(90deg, var(--med), #ff7849); }
-.stat-card.tasks::after     { background: linear-gradient(90deg, var(--low), #4f7cff); }
+.stat-card.انوائسز::after  { background: linear-gradient(90deg, var(--med), #ff7849); }
+.stat-card.کام::after     { background: linear-gradient(90deg, var(--low), #4f7cff); }
 .stat-card.ai-score::after  { background: linear-gradient(90deg, #a78bfa, #ec4899); }
 
 .stat-header {
@@ -435,8 +438,8 @@ body {
 }
 
 .earnings  .stat-icon-wrap { background: rgba(79,124,255,0.1); }
-.invoices  .stat-icon-wrap { background: rgba(245,166,35,0.1); }
-.tasks     .stat-icon-wrap { background: rgba(0,229,192,0.1); }
+.انوائسز  .stat-icon-wrap { background: rgba(245,166,35,0.1); }
+.کام     .stat-icon-wrap { background: rgba(0,229,192,0.1); }
 .ai-score  .stat-icon-wrap { background: rgba(167,139,250,0.1); }
 
 .stat-trend {
@@ -482,8 +485,8 @@ body {
 }
 
 .earnings  .stat-bar-fill { background: linear-gradient(90deg, var(--accent), var(--accent-2)); width: 72%; }
-.invoices  .stat-bar-fill { background: linear-gradient(90deg, var(--med), #ff7849); width: 38%; }
-.tasks     .stat-bar-fill { background: linear-gradient(90deg, var(--low), #4f7cff); width: 60%; }
+.انوائسز  .stat-bar-fill { background: linear-gradient(90deg, var(--med), #ff7849); width: 38%; }
+.کام     .stat-bar-fill { background: linear-gradient(90deg, var(--low), #4f7cff); width: 60%; }
 .ai-score  .stat-bar-fill { background: linear-gradient(90deg, #a78bfa, #ec4899); width: 88%; }
 
 /* ─── Main Split ─────────────────────────────────────────── */
@@ -1024,7 +1027,7 @@ tbody td {
   .stat-value { font-size: 34px; }
 }
 
-/* ─── Notifications & Calendar ───────────────────────── */
+/* ─── اطلاعات & Calendar ───────────────────────── */
 .notif-item{
   padding:12px 18px;
   border-bottom:1px solid var(--border);
@@ -1175,7 +1178,7 @@ tbody td {
   border-color: var(--low);
 }
 
-.time-entries-list {
+.time-اندراجات-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1515,36 +1518,36 @@ body.rtl .stat-card { direction: rtl; }
     <div class="logo-text">Ne<span>xus</span></div>
   </div>
 
-  <div class="sidebar-section" data-i18n="main_menu">Main Menu</div>
+  <div class="sidebar-section" data-i18n="main_menu">مین مینو</div>
 
   <a class="nav-link active" href="#">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
     </svg>
-    Dashboard
+    ڈیش بورڈ
   </a>
 
   <a class="nav-link" href="clients.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
     </svg>
-    <span data-i18n="nav_clients">Clients</span>
+    <span data-i18n="nav_clients">کلائنٹس</span>
     <span class="nav-badge">12</span>
   </a>
 
-  <a class="nav-link" href="invoices.html">
+  <a class="nav-link" href="انوائسز.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
     </svg>
-    <span data-i18n="nav_invoices">Invoices</span>
+    <span data-i18n="nav_انوائسز">انوائسز</span>
     <span class="nav-badge">5</span>
   </a>
 
-  <a class="nav-link" href="ai-tasks.html">
+  <a class="nav-link" href="ai-کام.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>
-    <span data-i18n="nav_tasks">AI Task Manager</span>
+    <span data-i18n="nav_کام">AI ٹاسک مینیجر</span>
   </a>
 
   <a class="nav-link" href="contracts.html">
@@ -1554,7 +1557,7 @@ body.rtl .stat-card { direction: rtl; }
       <line x1="16" y1="13" x2="8" y2="13"/>
       <line x1="16" y1="17" x2="8" y2="17"/>
     </svg>
-    <span data-i18n="nav_contracts">Contracts</span>
+    <span data-i18n="nav_contracts">معاہدے</span>
   </a>
 
   <a class="nav-link" href="client-portal.html">
@@ -1562,16 +1565,16 @@ body.rtl .stat-card { direction: rtl; }
       <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
     </svg>
-    <span data-i18n="nav_portal">Client Portal</span>
+    <span data-i18n="nav_portal">کلائنٹ پورٹل</span>
   </a>
 
-  <div class="sidebar-section" style="margin-top: 8px;" data-i18n="preferences">Preferences</div>
+  <div class="sidebar-section" style="margin-top: 8px;" data-i18n="preferences">ترجیحات</div>
 
   <a class="nav-link" href="#" onclick="openSettings()">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
     </svg>
-    <span data-i18n="nav_settings">Settings</span>
+    <span data-i18n="nav_settings">ترتیبات</span>
   </a>
 
   <div class="sidebar-footer">
@@ -1579,7 +1582,7 @@ body.rtl .stat-card { direction: rtl; }
       style="cursor:pointer;">
       <div class="avatar" id="sidebar-avatar">A</div>
       <div class="user-info">
-        <div class="user-name" id="sidebar-name" data-i18n="loading">Loading...</div>
+        <div class="user-name" id="sidebar-name" data-i18n="loading">لوڈ ہو رہا ہے...</div>
         <div class="user-role" id="sidebar-email">nexus.io</div>
       </div>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--txt-3);">
@@ -1625,13 +1628,13 @@ body.rtl .stat-card { direction: rtl; }
             border-radius:50px;padding:5px 10px;cursor:pointer;
             color:var(--txt-1);font-size:11px;font-weight:600;
             text-decoration:none;">
-          🇺🇸 <span>EN</span>
+          🇺🇸 <span>انگلش</span>
         </a>
 
 
 
         <!-- Notification Bell -->
-        <div class="icon-btn" id="notif-btn" title="Notifications" onclick="toggleNotif(event)">
+        <div class="icon-btn" id="notif-btn" title="اطلاعات" onclick="toggleNotif(event)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
@@ -1647,7 +1650,7 @@ body.rtl .stat-card { direction: rtl; }
           <div style="padding:14px 18px;border-bottom:1px solid var(--border);
                       display:flex;justify-content:space-between;align-items:center;">
             <span style="font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--txt-1);">
-              🔔 Notifications
+              🔔 اطلاعات
             </span>
             <span id="notif-clear" onclick="clearNotifs()"
               style="font-size:11px;color:var(--accent);cursor:pointer;font-weight:600;">
@@ -1702,7 +1705,7 @@ body.rtl .stat-card { direction: rtl; }
             </div>
             <div id="cal-days-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;"></div>
           </div>
-          <!-- Upcoming tasks -->
+          <!-- Upcoming کام -->
           <div style="padding:0 12px 12px;">
             <div style="font-size:11px;font-weight:700;color:var(--txt-3);
                         text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">
@@ -1725,11 +1728,11 @@ body.rtl .stat-card { direction: rtl; }
 
     <!-- Stats Grid -->
     <div>
-      <!-- Currency + Overview Row -->
+      <!-- Currency + جائزہ Row -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
         <div style="font-family:var(--font-head);font-size:11px;font-weight:600;
                     letter-spacing:1.4px;text-transform:uppercase;color:var(--txt-3);">
-          Overview
+          جائزہ
         </div>
         <!-- Currency Selector -->
         <div style="display:flex;align-items:center;gap:6px;
@@ -1768,7 +1771,7 @@ body.rtl .stat-card { direction: rtl; }
           <div class="stat-bar"><div class="stat-bar-fill"></div></div>
         </div>
 
-        <div class="stat-card invoices">
+        <div class="stat-card انوائسز">
           <div class="stat-header">
             <div class="stat-icon-wrap">🧾</div>
             <div class="stat-trend down">5 pending</div>
@@ -1778,13 +1781,13 @@ body.rtl .stat-card { direction: rtl; }
           <div class="stat-bar"><div class="stat-bar-fill"></div></div>
         </div>
 
-        <div class="stat-card tasks">
+        <div class="stat-card کام">
           <div class="stat-header">
             <div class="stat-icon-wrap">⚡</div>
             <div class="stat-trend up">↑ 3 new</div>
           </div>
-          <div class="stat-value" id="stat-tasks">0</div>
-          <div class="stat-label" data-i18n="active_tasks">اس ہفتے کے کام</div>
+          <div class="stat-value" id="stat-کام">0</div>
+          <div class="stat-label" data-i18n="active_کام">اس ہفتے کے کام</div>
           <div class="stat-bar"><div class="stat-bar-fill"></div></div>
         </div>
 
@@ -1852,12 +1855,12 @@ body.rtl .stat-card { direction: rtl; }
             <!-- Task List Panel -->
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title" data-i18n="ai_tasks">AI کے مطابق کام</div>
+          <div class="panel-title" data-i18n="ai_کام">AI کے مطابق کام</div>
           <div class="panel-badge" id="task-count-badge">0 total</div>
         </div>
         <div class="panel-body">
 
-          <!-- Add Task Form -->
+          <!-- کام شامل کریں Form -->
           <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
             <input id="task-input" class="form-input" type="text" autocomplete="off"
               placeholder="نیا کام لکھیں..."
@@ -1865,9 +1868,9 @@ body.rtl .stat-card { direction: rtl; }
               onkeydown="if(event.key==='Enter'){event.preventDefault();addTask(event);}">
             <select id="task-priority" class="form-input"
               style="width:110px;padding:9px 10px;font-size:12px;cursor:pointer;">
-              <option value="high">High</option>
-              <option value="medium" selected>Medium</option>
-              <option value="low">Low</option>
+              <option value="high">ہائی</option>
+              <option value="medium" selected>میڈیم</option>
+              <option value="low">کم</option>
             </select>
             <input id="task-due-inp" class="form-input" type="date"
               style="width:130px;padding:9px 10px;font-size:12px;">
@@ -1883,10 +1886,10 @@ body.rtl .stat-card { direction: rtl; }
           <!-- Filter Buttons -->
           <div class="task-filter">
             <button class="filter-btn active" onclick="filterTasks('all',this)" data-i18n="filter_all">All</button>
-            <button class="filter-btn" onclick="filterTasks('high',this)" data-i18n="filter_high">High</button>
-            <button class="filter-btn" onclick="filterTasks('medium',this)" data-i18n="filter_medium">Medium</button>
-            <button class="filter-btn" onclick="filterTasks('low',this)" data-i18n="filter_low">Low</button>
-            <button class="filter-btn" onclick="filterTasks('done',this)" style="margin-left:auto;" data-i18n="filter_done">Done</button>
+            <button class="filter-btn" onclick="filterTasks('high',this)" data-i18n="filter_high">ہائی</button>
+            <button class="filter-btn" onclick="filterTasks('medium',this)" data-i18n="filter_medium">میڈیم</button>
+            <button class="filter-btn" onclick="filterTasks('low',this)" data-i18n="filter_low">کم</button>
+            <button class="filter-btn" onclick="filterTasks('done',this)" style="margin-left:auto;" data-i18n="filter_done">مکمل</button>
           </div>
 
           <!-- Task List renders here -->
@@ -1895,7 +1898,7 @@ body.rtl .stat-card { direction: rtl; }
           <!-- Empty state -->
           <div id="task-empty" style="display:none;text-align:center;padding:32px 0;color:var(--txt-3);font-size:13px;">
             <div style="font-size:32px;margin-bottom:8px;">✅</div>
-            No tasks here! Add one above.
+            No کام here! Add one above.
           </div>
 
         </div>
@@ -1920,7 +1923,7 @@ body.rtl .stat-card { direction: rtl; }
         </div>
         <div style="font-size:12px;color:var(--txt-2);line-height:1.5;">
           کلائنٹ کو لنک بھیجیں!<br>
-          Woh invoices dekh sakte hain!
+          Woh انوائسز dekh sakte hain!
         </div>
       </div>
       <button onclick="openPortalShare()"
@@ -1943,7 +1946,7 @@ body.rtl .stat-card { direction: rtl; }
           <span style="font-size:22px;">🧠</span>
           <div>
             <div style="font-size:14px;font-weight:700;color:var(--txt-1);">AI Business Coach</div>
-            <div style="font-size:11px;color:var(--txt-3);">Apne business ke liye mashware</div>
+            <div style="font-size:11px;color:var(--txt-3);">اپنے بزنس کے لیے مشورے</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -2004,21 +2007,21 @@ body.rtl .stat-card { direction: rtl; }
             <div id="aip-this" style="font-size:18px;font-weight:800;
               color:var(--accent);">$0</div>
             <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
-              margin-top:2px;">Is Mahine</div>
+              margin-top:2px;">اس مہینے</div>
           </div>
           <div style="background:var(--bg-3);border-radius:var(--radius-sm);
             padding:10px;text-align:center;">
             <div id="aip-last" style="font-size:18px;font-weight:800;
               color:var(--txt-2);">$0</div>
             <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
-              margin-top:2px;">Pichle Mahine</div>
+              margin-top:2px;">پچھلے مہینے</div>
           </div>
           <div style="background:var(--bg-3);border-radius:var(--radius-sm);
             padding:10px;text-align:center;">
             <div id="aip-growth" style="font-size:18px;font-weight:800;
               color:var(--low);">0%</div>
             <div style="font-size:9px;color:var(--txt-3);text-transform:uppercase;
-              margin-top:2px;">Izafa</div>
+              margin-top:2px;">اضافہ</div>
           </div>
         </div>
 
@@ -2029,11 +2032,11 @@ body.rtl .stat-card { direction: rtl; }
           <span style="font-size:24px;">🎯</span>
           <div>
             <div style="font-size:10px;color:var(--txt-3);text-transform:uppercase;
-              letter-spacing:0.5px;margin-bottom:3px;">Next Month</div>
+              letter-spacing:0.5px;margin-bottom:3px;">اگلا مہینہ</div>
             <div id="aip-pred" style="font-size:22px;font-weight:800;
               color:var(--low);">--</div>
             <div id="aip-pred-sub" style="font-size:10px;color:var(--txt-3);">
-              Add invoices for prediction
+              Add انوائسز for prediction
             </div>
           </div>
         </div>
@@ -2042,7 +2045,7 @@ body.rtl .stat-card { direction: rtl; }
         <div style="margin-bottom:8px;">
           <div style="display:flex;justify-content:space-between;
             font-size:10px;color:var(--txt-3);margin-bottom:3px;">
-            <span>Hadaf Ki Progress</span>
+            <span>ہدف کی پیشرفت</span>
             <span id="aip-goal-pct">0%</span>
           </div>
           <div style="height:4px;background:var(--bg-4);border-radius:4px;">
@@ -2055,7 +2058,7 @@ body.rtl .stat-card { direction: rtl; }
         <div style="margin-bottom:12px;">
           <div style="display:flex;justify-content:space-between;
             font-size:10px;color:var(--txt-3);margin-bottom:3px;">
-            <span>Collection Rate</span>
+            <span>وصولی کی شرح</span>
             <span id="aip-collect-pct">0%</span>
           </div>
           <div style="height:4px;background:var(--bg-4);border-radius:4px;">
@@ -2069,7 +2072,7 @@ body.rtl .stat-card { direction: rtl; }
         <div id="aip-insight" style="background:var(--bg-3);
           border-left:3px solid var(--accent);border-radius:var(--radius-sm);
           padding:8px 12px;font-size:11px;color:var(--txt-2);line-height:1.5;">
-          💡 Add invoices to get personalized predictions!
+          💡 Add انوائسز to get personalized predictions!
         </div>
 
       </div>
@@ -2086,7 +2089,7 @@ body.rtl .stat-card { direction: rtl; }
           <span style="font-size:18px;">📊</span>
           <div>
             <div style="font-size:14px;font-weight:700;color:var(--txt-1);">Analytics & Charts</div>
-            <div style="font-size:11px;color:var(--txt-3);">کمائی · Kharch · Invoices</div>
+            <div style="font-size:11px;color:var(--txt-3);">کمائی · Kharch · انوائسز</div>
           </div>
         </div>
         <span id="charts-arrow" style="color:var(--txt-3);font-size:16px;transition:transform 0.3s;">▼</span>
@@ -2115,7 +2118,7 @@ body.rtl .stat-card { direction: rtl; }
             <div id="exp-legend" style="margin-top:6px;font-size:10px;color:var(--txt-3);"></div>
           </div>
           <div>
-            <div style="font-size:12px;font-weight:700;color:var(--txt-1);margin-bottom:8px;">🧾 Invoices</div>
+            <div style="font-size:12px;font-weight:700;color:var(--txt-1);margin-bottom:8px;">🧾 انوائسز</div>
             <canvas id="invoiceDonut" style="width:100%;height:140px;display:block;"></canvas>
             <div id="inv-legend2" style="margin-top:6px;font-size:10px;color:var(--txt-3);"></div>
           </div>
@@ -2142,7 +2145,7 @@ body.rtl .stat-card { direction: rtl; }
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <a href="invoices.html" onclick="event.stopPropagation()"
+          <a href="انوائسز.html" onclick="event.stopPropagation()"
             style="font-size:12px;color:var(--accent);font-weight:600;
               text-decoration:none;">سب دیکھیں →</a>
           <span id="inv-arrow" style="color:var(--txt-3);font-size:16px;
@@ -2157,11 +2160,11 @@ body.rtl .stat-card { direction: rtl; }
           <thead>
             <tr style="background:var(--bg-3);">
               <th style="padding:10px 16px;font-size:11px;font-weight:600;
-                color:var(--txt-3);text-align:left;">Client</th>
+                color:var(--txt-3);text-align:left;">کلائنٹ</th>
               <th style="padding:10px 16px;font-size:11px;font-weight:600;
-                color:var(--txt-3);text-align:left;">Amount</th>
+                color:var(--txt-3);text-align:left;">رقم</th>
               <th style="padding:10px 16px;font-size:11px;font-weight:600;
-                color:var(--txt-3);text-align:left;">Status</th>
+                color:var(--txt-3);text-align:left;">حیثیت</th>
             </tr>
           </thead>
           <tbody id="recent-inv-body">
@@ -2186,11 +2189,11 @@ body.rtl .stat-card { direction: rtl; }
       <div class="panel">
         <div class="panel-head">
           <div class="panel-title" data-i18n="expense_tracker">💸 خرچ ٹریکر</div>
-          <div class="panel-badge" id="exp-count-badge" data-i18n="zero_exp">0 expenses</div>
+          <div class="panel-badge" id="exp-count-badge" data-i18n="zero_exp">0 اخراجات</div>
         </div>
         <div class="panel-body">
 
-          <!-- Add Expense Form -->
+          <!-- خرچ شامل کریں Form -->
           <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
             <input id="exp-name" class="form-input" type="text" autocomplete="off"
               placeholder="خرچ کا نام..."
@@ -2218,7 +2221,7 @@ body.rtl .stat-card { direction: rtl; }
             </button>
           </div>
 
-          <!-- Total bar -->
+          <!-- کل bar -->
           <div style="background:var(--bg-3);border-radius:var(--radius-sm);
                       padding:12px 14px;margin-bottom:12px;
                       display:flex;justify-content:space-between;align-items:center;">
@@ -2235,11 +2238,11 @@ body.rtl .stat-card { direction: rtl; }
           <div id="exp-empty" style="text-align:center;padding:28px 0;
                 color:var(--txt-3);font-size:13px;">
             <div style="font-size:28px;margin-bottom:8px;">💸</div>
-            No expenses yet! Add one above.
+            No اخراجات yet! Add one above.
           </div>
 
           <!-- Clear all -->
-          <button onclick="clearExpenses()"
+          <button onclick="clearاخراجات()"
             id="exp-clear-btn"
             style="display:none;margin-top:12px;width:100%;
                    background:transparent;border:1px solid var(--border);
@@ -2263,7 +2266,7 @@ body.rtl .stat-card { direction: rtl; }
         <div class="panel">
           <div class="panel-head">
             <div class="panel-title" data-i18n="time_tracker">⏱️ وقت ٹریکر</div>
-            <div class="panel-badge" id="timer-status-badge" data-i18n="ready_lbl">Ready</div>
+            <div class="panel-badge" id="timer-status-badge" data-i18n="ready_lbl">تیار</div>
           </div>
           <div class="panel-body">
 
@@ -2279,14 +2282,14 @@ body.rtl .stat-card { direction: rtl; }
                   autocomplete="off">
               </div>
               <div class="timer-input-group">
-                <label>Client</label>
+                <label>کلائنٹ</label>
                 <input type="text" id="timerClient"
                   placeholder="مثلاً ABC کمپنی"
                   autocomplete="off">
               </div>
               <div class="timer-input-group">
                 <label>فی گھنٹہ ریٹ ($)</label>
-                <input type="number" id="timerRate"
+                <input type="number" id="timerریٹ"
                   placeholder="50" min="0" step="0.5" value="50">
               </div>
               <div class="timer-input-group">
@@ -2321,8 +2324,8 @@ body.rtl .stat-card { direction: rtl; }
                 <span class="ts-lbl" data-i18n="today_lbl">آج</span>
               </div>
               <div class="ts-box">
-                <span class="ts-val" id="ts-entries" style="color:var(--accent);">0</span>
-                <span class="ts-lbl" data-i18n="sessions_lbl">Sessions</span>
+                <span class="ts-val" id="ts-اندراجات" style="color:var(--accent);">0</span>
+                <span class="ts-lbl" data-i18n="sessions_lbl">سیشنز</span>
               </div>
               <div class="ts-box">
                 <span class="ts-val" id="ts-earned" style="color:var(--med);">$0</span>
@@ -2342,9 +2345,9 @@ body.rtl .stat-card { direction: rtl; }
         <!-- Time Entries Panel -->
         <div class="panel">
           <div class="panel-head">
-            <div class="panel-title" data-i18n="time_entries">📋 وقت کی اندراجات</div>
+            <div class="panel-title" data-i18n="time_اندراجات">📋 وقت کی اندراجات</div>
             <div style="display:flex;gap:8px;align-items:center;">
-              <div class="panel-badge" id="entries-count-badge">0 entries</div>
+              <div class="panel-badge" id="اندراجات-count-badge">0 اندراجات</div>
               <button onclick="clearTimeEntries()"
                 style="background:none;border:none;cursor:pointer;
                        color:var(--txt-3);font-size:12px;font-weight:600;
@@ -2358,13 +2361,13 @@ body.rtl .stat-card { direction: rtl; }
           <div class="panel-body">
 
             <!-- Entries List -->
-            <div class="time-entries-list" id="timeEntriesList"></div>
+            <div class="time-اندراجات-list" id="timeEntriesList"></div>
 
             <!-- Empty State -->
             <div id="timeEntriesEmpty"
               style="text-align:center;padding:40px 0;color:var(--txt-3);">
               <div style="font-size:32px;margin-bottom:8px;">⏱️</div>
-              <p style="font-size:13px;" data-i18n="no_entries">ابھی کوئی اندراج نہیں۔<br>کام ٹریک کرنے کے لیے ٹائمر شروع کریں!</p>
+              <p style="font-size:13px;" data-i18n="no_اندراجات">ابھی کوئی اندراج نہیں۔<br>کام ٹریک کرنے کے لیے ٹائمر شروع کریں!</p>
             </div>
 
           </div>
@@ -2373,13 +2376,13 @@ body.rtl .stat-card { direction: rtl; }
       </div>
     </div>
 
-    <!-- Earnings Overview -->
+    <!-- Earnings جائزہ -->
     <div class="split-grid">
 
       <!-- Earnings Chart Panel -->
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">📈 Earnings Overview</div>
+          <div class="panel-title">📈 Earnings جائزہ</div>
           <div class="panel-badge">Last 7 days</div>
         </div>
         <div class="panel-body">
@@ -2393,22 +2396,22 @@ body.rtl .stat-card { direction: rtl; }
             <div style="display:flex;justify-content:space-between;
                         padding:10px 14px;background:var(--bg-3);
                         border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">💰 Total Invoiced</span>
+              <span style="font-size:13px;color:var(--txt-2);">💰 کل Invoiced</span>
               <span id="chart-total" style="font-weight:800;color:var(--low);
                     font-family:var(--font-head);">$0.00</span>
             </div>
             <div style="display:flex;justify-content:space-between;
                         padding:10px 14px;background:var(--bg-3);
                         border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">🧾 Invoices Created</span>
+              <span style="font-size:13px;color:var(--txt-2);">🧾 انوائسز Created</span>
               <span id="chart-count" style="font-weight:800;color:var(--accent);
                     font-family:var(--font-head);">0</span>
             </div>
             <div style="display:flex;justify-content:space-between;
                         padding:10px 14px;background:var(--bg-3);
                         border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">💸 Total Expenses</span>
-              <span id="chart-expenses" style="font-weight:800;color:var(--high);
+              <span style="font-size:13px;color:var(--txt-2);">💸 کل اخراجات</span>
+              <span id="chart-اخراجات" style="font-weight:800;color:var(--high);
                     font-family:var(--font-head);">$0.00</span>
             </div>
             <div style="display:flex;justify-content:space-between;
@@ -2416,7 +2419,7 @@ body.rtl .stat-card { direction: rtl; }
                         background:rgba(79,124,255,0.08);
                         border:1px solid rgba(79,124,255,0.15);
                         border-radius:var(--radius-sm);">
-              <span style="font-size:13px;color:var(--txt-2);">🏆 Net Profit</span>
+              <span style="font-size:13px;color:var(--txt-2);">🏆 خالص منافع</span>
               <span id="chart-profit" style="font-weight:800;color:var(--accent);
                     font-family:var(--font-head);">$0.00</span>
             </div>
@@ -2486,7 +2489,7 @@ onAuthStateChanged(_fbAuth, user => {
     if (profileEl) profileEl.textContent = initials;
     updateStats();
     drawChart();
-    renderRecentInvoices();
+    renderRecentانوائسز();
     return;
   }
 
@@ -2551,20 +2554,20 @@ window.closeSidebar = function() {
 //  TASK MANAGER — localStorage powered
 // ══════════════════════════════════════════════════════
 
-const TASK_KEY = 'nexus_tasks';
+const TASK_KEY = 'nexus_کام';
 let currentFilter = 'all';
 
-// ── Default tasks (first load only) ──────────────────
+// ── Default کام (first load only) ──────────────────
 const DEFAULT_TASKS = [
   { id: 't1', title: 'Finalize Q2 report for Meridian Co.', priority: 'high',   due: 'آج',     done: false, ai: true  },
   { id: 't2', title: 'Send revised proposal to Studio Nora', priority: 'high',  due: 'Tomorrow',  done: false, ai: false },
   { id: 't3', title: 'Update brand guidelines — Vertex Labs', priority: 'medium',due: 'May 20',    done: false, ai: true  },
   { id: 't4', title: 'Review contractor timesheets',          priority: 'medium',due: 'May 22',    done: false, ai: false },
-  { id: 't5', title: 'Schedule TechWave onboarding call',    priority: 'low',   due: 'Completed', done: true,  ai: false },
+  { id: 't5', title: 'Schedule TechWave onboarding call',    priority: 'low',   due: 'مکمل', done: true,  ai: false },
   { id: 't6', title: 'Archive old invoice files',            priority: 'low',   due: 'May 25',    done: false, ai: false },
 ];
 
-// ── Load tasks from localStorage ─────────────────────
+// ── Load کام from localStorage ─────────────────────
 function loadTasks() {
   try {
     const saved = localStorage.getItem(TASK_KEY);
@@ -2577,19 +2580,19 @@ function loadTasks() {
   }
 }
 
-// ── Save tasks to localStorage ────────────────────────
-function saveTasks(tasks) {
+// ── Save کام to localStorage ────────────────────────
+function saveTasks(کام) {
   try {
-    localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+    localStorage.setItem(TASK_KEY, JSON.stringify(کام));
   } catch(err) {
-    console.warn('Could not save tasks:', err);
+    console.warn('Could not save کام:', err);
   }
 }
 
 // ── AI Priority Sort: High → Medium → Low, done last ─
-function aiSort(tasks) {
+function aiSort(کام) {
   const order = { high: 0, medium: 1, low: 2 };
-  return [...tasks].sort((a, b) => {
+  return [...کام].sort((a, b) => {
     if (a.done !== b.done) return a.done ? 1 : -1;
     return (order[a.priority] || 2) - (order[b.priority] || 2);
   });
@@ -2597,20 +2600,20 @@ function aiSort(tasks) {
 
 // ── Render task list ──────────────────────────────────
 function renderTasks() {
-  const tasks   = aiSort(loadTasks());
+  const کام   = aiSort(loadTasks());
   const list    = document.getElementById('task-list');
   const empty   = document.getElementById('task-empty');
   const badge   = document.getElementById('task-count-badge');
 
   // Filter
-  const filtered = tasks.filter(t => {
+  const filtered = کام.filter(t => {
     if (currentFilter === 'all')    return !t.done;
     if (currentFilter === 'done')   return t.done;
     return t.priority === currentFilter && !t.done;
   });
 
   // Badge count
-  const total = tasks.filter(t => !t.done).length;
+  const total = کام.filter(t => !t.done).length;
   badge.textContent = total + ' total';
 
   // Empty state
@@ -2622,7 +2625,7 @@ function renderTasks() {
   empty.style.display = 'none';
 
   // Rank badge for top high-priority undone task
-  const topId = tasks.find(t => t.priority === 'high' && !t.done)?.id;
+  const topId = کام.find(t => t.priority === 'high' && !t.done)?.id;
 
   list.innerHTML = filtered.map((t, i) => `
     <div class="task-item ${t.done ? 'done' : ''}"
@@ -2635,7 +2638,7 @@ function renderTasks() {
       <div class="task-info">
         <div class="task-title">${escHtml(t.title)}</div>
         <div class="task-meta">
-          <span class="task-due">${t.done ? 'Completed' : 'Due: ' + (t.due || '—')}</span>
+          <span class="task-due">${t.done ? 'مکمل' : 'Due: ' + (t.due || '—')}</span>
           <span class="priority-badge ${t.priority}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
           ${t.ai || t.id === topId ? '<span class="task-ai-tag">&#10022; AI Ranked #1</span>' : ''}
         </div>
@@ -2678,8 +2681,8 @@ window.addTask = function(e) {
     ? new Date(dueEl.value + 'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})
     : '';
 
-  const tasks = loadTasks();
-  tasks.push({
+  const کام = loadTasks();
+  کام.push({
     id:       'u' + Date.now(),
     title:    title,
     priority: priEl.value,
@@ -2687,7 +2690,7 @@ window.addTask = function(e) {
     done:     false,
     ai:       false,
   });
-  saveTasks(tasks);
+  saveTasks(کام);
   renderTasks();
 
   // Clear input
@@ -2703,20 +2706,20 @@ window.addTask = function(e) {
 
 // ── Toggle done ───────────────────────────────────────
 window.toggleTask = function(id) {
-  const tasks = loadTasks();
-  const t = tasks.find(t => t.id === id);
+  const کام = loadTasks();
+  const t = کام.find(t => t.id === id);
   if (t) {
     t.done = !t.done;
-    if (t.done) t.due = 'Completed';
-    saveTasks(tasks);
+    if (t.done) t.due = 'مکمل';
+    saveTasks(کام);
     renderTasks();
   }
 }
 
 // ── Delete task ───────────────────────────────────────
 window.deleteTask = function(id) {
-  const tasks = loadTasks().filter(t => t.id !== id);
-  saveTasks(tasks);
+  const کام = loadTasks().filter(t => t.id !== id);
+  saveTasks(کام);
   renderTasks();
 }
 
@@ -2790,7 +2793,7 @@ document.getElementById('inv-btn').addEventListener('click', function() {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
 
-<title>Invoice</title>
+<title>انوائس</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',sans-serif;background:#fff;color:#1a1b2e;padding:0;}
@@ -2850,7 +2853,7 @@ tbody td:last-child{text-align:right;font-weight:700;}
   <div class="inv-header">
     <div class="inv-logo">Ne<em>xus</em></div>
     <div>
-      <div class="inv-title">INVOICE</div>
+      <div class="inv-title">انوائس</div>
       <div class="inv-num">\${invNum}</div>
       <div class="inv-badge">● Unpaid</div>
     </div>
@@ -2858,19 +2861,19 @@ tbody td:last-child{text-align:right;font-weight:700;}
   <div class="divider"></div>
   <div class="parties">
     <div>
-      <div class="party-label">From</div>
+      <div class="party-label">از</div>
       <div class="party-name">Asma Umar</div>
       <div class="party-detail">Nexus Pro Account<br>nexus.io/asma</div>
     </div>
     <div>
-      <div class="party-label">Bill To</div>
+      <div class="party-label">بھیجیں</div>
       <div class="party-name">\${client}</div>
       <div class="party-detail">\${email || 'No email provided'}</div>
     </div>
   </div>
   <div class="dates">
     <div>
-      <div class="date-label">Issue Date</div>
+      <div class="date-label">تاریخ اجرا</div>
       <div class="date-val">\${today}</div>
     </div>
     <div>
@@ -2882,7 +2885,7 @@ tbody td:last-child{text-align:right;font-weight:700;}
     <thead>
       <tr>
         <th style="width:50%">Service / Description</th>
-        <th>Qty</th><th>Rate</th><th>Amount</th>
+        <th>Qty</th><th>ریٹ</th><th>رقم</th>
       </tr>
     </thead>
     <tbody>
@@ -2896,14 +2899,14 @@ tbody td:last-child{text-align:right;font-weight:700;}
   </table>
   <div class="totals">
     <div class="totals-box">
-      <div class="total-row"><span>Subtotal</span><span>\${fmtMoney(subtotal)}</span></div>
-      <div class="total-row"><span>Tax (0%)</span><span>$0.00</span></div>
-      <div class="total-row final"><span>Total Due</span><span>\${fmtMoney(total)}</span></div>
+      <div class="total-row"><span>ذیلی کل</span><span>\${fmtMoney(subtotal)}</span></div>
+      <div class="total-row"><span>ٹیکس (0%)</span><span>$0.00</span></div>
+      <div class="total-row final"><span>کل Due</span><span>\${fmtMoney(total)}</span></div>
     </div>
   </div>
   <div class="notes">
-    <div class="notes-label">Payment Notes</div>
-    <div class="notes-text">Please make payment by <strong>\${dueDate}</strong>.
+    <div class="notes-label">ادائیگی نوٹس</div>
+    <div class="notes-text">براہ کرم ادائیگی کریں <strong>\${dueDate}</strong>.
       Bank transfer or online payment accepted.<br>
       For questions contact: \${email || 'hello@nexus.io'}<br>
       Thank you for your business! 🙏</div>
@@ -2928,8 +2931,8 @@ tbody td:last-child{text-align:right;font-weight:700;}
     win.document.close();
 
     // 6. Save to حالیہ انوائسز in localStorage
-    const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
-    invoices.unshift({
+    const انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
+    انوائسز.unshift({
       id: invNum,
       client: client,
       email: email,
@@ -2937,9 +2940,9 @@ tbody td:last-child{text-align:right;font-weight:700;}
       amount: total,
       date: today,
       due: dueDate,
-      status: 'Pending'
+      status: 'زیر التواء'
     });
-    localStorage.setItem('nexus_invoices', JSON.stringify(invoices.slice(0, 50)));
+    localStorage.setItem('nexus_انوائسز', JSON.stringify(انوائسز.slice(0, 50)));
     updateStats();
     drawChart();
 
@@ -2967,20 +2970,20 @@ tbody td:last-child{text-align:right;font-weight:700;}
 //  EXPENSE TRACKER — localStorage powered
 // ══════════════════════════════════════════════════════
 
-const EXP_KEY = 'nexus_expenses';
+const EXP_KEY = 'nexus_اخراجات';
 
-function loadExpenses() {
+function loadاخراجات() {
   try {
     return JSON.parse(localStorage.getItem(EXP_KEY) || '[]');
   } catch(err) {
     return [];
   }
 }
-function saveExpenses(data) {
+function saveاخراجات(data) {
   try {
     localStorage.setItem(EXP_KEY, JSON.stringify(data));
   } catch(err) {
-    console.warn('Could not save expenses:', err);
+    console.warn('Could not save اخراجات:', err);
   }
 }
 
@@ -3013,15 +3016,15 @@ window.addExpense = function(e) {
     el.focus(); return;
   }
 
-  const expenses = loadExpenses();
-  expenses.unshift({
+  const اخراجات = loadاخراجات();
+  اخراجات.unshift({
     id:     'e' + Date.now(),
     name:   name,
     amount: amount,
     cat:    cat,
     date:   new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),
   });
-  saveExpenses(expenses);
+  saveاخراجات(اخراجات);
 
   // Clear form
   document.getElementById('exp-name').value   = '';
@@ -3029,39 +3032,39 @@ window.addExpense = function(e) {
   document.getElementById('exp-name').style.borderColor = 'var(--low)';
   setTimeout(() => document.getElementById('exp-name').style.borderColor = '', 1000);
 
-  renderExpenses();
+  renderاخراجات();
   updateStats();
   drawChart();
 }
 
 window.deleteExpense = function(id) {
-  saveExpenses(loadExpenses().filter(e => e.id !== id));
-  renderExpenses();
+  saveاخراجات(loadاخراجات().filter(e => e.id !== id));
+  renderاخراجات();
   updateStats();
   drawChart();
 }
 
-window.clearExpenses = function() {
-  if (!confirm('Clear all expenses?')) return;
+window.clearاخراجات = function() {
+  if (!confirm('Clear all اخراجات?')) return;
   localStorage.removeItem(EXP_KEY);
-  renderExpenses();
+  renderاخراجات();
   updateStats();
   drawChart();
 }
 
-function renderExpenses() {
-  const expenses = loadExpenses();
+function renderاخراجات() {
+  const اخراجات = loadاخراجات();
   const list     = document.getElementById('exp-list');
   const empty    = document.getElementById('exp-empty');
   const badge    = document.getElementById('exp-count-badge');
   const clearBtn = document.getElementById('exp-clear-btn');
   const total    = document.getElementById('exp-total');
 
-  badge.textContent = expenses.length + ' expenses';
-  const sum = expenses.reduce((a, e) => a + e.amount, 0);
+  badge.textContent = اخراجات.length + ' اخراجات';
+  const sum = اخراجات.reduce((a, e) => a + e.amount, 0);
   total.textContent = '$' + sum.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  if (expenses.length === 0) {
+  if (اخراجات.length === 0) {
     list.innerHTML = '';
     empty.style.display = 'block';
     clearBtn.style.display = 'none';
@@ -3070,7 +3073,7 @@ function renderExpenses() {
   empty.style.display = 'none';
   clearBtn.style.display = 'block';
 
-  list.innerHTML = expenses.slice(0, 20).map((e, i) => `
+  list.innerHTML = اخراجات.slice(0, 20).map((e, i) => `
     <div style="display:flex;align-items:center;gap:10px;
                 padding:10px 12px;
                 background:var(--bg-3);
@@ -3105,24 +3108,24 @@ function renderExpenses() {
 // ══════════════════════════════════════════════════════
 
 function updateStats() {
-  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
-  const expenses = loadExpenses();
-  const tasks    = loadTasks();
+  const انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
+  const اخراجات = loadاخراجات();
+  const کام    = loadTasks();
 
-  // Total earnings (all invoices)
-  const totalEarnings = invoices.reduce((a, inv) => a + (inv.amount || 0), 0);
+  // کل earnings (all انوائسز)
+  const totalEarnings = انوائسز.reduce((a, inv) => a + (inv.amount || 0), 0);
 
-  // Pending invoices
-  const pendingAmt = invoices
-    .filter(inv => inv.status === 'Pending')
+  // زیر التواء انوائسز
+  const pendingAmt = انوائسز
+    .filter(inv => inv.status === 'زیر التواء')
     .reduce((a, inv) => a + (inv.amount || 0), 0);
 
-  // Active tasks
-  const activeTasks = tasks.filter(t => !t.done).length;
+  // فعال کام
+  const activeTasks = کام.filter(t => !t.done).length;
 
-  // AI Score: done tasks / total * 100
-  const total = tasks.length;
-  const done  = tasks.filter(t => t.done).length;
+  // AI Score: done کام / total * 100
+  const total = کام.length;
+  const done  = کام.filter(t => t.done).length;
   const score = total > 0 ? Math.round((done / total) * 100) : 0;
 
   // Update DOM
@@ -3130,16 +3133,16 @@ function updateStats() {
 
   document.getElementById('stat-earnings').textContent = fmt(totalEarnings);
   document.getElementById('stat-pending').textContent  = fmt(pendingAmt);
-  document.getElementById('stat-tasks').textContent    = activeTasks;
+  document.getElementById('stat-کام').textContent    = activeTasks;
   document.getElementById('stat-score').textContent    = score + '%';
 
   // Chart summary
-  const expTotal = expenses.reduce((a, e) => a + e.amount, 0);
+  const expکل = اخراجات.reduce((a, e) => a + e.amount, 0);
   document.getElementById('chart-total').textContent    = fmt(totalEarnings);
-  document.getElementById('chart-count').textContent    = invoices.length;
-  document.getElementById('chart-expenses').textContent = fmt(expTotal);
+  document.getElementById('chart-count').textContent    = انوائسز.length;
+  document.getElementById('chart-اخراجات').textContent = fmt(expکل);
 
-  const profit = totalEarnings - expTotal;
+  const profit = totalEarnings - expکل;
   const profEl = document.getElementById('chart-profit');
   profEl.textContent = (profit >= 0 ? '+' : '') + fmt(profit);
   profEl.style.color = profit >= 0 ? 'var(--low)' : 'var(--high)';
@@ -3161,19 +3164,19 @@ function drawChart() {
     days.push(d.toLocaleDateString('en-US',{weekday:'short'}));
   }
 
-  // Build daily data from invoices
-  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
-  const expenses = loadExpenses();
+  // Build daily data from انوائسز
+  const انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
+  const اخراجات = loadاخراجات();
 
   // For demo: spread amounts across days beautifully
   // Real app: match by date
   const invData = [0,0,0,0,0,0,0];
   const expData = [0,0,0,0,0,0,0];
 
-  invoices.forEach((inv, idx) => {
+  انوائسز.forEach((inv, idx) => {
     invData[idx % 7] += inv.amount || 0;
   });
-  expenses.forEach((exp, idx) => {
+  اخراجات.forEach((exp, idx) => {
     expData[idx % 7] += exp.amount || 0;
   });
 
@@ -3256,7 +3259,7 @@ function drawChart() {
   ctx.lineWidth   = 2.5;
   ctx.stroke();
 
-  // ── Expenses line ──
+  // ── اخراجات line ──
   ctx.beginPath();
   ctx.moveTo(X(0), Y(expArr[0]));
   for (let i = 1; i < n; i++) {
@@ -3302,14 +3305,14 @@ function drawChart() {
   ctx.beginPath(); ctx.moveTo(lx + 90, ly + 1); ctx.lineTo(lx + 104, ly + 1); ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle = 'rgba(140,146,166,0.9)';
-  ctx.fillText('Expenses', lx + 108, ly + 4);
+  ctx.fillText('اخراجات', lx + 108, ly + 4);
 }
 
 // ══════════════════════════════════════════════════════
 //  INIT — Run everything on page load
 // ══════════════════════════════════════════════════════
 updateStats();
-renderExpenses();
+renderاخراجات();
 drawChart();
 window.addEventListener('resize', drawChart);
 
@@ -3325,22 +3328,22 @@ window.globalSearch = function(q) {
     return;
   }
 
-  const tasks    = (typeof loadTasks    === 'function') ? loadTasks()    : [];
-  const expenses = (typeof loadExpenses === 'function') ? loadExpenses() : [];
-  const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  const کام    = (typeof loadTasks    === 'function') ? loadTasks()    : [];
+  const اخراجات = (typeof loadاخراجات === 'function') ? loadاخراجات() : [];
+  const انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
   const ql       = q.toLowerCase().trim();
 
-  const tMatches = tasks.filter(t =>
+  const tMatches = کام.filter(t =>
     t.title.toLowerCase().includes(ql)
   ).slice(0, 5);
 
-  const iMatches = invoices.filter(i =>
+  const iMatches = انوائسز.filter(i =>
     (i.client || '').toLowerCase().includes(ql) ||
     (i.id     || '').toLowerCase().includes(ql) ||
     (i.service|| '').toLowerCase().includes(ql)
   ).slice(0, 3);
 
-  const eMatches = expenses.filter(e =>
+  const eMatches = اخراجات.filter(e =>
     (e.name || '').toLowerCase().includes(ql) ||
     (e.cat  || '').toLowerCase().includes(ql)
   ).slice(0, 2);
@@ -3363,7 +3366,7 @@ window.globalSearch = function(q) {
       color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;
       background:var(--bg-3);">⚡ Tasks</div>`;
     out += tMatches.map(t => `
-      <div onclick="window.location.href='ai-tasks.html'"
+      <div onclick="window.location.href='ai-کام.html'"
         style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
                border-bottom:1px solid var(--border);"
         onmouseover="this.style.background='var(--bg-3)'"
@@ -3381,9 +3384,9 @@ window.globalSearch = function(q) {
   if (iMatches.length > 0) {
     out += `<div style="padding:8px 16px 4px;font-size:10px;font-weight:700;
       color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;
-      background:var(--bg-3);">🧾 Invoices</div>`;
+      background:var(--bg-3);">🧾 انوائسز</div>`;
     out += iMatches.map(i => `
-      <div onclick="window.location.href='invoices.html'"
+      <div onclick="window.location.href='انوائسز.html'"
         style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
                border-bottom:1px solid var(--border);"
         onmouseover="this.style.background='var(--bg-3)'"
@@ -3396,7 +3399,7 @@ window.globalSearch = function(q) {
         <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;
           color:${i.status==='Paid'?'var(--paid)':i.status==='Overdue'?'var(--overdue)':'var(--pending)'};
           background:${i.status==='Paid'?'var(--paid-bg)':i.status==='Overdue'?'var(--overdue-bg)':'var(--pending-bg)'};">
-          ${i.status||'Pending'}</span>
+          ${i.status||'زیر التواء'}</span>
       </div>`).join('');
   }
 
@@ -3419,7 +3422,7 @@ window.globalSearch = function(q) {
   }
 
   out += `<div style="padding:8px 16px;text-align:center;background:var(--bg-3);">
-    <a href="ai-tasks.html" style="font-size:12px;color:var(--accent);
+    <a href="ai-کام.html" style="font-size:12px;color:var(--accent);
       text-decoration:none;font-weight:600;">
       See all results in Tasks →</a></div>`;
 
@@ -3449,7 +3452,7 @@ window.globalSearch = function(q) {
           globalSearch(q);
           // Navigate after short delay
           setTimeout(() => {
-            window.location.href = 'ai-tasks.html?q=' + encodeURIComponent(q);
+            window.location.href = 'ai-کام.html?q=' + encodeURIComponent(q);
           }, 400);
         }
       }
@@ -3484,7 +3487,7 @@ renderNotifs();
 //  TIME TRACKER — Full Featured
 // ══════════════════════════════════════════════════════
 
-const TIME_KEY = 'nexus_time_entries';
+const TIME_KEY = 'nexus_time_اندراجات';
 
 let timerInterval  = null;
 let timerSeconds   = 0;
@@ -3517,13 +3520,13 @@ function calcEarnings(secs, rate) {
   return ((secs / 3600) * rate).toFixed(2);
 }
 
-// ── Load / Save entries ───────────────────────────────
+// ── Load / Save اندراجات ───────────────────────────────
 function loadTimeEntries() {
   try { return JSON.parse(localStorage.getItem(TIME_KEY) || '[]'); }
   catch(e) { return []; }
 }
-function saveTimeEntries(entries) {
-  try { localStorage.setItem(TIME_KEY, JSON.stringify(entries)); } catch(e) {}
+function saveTimeEntries(اندراجات) {
+  try { localStorage.setItem(TIME_KEY, JSON.stringify(اندراجات)); } catch(e) {}
 }
 
 // ── Start Timer ───────────────────────────────────────
@@ -3587,7 +3590,7 @@ window.stopTimer = function() {
   // Get inputs
   const desc     = document.getElementById('timerDesc')?.value.trim()     || 'Untitled Work';
   const client   = document.getElementById('timerClient')?.value.trim()   || 'Unknown Client';
-  const rate     = parseFloat(document.getElementById('timerRate')?.value) || 0;
+  const rate     = parseFloat(document.getElementById('timerریٹ')?.value) || 0;
   const billable = document.getElementById('timerBillable')?.value === 'yes';
 
   // Save entry
@@ -3604,9 +3607,9 @@ window.stopTimer = function() {
     startTime: timerStartTime ? timerStartTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : '',
   };
 
-  const entries = loadTimeEntries();
-  entries.unshift(entry);
-  saveTimeEntries(entries);
+  const اندراجات = loadTimeEntries();
+  اندراجات.unshift(entry);
+  saveTimeEntries(اندراجات);
 
   // Reset timer
   timerSeconds   = 0;
@@ -3637,20 +3640,20 @@ window.stopTimer = function() {
 
 // ── Render Entries ────────────────────────────────────
 function renderTimeEntries() {
-  const entries = loadTimeEntries();
+  const اندراجات = loadTimeEntries();
   const list    = document.getElementById('timeEntriesList');
   const empty   = document.getElementById('timeEntriesEmpty');
-  const badge   = document.getElementById('entries-count-badge');
+  const badge   = document.getElementById('اندراجات-count-badge');
   const billBtn = document.getElementById('billToInvoiceBtn');
 
   if (!list) return;
 
-  if (badge) badge.textContent = `${entries.length} entr${entries.length !== 1 ? 'ies' : 'y'}`;
+  if (badge) badge.textContent = `${اندراجات.length} entr${اندراجات.length !== 1 ? 'ies' : 'y'}`;
 
-  const billable = entries.filter(e => e.billable);
+  const billable = اندراجات.filter(e => e.billable);
   if (billBtn) billBtn.disabled = billable.length === 0;
 
-  if (entries.length === 0) {
+  if (اندراجات.length === 0) {
     list.innerHTML  = '';
     if (empty) empty.style.display = 'block';
     return;
@@ -3658,7 +3661,7 @@ function renderTimeEntries() {
 
   if (empty) empty.style.display = 'none';
 
-  list.innerHTML = entries.map((e, i) => `
+  list.innerHTML = اندراجات.map((e, i) => `
     <div class="time-entry" style="animation-delay:${i * 0.04}s">
       <div class="te-dot" style="background:${e.billable ? 'var(--low)' : 'var(--txt-3)'}"></div>
       <div class="te-info">
@@ -3679,17 +3682,17 @@ function renderTimeEntries() {
 
 // ── Update Summary ────────────────────────────────────
 function updateTimeSummary() {
-  const entries = loadTimeEntries();
+  const اندراجات = loadTimeEntries();
   const today   = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-  const todayEntries = entries.filter(e => e.date === today);
+  const todayEntries = اندراجات.filter(e => e.date === today);
   const totalSecs    = todayEntries.reduce((a, e) => a + e.seconds, 0);
   const totalکمائی  = todayEntries
     .filter(e => e.billable)
     .reduce((a, e) => a + parseFloat(e.earned || 0), 0);
 
   const tsHours   = document.getElementById('ts-hours');
-  const tsEntries = document.getElementById('ts-entries');
+  const tsEntries = document.getElementById('ts-اندراجات');
   const tsکمائی  = document.getElementById('ts-earned');
 
   if (tsHours)   tsHours.textContent   = formatDuration(totalSecs);
@@ -3699,15 +3702,15 @@ function updateTimeSummary() {
 
 // ── Delete Entry ──────────────────────────────────────
 window.deleteTimeEntry = function(id) {
-  const entries = loadTimeEntries().filter(e => e.id !== id);
-  saveTimeEntries(entries);
+  const اندراجات = loadTimeEntries().filter(e => e.id !== id);
+  saveTimeEntries(اندراجات);
   renderTimeEntries();
   updateTimeSummary();
 };
 
 // ── سب مٹائیں ─────────────────────────────────────────
 window.clearTimeEntries = function() {
-  if (!confirm('Clear all time entries?')) return;
+  if (!confirm('Clear all time اندراجات?')) return;
   saveTimeEntries([]);
   renderTimeEntries();
   updateTimeSummary();
@@ -3715,12 +3718,12 @@ window.clearTimeEntries = function() {
 
 // ── Convert to Invoice ────────────────────────────────
 window.billTimeToInvoice = function() {
-  const entries  = loadTimeEntries().filter(e => e.billable);
-  if (entries.length === 0) return;
+  const اندراجات  = loadTimeEntries().filter(e => e.billable);
+  if (اندراجات.length === 0) return;
 
   // Group by client
   const grouped = {};
-  entries.forEach(e => {
+  اندراجات.forEach(e => {
     if (!grouped[e.client]) grouped[e.client] = { seconds: 0, earned: 0, rate: e.rate };
     grouped[e.client].seconds += e.seconds;
     grouped[e.client].earned  += parseFloat(e.earned || 0);
@@ -3793,7 +3796,7 @@ document.addEventListener('visibilitychange', function() {
 // ══════════════════════════════════════════════════════
 const DEFAULT_NOTIFS = [
   {id:'n1',icon:'🧾',iconBg:'rgba(79,124,255,0.12)',title:'Invoice NXS-00123 marked as Paid!',time:'2 min ago',unread:true},
-  {id:'n2',icon:'⚡',iconBg:'rgba(0,229,192,0.12)',title:'3 high priority tasks due today',time:'1 hour ago',unread:true},
+  {id:'n2',icon:'⚡',iconBg:'rgba(0,229,192,0.12)',title:'3 high priority کام due today',time:'1 hour ago',unread:true},
   {id:'n3',icon:'💰',iconBg:'rgba(0,196,140,0.12)',title:'Payment received from Meridian Corp',time:'Yesterday',unread:false},
   {id:'n4',icon:'🤖',iconBg:'rgba(167,139,250,0.12)',title:'AI Tip: Productivity score is 88%!',time:'2 days ago',unread:false},
 ];
@@ -3844,9 +3847,9 @@ function buildCalendar(){
   const lbl1=document.getElementById('cal-month-label');const lbl2=document.getElementById('cal-today-label');
   if(lbl1)lbl1.textContent=now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
   if(lbl2)lbl2.textContent='📅 آج: '+now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-  const tasks=(typeof loadTasks==='function')?loadTasks():[];
+  const کام=(typeof loadTasks==='function')?loadTasks():[];
   const taskDays=new Set();
-  tasks.forEach(t=>{if(t.due&&!t.done){const d=new Date(t.due+'T00:00:00');if(!isNaN(d)&&d.getMonth()===month&&d.getFullYear()===year)taskDays.add(d.getDate());}});
+  کام.forEach(t=>{if(t.due&&!t.done){const d=new Date(t.due+'T00:00:00');if(!isNaN(d)&&d.getMonth()===month&&d.getFullYear()===year)taskDays.add(d.getDate());}});
   const firstDay=new Date(year,month,1).getDay();const daysInMonth=new Date(year,month+1,0).getDate();
   const grid=document.getElementById('cal-days-grid');if(!grid)return;
   let cells='';
@@ -3856,9 +3859,9 @@ function buildCalendar(){
     cells+=`<div onclick="calDayClick(${d})" style="text-align:center;padding:5px 2px;font-size:12px;font-weight:${isآج?700:500};color:${isآج?'#fff':'var(--txt-2)'};background:${isآج?'var(--accent)':'transparent'};border-radius:8px;cursor:pointer;position:relative;" onmouseover="if(!${isآج})this.style.background='var(--bg-4)'" onmouseout="if(!${isآج})this.style.background='transparent'">${d}${hasTask?'<span style="position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--accent-2);display:block;"></span>':''}</div>`;
   }
   grid.innerHTML=cells;
-  const upcoming=tasks.filter(t=>!t.done&&t.due&&t.due!=='').slice(0,4);
+  const upcoming=کام.filter(t=>!t.done&&t.due&&t.due!=='').slice(0,4);
   const upEl=document.getElementById('cal-upcoming');
-  if(upEl)upEl.innerHTML=upcoming.length===0?'<div style="font-size:12px;color:var(--txt-3);">No upcoming tasks!</div>':upcoming.map(t=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div style="width:6px;height:6px;border-radius:50%;flex-shrink:0;background:${t.priority==='high'?'var(--high)':t.priority==='medium'?'var(--med)':'var(--low)'};"></div><div style="font-size:12px;color:var(--txt-1);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.title}</div><div style="font-size:10px;color:var(--txt-3);flex-shrink:0;">${t.due||''}</div></div>`).join('');
+  if(upEl)upEl.innerHTML=upcoming.length===0?'<div style="font-size:12px;color:var(--txt-3);">No upcoming کام!</div>':upcoming.map(t=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div style="width:6px;height:6px;border-radius:50%;flex-shrink:0;background:${t.priority==='high'?'var(--high)':t.priority==='medium'?'var(--med)':'var(--low)'};"></div><div style="font-size:12px;color:var(--txt-1);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.title}</div><div style="font-size:10px;color:var(--txt-3);flex-shrink:0;">${t.due||''}</div></div>`).join('');
 }
 window.calDayClick=function(day){
   const now=new Date();const yyyy=now.getFullYear();const mm=String(now.getMonth()+1).padStart(2,'0');const dd=String(day).padStart(2,'0');
@@ -3877,7 +3880,7 @@ window.openProfile=function(){
   const name=user.name||'User';const email=user.email||'';
   const n1=document.getElementById('profile-name-big');const e1=document.getElementById('profile-email-big');const a1=document.getElementById('profile-avatar-big');
   if(n1)n1.textContent=name;if(e1)e1.textContent=email;if(a1)a1.textContent=name.charAt(0).toUpperCase();
-  const invs=JSON.parse(localStorage.getItem('nexus_invoices')||'[]');
+  const invs=JSON.parse(localStorage.getItem('nexus_انوائسز')||'[]');
   const allTasks=(typeof loadTasks==='function')?loadTasks():[];
   const clients=JSON.parse(localStorage.getItem('nexus_clients')||'[]');
   const c1=document.getElementById('profile-inv-count');const c2=document.getElementById('profile-task-count');const c3=document.getElementById('profile-client-count');
@@ -3900,7 +3903,7 @@ renderNotifs();
 
 // ══════════════════════════════════════════════════════
 //  FIRESTORE INTEGRATION
-//  Tasks, Invoices, Expenses → Cloud mein save honge!
+//  Tasks, انوائسز, اخراجات → Cloud mein save honge!
 // ══════════════════════════════════════════════════════
 
 
@@ -3937,13 +3940,13 @@ function showSyncStatus(msg, color = 'var(--low)') {
 //  TASKS — Firestore Sync
 // ══════════════════════════════════════════════════════
 
-// Save ALL tasks to Firestore
-async function saveTasksToCloud(tasks) {
+// Save ALL کام to Firestore
+async function saveTasksToCloud(کام) {
   const uid = getCurrentUID();
   if (!uid) return;
   try {
-    const docRef = doc(_db, 'users', uid, 'data', 'tasks');
-    await setDoc(docRef, { tasks: tasks, updatedAt: new Date().toISOString() });
+    const docRef = doc(_db, 'users', uid, 'data', 'کام');
+    await setDoc(docRef, { کام: کام, updatedAt: new Date().toISOString() });
     showSyncStatus('Tasks synced ✓', 'var(--low)');
   } catch (e) {
     console.log('Task sync error:', e);
@@ -3951,54 +3954,54 @@ async function saveTasksToCloud(tasks) {
   }
 }
 
-// Load tasks from Firestore
-async function loadTasksFromCloud() {
+// Load کام from Firestore
+async function loadTasksازCloud() {
   const uid = getCurrentUID();
   if (!uid) return null;
   try {
-    const docRef = doc(_db, 'users', uid, 'data', 'tasks');
+    const docRef = doc(_db, 'users', uid, 'data', 'کام');
     const { getDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
     const snap = await getDoc(docRef);
     if (snap.exists()) {
-      return snap.data().tasks || [];
+      return snap.data().کام || [];
     }
     return null;
   } catch (e) {
-    console.log('Load tasks error:', e);
+    console.log('Load کام error:', e);
     return null;
   }
 }
 
 // ══════════════════════════════════════════════════════
-//  INVOICES — Firestore Sync
+//  انوائسS — Firestore Sync
 // ══════════════════════════════════════════════════════
 
-async function saveInvoicesToCloud(invoices) {
+async function saveانوائسزToCloud(انوائسز) {
   const uid = getCurrentUID();
   if (!uid) return;
   try {
-    const docRef = doc(_db, 'users', uid, 'data', 'invoices');
-    await setDoc(docRef, { invoices: invoices, updatedAt: new Date().toISOString() });
-    showSyncStatus('Invoices synced ✓', 'var(--low)');
+    const docRef = doc(_db, 'users', uid, 'data', 'انوائسز');
+    await setDoc(docRef, { انوائسز: انوائسز, updatedAt: new Date().toISOString() });
+    showSyncStatus('انوائسز synced ✓', 'var(--low)');
   } catch (e) {
     console.log('Invoice sync error:', e);
     showSyncStatus('Sync failed — saved locally', 'var(--high)');
   }
 }
 
-async function loadInvoicesFromCloud() {
+async function loadانوائسزازCloud() {
   const uid = getCurrentUID();
   if (!uid) return null;
   try {
-    const docRef = doc(_db, 'users', uid, 'data', 'invoices');
+    const docRef = doc(_db, 'users', uid, 'data', 'انوائسز');
     const { getDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
     const snap = await getDoc(docRef);
     if (snap.exists()) {
-      return snap.data().invoices || [];
+      return snap.data().انوائسز || [];
     }
     return null;
   } catch (e) {
-    console.log('Load invoices error:', e);
+    console.log('Load انوائسز error:', e);
     return null;
   }
 }
@@ -4007,32 +4010,32 @@ async function loadInvoicesFromCloud() {
 //  EXPENSES — Firestore Sync
 // ══════════════════════════════════════════════════════
 
-async function saveExpensesToCloud(expenses) {
+async function saveاخراجاتToCloud(اخراجات) {
   const uid = getCurrentUID();
   if (!uid) return;
   try {
-    const docRef = doc(_db, 'users', uid, 'data', 'expenses');
-    await setDoc(docRef, { expenses: expenses, updatedAt: new Date().toISOString() });
-    showSyncStatus('Expenses synced ✓', 'var(--low)');
+    const docRef = doc(_db, 'users', uid, 'data', 'اخراجات');
+    await setDoc(docRef, { اخراجات: اخراجات, updatedAt: new Date().toISOString() });
+    showSyncStatus('اخراجات synced ✓', 'var(--low)');
   } catch (e) {
     console.log('Expense sync error:', e);
     showSyncStatus('Sync failed — saved locally', 'var(--high)');
   }
 }
 
-async function loadExpensesFromCloud() {
+async function loadاخراجاتازCloud() {
   const uid = getCurrentUID();
   if (!uid) return null;
   try {
-    const docRef = doc(_db, 'users', uid, 'data', 'expenses');
+    const docRef = doc(_db, 'users', uid, 'data', 'اخراجات');
     const { getDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
     const snap = await getDoc(docRef);
     if (snap.exists()) {
-      return snap.data().expenses || [];
+      return snap.data().اخراجات || [];
     }
     return null;
   } catch (e) {
-    console.log('Load expenses error:', e);
+    console.log('Load اخراجات error:', e);
     return null;
   }
 }
@@ -4059,27 +4062,27 @@ async function saveClientsToCloud(clients) {
 
 // Override saveTasks to also save to cloud
 const _origSaveTasks = window.saveTasks || function(){};
-window.saveTasks = function(tasks) {
+window.saveTasks = function(کام) {
   // Save locally first (fast)
-  try { localStorage.setItem('nexus_tasks', JSON.stringify(tasks)); } catch(e) {}
+  try { localStorage.setItem('nexus_کام', JSON.stringify(کام)); } catch(e) {}
   // Then save to cloud (async)
-  saveTasksToCloud(tasks);
+  saveTasksToCloud(کام);
 };
 
-// Override saveExpenses to also save to cloud
-const _origSaveExpenses = window.saveExpenses || function(){};
-window.saveExpenses = function(data) {
-  try { localStorage.setItem('nexus_expenses', JSON.stringify(data)); } catch(e) {}
-  saveExpensesToCloud(data);
+// Override saveاخراجات to also save to cloud
+const _origSaveاخراجات = window.saveاخراجات || function(){};
+window.saveاخراجات = function(data) {
+  try { localStorage.setItem('nexus_اخراجات', JSON.stringify(data)); } catch(e) {}
+  saveاخراجاتToCloud(data);
 };
 
 // Override invoice save to also save to cloud
-const _origSaveInvoices = function(invoices) {
-  localStorage.setItem('nexus_invoices', JSON.stringify(invoices));
+const _origSaveانوائسز = function(انوائسز) {
+  localStorage.setItem('nexus_انوائسز', JSON.stringify(انوائسز));
 };
-window.saveInvoicesToStorage = function(invoices) {
-  localStorage.setItem('nexus_invoices', JSON.stringify(invoices));
-  saveInvoicesToCloud(invoices);
+window.saveانوائسزToStorage = function(انوائسز) {
+  localStorage.setItem('nexus_انوائسز', JSON.stringify(انوائسز));
+  saveانوائسزToCloud(انوائسز);
 };
 
 // ══════════════════════════════════════════════════════
@@ -4098,23 +4101,23 @@ async function initialCloudSync() {
 
   try {
     // Load Tasks from cloud
-    const cloudTasks = await loadTasksFromCloud();
+    const cloudTasks = await loadTasksازCloud();
     if (cloudTasks && cloudTasks.length > 0) {
-      localStorage.setItem('nexus_tasks', JSON.stringify(cloudTasks));
+      localStorage.setItem('nexus_کام', JSON.stringify(cloudTasks));
       if (typeof renderTasks === 'function') renderTasks();
     }
 
-    // Load Invoices from cloud
-    const cloudInvoices = await loadInvoicesFromCloud();
-    if (cloudInvoices && cloudInvoices.length > 0) {
-      localStorage.setItem('nexus_invoices', JSON.stringify(cloudInvoices));
+    // Load انوائسز from cloud
+    const cloudانوائسز = await loadانوائسزازCloud();
+    if (cloudانوائسز && cloudانوائسز.length > 0) {
+      localStorage.setItem('nexus_انوائسز', JSON.stringify(cloudانوائسز));
     }
 
-    // Load Expenses from cloud
-    const cloudExpenses = await loadExpensesFromCloud();
-    if (cloudExpenses && cloudExpenses.length > 0) {
-      localStorage.setItem('nexus_expenses', JSON.stringify(cloudExpenses));
-      if (typeof renderExpenses === 'function') renderExpenses();
+    // Load اخراجات from cloud
+    const cloudاخراجات = await loadاخراجاتازCloud();
+    if (cloudاخراجات && cloudاخراجات.length > 0) {
+      localStorage.setItem('nexus_اخراجات', JSON.stringify(cloudاخراجات));
+      if (typeof renderاخراجات === 'function') renderاخراجات();
     }
 
     // Update all stats
@@ -4137,8 +4140,8 @@ setTimeout(initialCloudSync, 2000);
 document.addEventListener('click', function(e) {
   if (e.target && e.target.id === 'inv-btn') {
     setTimeout(() => {
-      const invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
-      saveInvoicesToCloud(invoices);
+      const انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
+      saveانوائسزToCloud(انوائسز);
     }, 2000);
   }
 });
@@ -4212,16 +4215,16 @@ window.changeCurrency = function(code) {
 
 function refreshCurrencyDisplays() {
   try {
-    const invData  = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
-    const expData  = typeof loadExpenses === 'function' ? loadExpenses() : [];
+    const invData  = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
+    const expData  = typeof loadاخراجات === 'function' ? loadاخراجات() : [];
     const taskData = typeof loadTasks    === 'function' ? loadTasks()    : [];
 
     const totalEarnings = invData.reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
     const pendingAmt    = invData
-      .filter(i => i.status === 'Pending')
+      .filter(i => i.status === 'زیر التواء')
       .reduce((a, i) => a + (parseFloat(i.amount) || 0), 0);
-    const expTotal  = expData.reduce((a, e) => a + (parseFloat(e.amount) || 0), 0);
-    const profit    = totalEarnings - expTotal;
+    const expکل  = expData.reduce((a, e) => a + (parseFloat(e.amount) || 0), 0);
+    const profit    = totalEarnings - expکل;
 
     // Stat cards
     const s1 = document.getElementById('stat-earnings');
@@ -4231,10 +4234,10 @@ function refreshCurrencyDisplays() {
 
     // Chart summary
     const c1 = document.getElementById('chart-total');
-    const c2 = document.getElementById('chart-expenses');
+    const c2 = document.getElementById('chart-اخراجات');
     const c3 = document.getElementById('chart-profit');
     if (c1) c1.textContent = formatCurrency(totalEarnings);
-    if (c2) c2.textContent = formatCurrency(expTotal);
+    if (c2) c2.textContent = formatCurrency(expکل);
     if (c3) {
       c3.textContent = (profit >= 0 ? '+' : '') + formatCurrency(Math.abs(profit));
       c3.style.color = profit >= 0 ? 'var(--low)' : 'var(--high)';
@@ -4242,18 +4245,18 @@ function refreshCurrencyDisplays() {
 
     // Expense total
     const et = document.getElementById('exp-total');
-    if (et) et.textContent = formatCurrency(expTotal);
+    if (et) et.textContent = formatCurrency(expکل);
 
     // Order button total
-    const ot = document.getElementById('orderTotal');
+    const ot = document.getElementById('orderکل');
 
     // Time tracker earned today
     if (typeof loadTimeEntries === 'function') {
-      const entries = loadTimeEntries();
+      const اندراجات = loadTimeEntries();
       const today   = new Date().toLocaleDateString('en-US', {
         month: 'short', day: 'numeric', year: 'numeric'
       });
-      const earned = entries
+      const earned = اندراجات
         .filter(e => e.date === today && e.billable)
         .reduce((a, e) => a + parseFloat(e.earned || 0), 0);
       const earnEl = document.getElementById('ts-earned');
@@ -4305,7 +4308,7 @@ window.addEventListener('storage', refreshCurrencyDisplays);
 const _origInvSave = localStorage.setItem.bind(localStorage);
 const _patchedSetItem = function(key, value) {
   _origInvSave(key, value);
-  if (key === 'nexus_invoices' || key === 'nexus_expenses' || key === 'nexus_tasks') {
+  if (key === 'nexus_انوائسز' || key === 'nexus_اخراجات' || key === 'nexus_کام') {
     setTimeout(refreshCurrencyDisplays, 200);
   }
 };
@@ -4353,7 +4356,7 @@ window.openPortalShare = function() {
     `Hello! 👋 I'm sharing your client portal access:<br><br>` +
     `🔗 <strong>Link:</strong> ${fullLink}<br>` +
     `🔑 <strong>Code:</strong> ${code}<br><br>` +
-    `Use your email + this code to login and view your invoices. — ${name}`;
+    `Use your email + this code to login and view your انوائسز. — ${name}`;
 
   document.getElementById('portalShareModal').classList.add('open');
 };
@@ -4395,7 +4398,7 @@ window.shareWhatsApp = function() {
     `Hello! 👋 Here is your Nexus Client Portal access:\n\n` +
     `🔗 Link: ${link}\n` +
     `🔑 Code: ${code}\n\n` +
-    `Login with your email + this code to view your invoices.\n\n— ${name}`
+    `Login with your email + this code to view your انوائسز.\n\n— ${name}`
   );
   window.open('https://wa.me/?text=' + msg, '_blank');
 };
@@ -4629,14 +4632,14 @@ setTimeout(() => {
 
 
 
-    <!-- Email Notifications -->
+    <!-- Email اطلاعات -->
     <div style="background:var(--bg-3);border-radius:10px;margin-bottom:8px;overflow:hidden;">
       <div style="display:flex;align-items:center;justify-content:space-between;
         padding:12px 14px;cursor:pointer;user-select:none;"
         onclick="var p=document.getElementById('en-panel');
           p.style.display=p.style.display==='block'?'none':'block';">
         <div>
-          <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🔔 Notifications</div>
+          <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🔔 اطلاعات</div>
           <div style="font-size:11px;color:var(--txt-3);">ای میل الرٹ سیٹ کریں</div>
         </div>
         <span style="color:var(--accent);font-size:20px;font-weight:300;line-height:1;">+</span>
@@ -4668,13 +4671,13 @@ setTimeout(() => {
       </div>
     </div>
 
-    <!-- AI Features -->
+    <!-- AI خصوصیات -->
     <div id="ai-toggle-row" style="display:flex;align-items:center;justify-content:space-between;
       padding:12px 14px;background:var(--bg-3);border-radius:10px;margin-bottom:8px;
       cursor:pointer;" onclick="toggleAIFeature()">
       <div>
-        <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🤖 AI Features</div>
-        <div id="ai-toggle-sub" style="font-size:11px;color:var(--low);">Active ✅</div>
+        <div style="font-size:13px;font-weight:600;color:var(--txt-1);">🤖 AI خصوصیات</div>
+        <div id="ai-toggle-sub" style="font-size:11px;color:var(--low);">فعال ✅</div>
       </div>
       <div id="ai-toggle-track" style="width:42px;height:22px;background:var(--accent);
         border-radius:20px;display:flex;align-items:center;padding:2px;transition:background 0.3s;">
@@ -4683,30 +4686,30 @@ setTimeout(() => {
       </div>
     </div>
 
-    <!-- Billing -->
+    <!-- بلنگ -->
     <div style="display:flex;align-items:center;justify-content:space-between;
       padding:12px 14px;background:var(--bg-3);border-radius:10px;margin-bottom:8px;
       cursor:pointer;"
-      onclick="alert('⚡ Free Plan Active!
+      onclick="alert('⚡ Free Plan فعال!
 
 Pro Plan coming soon at $9/month!
-✅ Unlimited invoices
+✅ Unlimited انوائسز
 ✅ Full AI features
 ✅ Priority support')">
       <div>
-        <div style="font-size:13px;font-weight:600;color:var(--txt-1);">💳 Billing & Plan</div>
+        <div style="font-size:13px;font-weight:600;color:var(--txt-1);">💳 بلنگ & Plan</div>
         <div style="font-size:11px;color:var(--low);">⚡ Free Plan — Tap to upgrade</div>
       </div>
       <span style="color:var(--txt-3);font-size:14px;">›</span>
     </div>
 
-    <!-- Sign Out -->
+    <!-- سائن آؤٹ -->
     <div style="display:flex;align-items:center;justify-content:space-between;
       padding:12px 14px;background:var(--high-bg);border-radius:10px;
       cursor:pointer;border:1px solid rgba(255,94,108,0.2);"
       onclick="doLogout()">
       <div>
-        <div style="font-size:13px;font-weight:600;color:var(--high);">🚪 Sign Out</div>
+        <div style="font-size:13px;font-weight:600;color:var(--high);">🚪 سائن آؤٹ</div>
         <div style="font-size:11px;color:var(--txt-3);">نیکسس سے لاگ آؤٹ</div>
       </div>
       <span style="color:var(--high);font-size:14px;">›</span>
@@ -4738,7 +4741,7 @@ Pro Plan coming soon at $9/month!
     <div id="profile-name-big" style="font-family:var(--font-head);font-size:20px;
       font-weight:800;color:var(--txt-1);margin-bottom:4px;">Asma</div>
     <div id="profile-email-big" style="font-size:13px;color:var(--txt-3);
-      margin-bottom:20px;" data-i18n="loading">Loading...</div>
+      margin-bottom:20px;" data-i18n="loading">لوڈ ہو رہا ہے...</div>
 
     <div style="background:rgba(79,124,255,0.1);border:1px solid rgba(79,124,255,0.2);
       border-radius:var(--radius-sm);padding:10px 16px;margin-bottom:20px;
@@ -4751,17 +4754,17 @@ Pro Plan coming soon at $9/month!
       <div style="background:var(--bg-3);border-radius:10px;padding:12px 8px;text-align:center;">
         <div id="profile-inv-count" style="font-family:var(--font-head);font-size:20px;
           font-weight:800;color:var(--txt-1);">0</div>
-        <div style="font-size:10px;color:var(--txt-3);">Invoices</div>
+        <div style="font-size:10px;color:var(--txt-3);">انوائسز</div>
       </div>
       <div style="background:var(--bg-3);border-radius:10px;padding:12px 8px;text-align:center;">
         <div id="profile-task-count" style="font-family:var(--font-head);font-size:20px;
           font-weight:800;color:var(--txt-1);">0</div>
-        <div style="font-size:10px;color:var(--txt-3);">Tasks</div>
+        <div style="font-size:10px;color:var(--txt-3);">کام</div>
       </div>
       <div style="background:var(--bg-3);border-radius:10px;padding:12px 8px;text-align:center;">
         <div id="profile-client-count" style="font-family:var(--font-head);font-size:20px;
           font-weight:800;color:var(--txt-1);">0</div>
-        <div style="font-size:10px;color:var(--txt-3);">Clients</div>
+        <div style="font-size:10px;color:var(--txt-3);">کلائنٹس</div>
       </div>
     </div>
 
@@ -4769,7 +4772,7 @@ Pro Plan coming soon at $9/month!
       width:100%;padding:11px;background:var(--high-bg);border:1px solid rgba(255,94,108,0.2);
       border-radius:var(--radius-sm);color:var(--high);font-size:13px;font-weight:700;
       cursor:pointer;font-family:var(--font-body);">
-      🚪 Sign Out
+      🚪 سائن آؤٹ
     </button>
   </div>
 </div>
@@ -4781,23 +4784,23 @@ Pro Plan coming soon at $9/month!
     <div class="psm-title">🔗 Share Client Portal</div>
     <div class="psm-sub">
       Share this link and access code with your client.<br>
-      They can view their invoices and send messages!
+      They can view their انوائسز and send messages!
     </div>
 
     <div class="psm-code-box">
-      <div class="psm-code-label" data-i18n="access_code">Access Code</div>
+      <div class="psm-code-label" data-i18n="access_code">رسائی کوڈ</div>
       <div class="psm-code" id="psmCode">NEXUS-000000</div>
     </div>
 
     <div class="psm-code-box">
-      <div class="psm-code-label" data-i18n="portal_link_lbl">Portal Link</div>
-      <div class="psm-link" id="psmLink" data-i18n="loading">Loading...</div>
+      <div class="psm-code-label" data-i18n="portal_link_lbl">پورٹل لنک</div>
+      <div class="psm-link" id="psmLink" data-i18n="loading">لوڈ ہو رہا ہے...</div>
     </div>
 
     <div class="psm-code-box" style="margin-bottom:16px;">
       <div class="psm-code-label" data-i18n="whatsapp_msg_lbl">WhatsApp Message (Ready to Send!)</div>
       <div style="font-size:12px;color:var(--txt-2);line-height:1.7;" id="psmWhatsApp">
-        Loading...
+        لوڈ ہو رہا ہے...
       </div>
     </div>
 
@@ -4818,7 +4821,7 @@ Pro Plan coming soon at $9/month!
 
 
 <script>
-// Email Notifications - Simple & Safe
+// Email اطلاعات - Simple & Safe
 function saveEnSettings() {
   var email = document.getElementById('en-email');
   if (!email || !email.value || !email.value.includes('@')) {
@@ -4865,7 +4868,7 @@ setTimeout(function() {
 
 
 <script>
-// Notifications panel toggle
+// اطلاعات panel toggle
 function toggleNotifSettings() {
   var panel = document.getElementById('notif-settings-panel');
   var arrow = document.getElementById('notif-arrow');
@@ -4930,7 +4933,7 @@ window.toggleAIFeature = function() {
     dot.style.marginLeft = 'auto';
     dot.style.marginRight = '0';
     track.style.background = 'var(--accent)';
-    sub.textContent = 'Active ✅';
+    sub.textContent = 'فعال ✅';
     sub.style.color = 'var(--low)';
     localStorage.setItem('nexus_ai_features', 'on');
   }
@@ -4939,44 +4942,44 @@ window.toggleAIFeature = function() {
 
 // ── AI Amdani Prediction ──────────────────────────────
 function calcAIP() {
-  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
   var now = new Date();
   var thisM = now.getMonth();
   var thisY = now.getFullYear();
   var lastM = thisM === 0 ? 11 : thisM - 1;
   var lastY = thisM === 0 ? thisY - 1 : thisY;
 
-  var thisTotal = 0;
-  var lastTotal = 0;
-  var paidTotal = 0;
-  var allTotal  = 0;
+  var thisکل = 0;
+  var lastکل = 0;
+  var paidکل = 0;
+  var allکل  = 0;
 
-  invoices.forEach(function(inv) {
+  انوائسز.forEach(function(inv) {
     var amt = parseFloat(inv.amount) || 0;
-    allTotal += amt;
-    if (inv.status === 'Paid') paidTotal += amt;
+    allکل += amt;
+    if (inv.status === 'Paid') paidکل += amt;
     if (inv.date) {
       var d = new Date(inv.date);
-      if (d.getMonth() === thisM && d.getFullYear() === thisY) thisTotal += amt;
-      if (d.getMonth() === lastM && d.getFullYear() === lastY) lastTotal += amt;
+      if (d.getMonth() === thisM && d.getFullYear() === thisY) thisکل += amt;
+      if (d.getMonth() === lastM && d.getFullYear() === lastY) lastکل += amt;
     }
   });
 
   var growth = 0;
-  if (lastTotal > 0) growth = ((thisTotal - lastTotal) / lastTotal) * 100;
-  else if (thisTotal > 0) growth = 100;
+  if (lastکل > 0) growth = ((thisکل - lastکل) / lastکل) * 100;
+  else if (thisکل > 0) growth = 100;
 
   var prediction = 500;
-  if (thisTotal > 0 && lastTotal > 0) {
-    prediction = thisTotal * (1 + (growth / 100) * 0.5);
-  } else if (thisTotal > 0) {
-    prediction = thisTotal * 1.15;
-  } else if (allTotal > 0) {
-    prediction = (allTotal / Math.max(invoices.length, 1)) * 1.1;
+  if (thisکل > 0 && lastکل > 0) {
+    prediction = thisکل * (1 + (growth / 100) * 0.5);
+  } else if (thisکل > 0) {
+    prediction = thisکل * 1.15;
+  } else if (allکل > 0) {
+    prediction = (allکل / Math.max(انوائسز.length, 1)) * 1.1;
   }
 
-  var collectRate = allTotal > 0 ? (paidTotal / allTotal) * 100 : 0;
-  var goalPct = prediction > 0 ? Math.min(100, (thisTotal / prediction) * 100) : 0;
+  var collectریٹ = allکل > 0 ? (paidکل / allکل) * 100 : 0;
+  var goalPct = prediction > 0 ? Math.min(100, (thisکل / prediction) * 100) : 0;
 
   function fmt(n) {
     return '$' + parseFloat(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -4984,8 +4987,8 @@ function calcAIP() {
 
   // Update UI
   var el;
-  el = document.getElementById('aip-this');    if(el) el.textContent = fmt(thisTotal);
-  el = document.getElementById('aip-last');    if(el) el.textContent = fmt(lastTotal);
+  el = document.getElementById('aip-this');    if(el) el.textContent = fmt(thisکل);
+  el = document.getElementById('aip-last');    if(el) el.textContent = fmt(lastکل);
   el = document.getElementById('aip-growth');
   if(el) {
     el.textContent = (growth >= 0 ? '+' : '') + growth.toFixed(1) + '%';
@@ -4996,25 +4999,25 @@ function calcAIP() {
 
   el = document.getElementById('aip-pred-sub');
   if(el) {
-    el.textContent = invoices.length > 0
-      ? 'Based on ' + invoices.length + ' invoices & growth trend'
-      : 'Invoices add karen prediction ke liye!';
+    el.textContent = انوائسز.length > 0
+      ? 'Based on ' + انوائسز.length + ' انوائسز & growth trend'
+      : 'انوائسز add karen prediction ke liye!';
   }
 
   el = document.getElementById('aip-goal-pct');  if(el) el.textContent = goalPct.toFixed(0) + '%';
   el = document.getElementById('aip-goal-bar');   if(el) el.style.width = goalPct + '%';
-  el = document.getElementById('aip-collect-pct');if(el) el.textContent = collectRate.toFixed(0) + '%';
-  el = document.getElementById('aip-collect-bar');if(el) el.style.width = collectRate + '%';
+  el = document.getElementById('aip-collect-pct');if(el) el.textContent = collectریٹ.toFixed(0) + '%';
+  el = document.getElementById('aip-collect-bar');if(el) el.style.width = collectریٹ + '%';
 
   // Insight
   var insight = '';
   if (growth > 20) insight = '🚀 Excellent! Income up ' + growth.toFixed(0) + '% — keep it up!';
   else if (growth > 0) insight = '📈 Good trend! Income growing ' + growth.toFixed(0) + '% this month.';
   else if (growth < 0) insight = '⚠️ Income dropped ' + Math.abs(growth).toFixed(0) + '% — try adding more clients!';
-  else if (invoices.length === 0) insight = '💡 Add your invoices to get personalized AI income predictions!';
+  else if (انوائسز.length === 0) insight = '💡 Add your انوائسز to get personalized AI income predictions!';
   else insight = '💡 AI predicts ' + fmt(prediction) + ' next month at current pace!';
 
-  if (collectRate < 50 && invoices.length > 0) insight += ' Follow up on unpaid invoices!';
+  if (collectریٹ < 50 && انوائسز.length > 0) insight += ' Follow up on unpaid انوائسز!';
 
   el = document.getElementById('aip-insight');
   if(el) el.textContent = insight;
@@ -5022,8 +5025,8 @@ function calcAIP() {
   // Update preview text
   var preview = document.getElementById('aip-preview');
   if(preview) {
-    if(invoices.length > 0) {
-      preview.textContent = 'This month: ' + fmt(thisTotal) + ' · Predicted: ' + fmt(prediction);
+    if(انوائسز.length > 0) {
+      preview.textContent = 'This month: ' + fmt(thisکل) + ' · Predicted: ' + fmt(prediction);
       preview.style.color = 'var(--low)';
     } else {
       preview.textContent = 'آمدنی تجزیہ کے لیے ٹیپ کریں';
@@ -5067,27 +5070,27 @@ window.toggleRecentInv = function() {
 };
 
 function renderRecentInv() {
-  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
   var body = document.getElementById('recent-inv-body');
   var preview = document.getElementById('inv-preview');
   if (!body) return;
 
   // Update preview
   if (preview) {
-    if (invoices.length > 0) {
-      preview.textContent = invoices.length + ' invoice' + (invoices.length !== 1 ? 's' : '');
+    if (انوائسز.length > 0) {
+      preview.textContent = انوائسز.length + ' invoice' + (انوائسز.length !== 1 ? 's' : '');
       preview.style.color = 'var(--low)';
     } else {
-      preview.textContent = 'No invoices yet';
+      preview.textContent = 'No انوائسز yet';
     }
   }
 
-  if (invoices.length === 0) {
+  if (انوائسز.length === 0) {
     body.innerHTML = '<tr><td colspan="3" style="padding:20px;text-align:center;color:var(--txt-3);font-size:13px;">ابھی کوئی انوائس نہیں۔ اوپر سے پہلی انوائس بنائیں!</td></tr>';
     return;
   }
 
-  var recent = invoices.slice(0, 5);
+  var recent = انوائسز.slice(0, 5);
   body.innerHTML = recent.map(function(inv) {
     var statusColor = inv.status === 'Paid' ? 'var(--low)' :
                       inv.status === 'Overdue' ? 'var(--high)' : 'var(--med)';
@@ -5099,17 +5102,17 @@ function renderRecentInv() {
       '<td style="padding:12px 16px;">' +
         '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;' +
         'color:' + statusColor + ';background:' + statusBg + ';">' +
-        (inv.status || 'Pending') + '</span></td>' +
+        (inv.status || 'زیر التواء') + '</span></td>' +
       '</tr>';
   }).join('');
 }
 
 // Run on load to update preview
 setTimeout(function() {
-  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
   var preview = document.getElementById('inv-preview');
-  if (preview && invoices.length > 0) {
-    preview.textContent = invoices.length + ' invoice' + (invoices.length !== 1 ? 's' : '');
+  if (preview && انوائسز.length > 0) {
+    preview.textContent = انوائسز.length + ' invoice' + (انوائسز.length !== 1 ? 's' : '');
     preview.style.color = 'var(--low)';
   }
 }, 800);
@@ -5143,7 +5146,7 @@ function drawEarningsBar() {
   var ctx = canvas.getContext('2d');
   var W = canvas.offsetWidth || 300;
   canvas.width = W; canvas.height = 160;
-  var invoices = JSON.parse(localStorage.getItem('nexus_invoices') || '[]');
+  var انوائسز = JSON.parse(localStorage.getItem('nexus_انوائسز') || '[]');
   var labels = [], data = [];
   var now = new Date();
   var n = chartMode === 'monthly' ? 6 : 7;
@@ -5152,12 +5155,12 @@ function drawEarningsBar() {
       var d = new Date(now.getFullYear(), now.getMonth()-i, 1);
       labels.push(d.toLocaleDateString('en-US',{month:'short'}));
       var m=d.getMonth(), y=d.getFullYear();
-      data.push(invoices.reduce(function(a,inv){if(!inv.date)return a;var id=new Date(inv.date);return(id.getMonth()===m&&id.getFullYear()===y)?a+(parseFloat(inv.amount)||0):a;},0));
+      data.push(انوائسز.reduce(function(a,inv){if(!inv.date)return a;var id=new Date(inv.date);return(id.getMonth()===m&&id.getFullYear()===y)?a+(parseFloat(inv.amount)||0):a;},0));
     } else {
       var d = new Date(); d.setDate(d.getDate()-i);
       labels.push(d.toLocaleDateString('en-US',{weekday:'short'}));
       var ds=d.toDateString();
-      data.push(invoices.reduce(function(a,inv){if(!inv.date)return a;return new Date(inv.date).toDateString()===ds?a+(parseFloat(inv.amount)||0):a;},0));
+      data.push(انوائسز.reduce(function(a,inv){if(!inv.date)return a;return new Date(inv.date).toDateString()===ds?a+(parseFloat(inv.amount)||0):a;},0));
     }
   }
   var maxV=Math.max.apply(null,data.concat([100]));
@@ -5192,8 +5195,8 @@ function drawDonutChart(canvasId, segments, legendId) {
   if(leg)leg.innerHTML=segments.slice(0,3).map(function(s,i){return '<span style="display:inline-flex;align-items:center;gap:3px;margin-right:6px;"><span style="width:6px;height:6px;border-radius:50%;background:'+colors[i%colors.length]+';display:inline-block;"></span>'+s.label+'</span>';}).join('');
 }
 
-function drawExpenseDonut(){var e=JSON.parse(localStorage.getItem('nexus_expenses')||'[]'),cats={};e.forEach(function(x){var c=x.category||'Other';cats[c]=(cats[c]||0)+(parseFloat(x.amount)||0);});drawDonutChart('expenseDonut',Object.entries(cats).map(function(e){return{label:e[0],val:e[1]};}),'exp-legend');}
-function drawInvoiceDonut(){var inv=JSON.parse(localStorage.getItem('nexus_invoices')||'[]'),p=0,pe=0,o=0;inv.forEach(function(i){var a=parseFloat(i.amount)||0;if(i.status==='Paid')p+=a;else if(i.status==='Overdue')o+=a;else pe+=a;});drawDonutChart('invoiceDonut',[{label:'Paid',val:p},{label:'Pending',val:pe},{label:'Overdue',val:o}].filter(function(s){return s.val>0;}),'inv-legend2');}
+function drawExpenseDonut(){var e=JSON.parse(localStorage.getItem('nexus_اخراجات')||'[]'),cats={};e.forEach(function(x){var c=x.category||'Other';cats[c]=(cats[c]||0)+(parseFloat(x.amount)||0);});drawDonutChart('expenseDonut',Object.اندراجات(cats).map(function(e){return{label:e[0],val:e[1]};}),'exp-legend');}
+function drawInvoiceDonut(){var inv=JSON.parse(localStorage.getItem('nexus_انوائسز')||'[]'),p=0,pe=0,o=0;inv.forEach(function(i){var a=parseFloat(i.amount)||0;if(i.status==='Paid')p+=a;else if(i.status==='Overdue')o+=a;else pe+=a;});drawDonutChart('invoiceDonut',[{label:'Paid',val:p},{label:'زیر التواء',val:pe},{label:'Overdue',val:o}].filter(function(s){return s.val>0;}),'inv-legend2');}
 
 </script>
 
