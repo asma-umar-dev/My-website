@@ -1535,7 +1535,7 @@ body.rtl .stat-card { direction: rtl; }
     <span class="nav-badge">12</span>
   </a>
 
-  <a class="nav-link" href="انوائسز.html">
+  <a class="nav-link" href="invoices.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
     </svg>
@@ -1543,7 +1543,7 @@ body.rtl .stat-card { direction: rtl; }
     <span class="nav-badge">5</span>
   </a>
 
-  <a class="nav-link" href="ai-کام.html">
+  <a class="nav-link" href="ai-tasks.html">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>
@@ -1578,7 +1578,7 @@ body.rtl .stat-card { direction: rtl; }
   </a>
 
   <div class="sidebar-footer">
-    <div class="user-card" onclick="openProfile()" title="My Profile"
+    <div class="user-card" onclick="openProfile()" title="میری پروفائل"
       style="cursor:pointer;">
       <div class="avatar" id="sidebar-avatar">A</div>
       <div class="user-info">
@@ -1707,7 +1707,7 @@ body.rtl .stat-card { direction: rtl; }
         <div style="display:flex;align-items:center;gap:6px;
                     background:var(--bg-3);border:1px solid var(--border-2);
                     border-radius:50px;padding:5px 10px;cursor:pointer;"
-             title="Change Currency">
+             title="کرنسی تبدیل کریں">
           <span id="currencyFlag" style="font-size:13px;line-height:1;">🇺🇸</span>
           <select id="currencySelect"
             onchange="changeCurrency(this.value)"
@@ -1792,7 +1792,7 @@ body.rtl .stat-card { direction: rtl; }
 
             <div class="form-group">
               <label class="form-label">کلائنٹ کی ای میل</label>
-              <input class="form-input" id="inv-email" type="email" placeholder="client@company.com">
+              <input class="form-input" id="inv-email" type="email" placeholder="کلائنٹ@کمپنی.com">
             </div>
 
             <div class="form-group full">
@@ -1801,7 +1801,7 @@ body.rtl .stat-card { direction: rtl; }
             </div>
 
             <div class="form-group">
-              <label class="form-label">Amount (USD)</label>
+              <label class="form-label" id="amount-label">رقم (روپے)</label>
               <input class="form-input" id="inv-amount" type="number" placeholder="0.00" min="0" step="0.01">
             </div>
 
@@ -2114,7 +2114,7 @@ body.rtl .stat-card { direction: rtl; }
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <a href="انوائسز.html" onclick="event.stopPropagation()"
+          <a href="invoices.html" onclick="event.stopPropagation()"
             style="font-size:12px;color:var(--accent);font-weight:600;
               text-decoration:none;">سب دیکھیں →</a>
           <span id="inv-arrow" style="color:var(--txt-3);font-size:16px;
@@ -2174,12 +2174,12 @@ body.rtl .stat-card { direction: rtl; }
               onkeydown="if(event.key==='Enter'){event.preventDefault();addExpense(event);}">
             <select id="exp-cat" class="form-input"
               style="width:120px;padding:9px 10px;font-size:12px;cursor:pointer;">
-              <option value="Food">🍔 Food</option>
-              <option value="Work">💼 Work</option>
-              <option value="Transport">🚗 Transport</option>
-              <option value="Shopping">🛍️ Shopping</option>
-              <option value="Bills">📄 Bills</option>
-              <option value="Other">📦 Other</option>
+              <option value="Food">🍔 کھانا</option>
+              <option value="Work">💼 کام</option>
+              <option value="Transport">🚗 ٹرانسپورٹ</option>
+              <option value="Shopping">🛍️ خریداری</option>
+              <option value="Bills">📄 بل</option>
+              <option value="Other">📦 دیگر</option>
             </select>
             <button onclick="addExpense(event)"
               style="background:linear-gradient(135deg,#ff6b82,#ff8e53);
@@ -2264,8 +2264,8 @@ body.rtl .stat-card { direction: rtl; }
               <div class="timer-input-group">
                 <label>قابل ادائیگی؟</label>
                 <select id="timerBillable">
-                  <option value="yes">✅ Billable</option>
-                  <option value="no">❌ Non-Billable</option>
+                  <option value="yes">✅ قابل ادائیگی</option>
+                  <option value="no">❌ غیر قابل ادائیگی</option>
                 </select>
               </div>
             </div>
@@ -2487,7 +2487,7 @@ onAuthStateChanged(_fbAuth, user => {
 
 // Logout function
 window.doLogout = async function() {
-  if (!confirm('Sign out of Nexus?')) return;
+  if (!confirm('Nexus سے سائن آؤٹ کریں؟')) return;
   await signOut(_fbAuth);
   localStorage.removeItem('nexus_user');
   window.location.href = 'nexus-login.html';
@@ -2733,10 +2733,10 @@ document.getElementById('inv-btn').addEventListener('click', function() {
   const dueRaw  = document.getElementById('inv-due').value;
 
   // 2. Validate
-  if (!client) { alert('Please enter کلائنٹ کا نام! 👤'); return; }
-  if (!service) { alert('Please enter سروس کی تفصیلات! 📝'); return; }
-  if (amount <= 0) { alert('Please enter a valid Amount! 💰'); return; }
-  if (!dueRaw) { alert('Please select a آخری تاریخ! 📅'); return; }
+  if (!client) { alert('براہ کرم کلائنٹ کا نام درج کریں! 👤'); return; }
+  if (!service) { alert('براہ کرم سروس کی تفصیلات درج کریں! 📝'); return; }
+  if (amount <= 0) { alert('براہ کرم درست رقم درج کریں! 💰'); return; }
+  if (!dueRaw) { alert('براہ کرم آخری تاریخ منتخب کریں! 📅'); return; }
 
   // 3. Animate button → loading
   const btn = this;
@@ -2854,7 +2854,7 @@ tbody td:last-child{text-align:right;font-weight:700;}
     <thead>
       <tr>
         <th style="width:50%">Service / Description</th>
-        <th>Qty</th><th>ریٹ</th><th>رقم</th>
+        <th>مقدار</th><th>ریٹ</th><th>رقم</th>
       </tr>
     </thead>
     <tbody>
@@ -3014,7 +3014,7 @@ window.deleteExpense = function(id) {
 }
 
 window.clearاخراجات = function() {
-  if (!confirm('Clear all اخراجات?')) return;
+  if (!confirm('تمام اخراجات حذف کریں؟')) return;
   localStorage.removeItem(EXP_KEY);
   renderاخراجات();
   updateStats();
@@ -3130,7 +3130,7 @@ function drawChart() {
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    days.push(d.toLocaleDateString('en-US',{weekday:'short'}));
+    days.push(d.toLocaleDateString('ur-PK',{weekday:'short'}));
   }
 
   // Build daily data from انوائسز
@@ -3335,7 +3335,7 @@ window.globalSearch = function(q) {
       color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;
       background:var(--bg-3);">⚡ Tasks</div>`;
     out += tMatches.map(t => `
-      <div onclick="window.location.href='ai-کام.html'"
+      <div onclick="window.location.href='ai-tasks.html'"
         style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
                border-bottom:1px solid var(--border);"
         onmouseover="this.style.background='var(--bg-3)'"
@@ -3355,7 +3355,7 @@ window.globalSearch = function(q) {
       color:var(--txt-3);text-transform:uppercase;letter-spacing:1px;
       background:var(--bg-3);">🧾 انوائسز</div>`;
     out += iMatches.map(i => `
-      <div onclick="window.location.href='انوائسز.html'"
+      <div onclick="window.location.href='invoices.html'"
         style="padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
                border-bottom:1px solid var(--border);"
         onmouseover="this.style.background='var(--bg-3)'"
@@ -3391,7 +3391,7 @@ window.globalSearch = function(q) {
   }
 
   out += `<div style="padding:8px 16px;text-align:center;background:var(--bg-3);">
-    <a href="ai-کام.html" style="font-size:12px;color:var(--accent);
+    <a href="ai-tasks.html" style="font-size:12px;color:var(--accent);
       text-decoration:none;font-weight:600;">
       See all results in Tasks →</a></div>`;
 
@@ -3679,7 +3679,7 @@ window.deleteTimeEntry = function(id) {
 
 // ── سب مٹائیں ─────────────────────────────────────────
 window.clearTimeEntries = function() {
-  if (!confirm('Clear all time اندراجات?')) return;
+  if (!confirm('تمام وقت کے اندراجات حذف کریں؟')) return;
   saveTimeEntries([]);
   renderTimeEntries();
   updateTimeSummary();
@@ -3814,8 +3814,8 @@ window.toggleCalendar=function(e){
 function buildCalendar(){
   const now=new Date();const year=now.getFullYear();const month=now.getMonth();const today=now.getDate();
   const lbl1=document.getElementById('cal-month-label');const lbl2=document.getElementById('cal-today-label');
-  if(lbl1)lbl1.textContent=now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
-  if(lbl2)lbl2.textContent='📅 آج: '+now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  if(lbl1)lbl1.textContent=now.toLocaleDateString('ur-PK',{month:'long',year:'numeric'});
+  if(lbl2)lbl2.textContent='📅 آج: '+now.toLocaleDateString('ur-PK',{weekday:'long',month:'long',day:'numeric'});
   const کام=(typeof loadTasks==='function')?loadTasks():[];
   const taskDays=new Set();
   کام.forEach(t=>{if(t.due&&!t.done){const d=new Date(t.due+'T00:00:00');if(!isNaN(d)&&d.getMonth()===month&&d.getFullYear()===year)taskDays.add(d.getDate());}});
@@ -4242,8 +4242,8 @@ function refreshCurrencyDisplays() {
       // Update label
       const labels = document.querySelectorAll('.form-label');
       labels.forEach(l => {
-        if (l.textContent.includes('Amount')) {
-          l.textContent = 'Amount (' + cur.symbol + ')';
+        if (l.id === "amount-label") {
+          l.textContent = 'رقم (' + cur.symbol + ')';
         }
       });
     }
@@ -4628,7 +4628,7 @@ setTimeout(() => {
               var btn=this;
               setTimeout(function(){btn.textContent='💾 ای میل محفوظ کریں';},2000);
             }else{
-              alert('Please enter a valid email!');
+              alert('براہ کرم درست ای میل درج کریں!');
             }"
           style="width:100%;background:var(--accent);border:none;border-radius:8px;
             color:#fff;font-size:13px;font-weight:700;padding:9px;cursor:pointer;">
@@ -4794,7 +4794,7 @@ Pro Plan coming soon at $9/month!
 function saveEnSettings() {
   var email = document.getElementById('en-email');
   if (!email || !email.value || !email.value.includes('@')) {
-    alert('Please enter a valid email!');
+    alert('براہ کرم درست ای میل درج کریں!');
     return;
   }
   var settings = {
@@ -4817,7 +4817,7 @@ function saveEnSettings() {
 function testEnEmail() {
   var settings = JSON.parse(localStorage.getItem('nexus_email_settings') || '{}');
   var email = settings.email || (document.getElementById('en-email') && document.getElementById('en-email').value);
-  if (!email) { alert('Save your email first!'); return; }
+  if (!email) { alert('پہلے اپنی ای میل محفوظ کریں!'); return; }
   var subject = encodeURIComponent('Nexus Test Notification');
   var body = encodeURIComponent('Hello from Nexus!\n\nYour email notifications are working!\n\n- Nexus');
   window.open('mailto:' + email + '?subject=' + subject + '&body=' + body);
@@ -4850,7 +4850,7 @@ function toggleNotifSettings() {
 window.saveEnEmail = function() {
   const email = document.getElementById('en-email-input')?.value.trim();
   if (!email || !email.includes('@')) {
-    alert('Please enter a valid email!');
+    alert('براہ کرم درست ای میل درج کریں!');
     return;
   }
   const settings = JSON.parse(localStorage.getItem('nexus_email_settings') || '{}');
@@ -5127,7 +5127,7 @@ function drawEarningsBar() {
       data.push(انوائسز.reduce(function(a,inv){if(!inv.date)return a;var id=new Date(inv.date);return(id.getMonth()===m&&id.getFullYear()===y)?a+(parseFloat(inv.amount)||0):a;},0));
     } else {
       var d = new Date(); d.setDate(d.getDate()-i);
-      labels.push(d.toLocaleDateString('en-US',{weekday:'short'}));
+      labels.push(d.toLocaleDateString('ur-PK',{weekday:'short'}));
       var ds=d.toDateString();
       data.push(انوائسز.reduce(function(a,inv){if(!inv.date)return a;return new Date(inv.date).toDateString()===ds?a+(parseFloat(inv.amount)||0):a;},0));
     }
