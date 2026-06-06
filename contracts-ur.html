@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — Contract Templates</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0b0d11;--bg-2:#111318;--bg-3:#181b22;--bg-4:#1e222c;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.12);
+  --txt-1:#f0f2f8;--txt-2:#8c92a6;--txt-3:#555c72;
+  --accent:#4f7cff;--accent-glow:rgba(79,124,255,0.25);
+  --low:#00e5c0;--low-bg:rgba(0,229,192,0.12);
+  --high:#ff5e6c;--high-bg:rgba(255,94,108,0.12);
+  --med:#f5a623;--med-bg:rgba(245,166,35,0.12);
+  --radius:14px;--radius-sm:8px;
+  --shadow:0 4px 24px rgba(0,0,0,0.35);
+  --trans:0.2s cubic-bezier(0.4,0,0.2,1);
+  --sidebar-w:240px;
+  --header-h:68px;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt-1);
+  font-family:'Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+
+/* ── Sidebar ── */
+.sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-2);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:100;
+  transition:transform var(--trans);}
+.sidebar-logo{padding:22px 20px 18px;display:flex;align-items:center;
+  gap:10px;border-bottom:1px solid var(--border);}
+.logo-mark{width:32px;height:32px;border-radius:9px;
+  background:linear-gradient(135deg,var(--accent),var(--low));
+  display:flex;align-items:center;justify-content:center;font-size:16px;}
+.logo-text{font-size:17px;font-weight:700;color:var(--txt-1);}
+.logo-text span{color:var(--accent);}
+.sidebar-section{padding:18px 16px 6px;font-size:10px;font-weight:600;
+  letter-spacing:1.2px;text-transform:uppercase;color:var(--txt-3);}
+.nav-link{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  margin:2px 8px;border-radius:var(--radius-sm);color:var(--txt-2);
+  text-decoration:none;font-size:13px;font-weight:500;
+  transition:all var(--trans);cursor:pointer;}
+.nav-link:hover{background:var(--bg-4);color:var(--txt-1);}
+.nav-link.active{background:rgba(79,124,255,0.12);color:var(--accent);}
+.nav-link.active::before{content:'';position:absolute;left:0;top:50%;
+  transform:translateY(-50%);width:3px;height:20px;background:var(--accent);
+  border-radius:0 3px 3px 0;}
+.nav-link{position:relative;}
+.nav-icon{font-size:16px;flex-shrink:0;}
+.sidebar-footer{margin-top:auto;padding:14px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border-radius:var(--radius-sm);cursor:pointer;transition:background var(--trans);}
+.user-card:hover{background:var(--bg-4);}
+.avatar{width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,#4f7cff,#00e5c0);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:12px;color:#fff;flex-shrink:0;}
+.user-name{font-weight:600;font-size:13px;color:var(--txt-1);}
+.user-role{font-size:11px;color:var(--txt-3);}
+
+/* ── Main ── */
+.main{margin-left:var(--sidebar-w);flex:1;min-width:0;display:flex;flex-direction:column;}
+.header{background:var(--bg-2);border-bottom:1px solid var(--border);
+  padding:0 28px;height:var(--header-h);display:flex;align-items:center;
+  gap:20px;position:sticky;top:0;z-index:50;}
+.header-title{font-size:17px;font-weight:700;color:var(--txt-1);flex:1;}
+.menu-toggle{display:none;width:36px;height:36px;border-radius:var(--radius-sm);
+  background:var(--bg-3);border:1px solid var(--border);
+  align-items:center;justify-content:center;cursor:pointer;
+  color:var(--txt-2);font-size:16px;}
+.content{padding:28px;display:flex;flex-direction:column;gap:24px;}
+
+/* ── Buttons ── */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--accent),#6b8fff);
+  border:none;border-radius:var(--radius-sm);color:#fff;
+  font-size:13px;font-weight:700;padding:10px 20px;cursor:pointer;
+  transition:all var(--trans);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--accent-glow);}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;
+  background:transparent;border:1px solid var(--border-2);
+  border-radius:var(--radius-sm);color:var(--txt-2);font-size:13px;
+  font-weight:600;padding:10px 16px;cursor:pointer;transition:all var(--trans);}
+.btn-ghost:hover{border-color:var(--border-2);color:var(--txt-1);background:var(--bg-4);}
+
+/* ── Template Cards ── */
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.template-card{background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;transition:all var(--trans);cursor:pointer;
+  position:relative;overflow:hidden;}
+.template-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.template-card.web::before{background:linear-gradient(90deg,var(--accent),#9b8fff);}
+.template-card.freelance::before{background:linear-gradient(90deg,var(--low),#00c48c);}
+.template-card.creative::before{background:linear-gradient(90deg,var(--med),#ff9f43);}
+.template-card.nda::before{background:linear-gradient(90deg,var(--high),#ff9e9e);}
+.template-card:hover{border-color:var(--border-2);transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+.tc-icon{font-size:32px;margin-bottom:14px;}
+.tc-title{font-size:16px;font-weight:700;color:var(--txt-1);margin-bottom:6px;}
+.tc-desc{font-size:13px;color:var(--txt-2);line-height:1.6;margin-bottom:16px;}
+.tc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.tc-tag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;
+  background:var(--bg-3);color:var(--txt-2);}
+.tc-footer{display:flex;gap:8px;}
+
+/* ── Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);
+  backdrop-filter:blur(10px);z-index:300;display:none;
+  align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--bg-2);border:1px solid var(--border-2);
+  border-radius:var(--radius);width:100%;max-width:680px;
+  box-shadow:var(--shadow);margin:auto;animation:slideUp 0.3s ease both;}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.modal-header{padding:22px 24px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-size:16px;font-weight:700;color:var(--txt-1);}
+.modal-close{background:none;border:none;color:var(--txt-3);font-size:20px;
+  cursor:pointer;transition:color var(--trans);}
+.modal-close:hover{color:var(--high);}
+.modal-body{padding:24px;}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);
+  display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;}
+
+/* ── Form ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:11px;font-weight:600;color:var(--txt-2);
+  text-transform:uppercase;letter-spacing:0.4px;}
+.form-input,.form-select,.form-textarea{background:var(--bg-3);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:10px 14px;color:var(--txt-1);font-size:13px;
+  font-family:inherit;outline:none;transition:border-color var(--trans);}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--txt-3);}
+.form-textarea{resize:vertical;min-height:80px;}
+
+/* ── Contract Preview ── */
+.contract-preview{background:var(--bg-3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:20px;font-size:13px;
+  line-height:1.8;color:var(--txt-2);max-height:300px;overflow-y:auto;
+  white-space:pre-wrap;}
+.contract-preview strong{color:var(--txt-1);}
+
+/* ── Stats ── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.stat-card{background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;text-align:center;}
+.stat-val{font-size:28px;font-weight:800;display:block;margin-bottom:4px;
+  letter-spacing:-0.5px;}
+.stat-lbl{font-size:11px;color:var(--txt-3);font-weight:600;
+  text-transform:uppercase;letter-spacing:0.4px;}
+
+/* ── Saved Contracts ── */
+.saved-list{display:flex;flex-direction:column;gap:10px;}
+.saved-item{background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:14px 18px;
+  display:flex;align-items:center;gap:12px;transition:all var(--trans);}
+.saved-item:hover{border-color:var(--border-2);}
+.si-icon{font-size:20px;flex-shrink:0;}
+.si-info{flex:1;min-width:0;}
+.si-title{font-size:13px;font-weight:600;color:var(--txt-1);margin-bottom:2px;}
+.si-meta{font-size:11px;color:var(--txt-3);}
+.si-actions{display:flex;gap:6px;flex-shrink:0;}
+.si-btn{padding:5px 12px;border-radius:var(--radius-sm);
+  font-size:11px;font-weight:600;cursor:pointer;transition:all var(--trans);}
+.si-btn.view{background:var(--accent-glow);border:1px solid rgba(79,124,255,0.2);
+  color:var(--accent);}
+.si-btn.view:hover{background:var(--accent);color:#fff;}
+.si-btn.del{background:var(--high-bg);border:1px solid rgba(255,94,108,0.2);
+  color:var(--high);}
+.si-btn.del:hover{background:var(--high);color:#fff;}
+
+/* Overlay */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);
+  z-index:90;backdrop-filter:blur(2px);}
+
+/* Responsive */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 40px rgba(0,0,0,0.5);}
+  .overlay.show{display:block;}
+  .main{margin-left:0;}
+  .menu-toggle{display:flex;}
+  .header{padding:0 16px;}
+  .content{padding:16px;gap:16px;}
+  .form-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .templates-grid{grid-template-columns:1fr;}
+  .modal-footer{flex-direction:column;}
+  .modal-footer .btn-primary,.modal-footer .btn-ghost{width:100%;justify-content:center;}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">⚡</div>
+    <div class="logo-text">Ne<span>xus</span></div>
+  </div>
+  <div class="sidebar-section">مین مینو</div>
+  <a class="nav-link" href="dashboard.html"><span class="nav-icon">🏠</span>ڈیش بورڈ</a>
+  <a class="nav-link" href="clients.html"><span class="nav-icon">👥</span>کلائنٹس</a>
+  <a class="nav-link" href="invoices.html"><span class="nav-icon">🧾</span>انوائسز</a>
+  <a class="nav-link" href="ai-tasks.html"><span class="nav-icon">⚡</span>AI ٹاسک مینیجر</a>
+  <a class="nav-link active" href="contracts.html"><span class="nav-icon">📄</span>معاہدے</a>
+  <a class="nav-link" href="client-portal.html"><span class="nav-icon">🔗</span>کلائنٹ پورٹل</a>
+  <div class="sidebar-section">ترجیحات</div>
+  <a class="nav-link" href="#" onclick="window.location.href='dashboard.html'"><span class="nav-icon">⚙️</span>ترتیبات</a>
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="avatar" id="user-avatar">A</div>
+      <div>
+        <div class="user-name" id="sidebar-name">لوڈ ہو رہا ہے...</div>
+        <div class="user-role" id="sidebar-email">nexus.io</div>
+      </div>
+    </div>
+  </div>
+</aside>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Main -->
+<div class="main">
+  <header class="header">
+    <button class="menu-toggle" onclick="openSidebar()">☰</button>
+    <div class="header-title">📄 Contract Templates</div>
+    <button class="btn-primary" onclick="openNewContract()">+ New Contract</button>
+  </header>
+
+  <div class="content">
+
+    <!-- Stats -->
+    <div class="stats-row" style="animation:fadeUp 0.3s ease both;">
+      <div class="stat-card">
+        <span class="stat-val" id="stat-total" style="color:var(--accent);">0</span>
+        <span class="stat-lbl">کل معاہدے</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="stat-signed" style="color:var(--low);">0</span>
+        <span class="stat-lbl">دستخط شدہ</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="stat-pending" style="color:var(--med);">0</span>
+        <span class="stat-lbl">زیر التواء</span>
+      </div>
+    </div>
+
+    <!-- Template Cards -->
+    <div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:1.2px;
+                  text-transform:uppercase;color:var(--txt-3);margin-bottom:14px;">
+        Choose a Template
+      </div>
+      <div class="templates-grid">
+
+        <div class="template-card web" onclick="useTemplate('web')">
+          <div class="tc-icon">💻</div>
+          <div class="tc-title">ویب ڈیزائن معاہدہ</div>
+          <div class="tc-desc">ویب سائٹ ڈیزائن اور ڈویلپمنٹ منصوبوں کے لیے۔ نظرثانی پالیسی، ادائیگی terms, and intellectual property rights.</div>
+          <div class="tc-tags">
+            <span class="tc-tag">ویب ڈیزائن</span>
+            <span class="tc-tag">ڈویلپمنٹ</span>
+            <span class="tc-tag">UI/UX</span>
+          </div>
+          <div class="tc-footer">
+            <button class="btn-primary" style="font-size:12px;padding:8px 16px;">Use Template →</button>
+          </div>
+        </div>
+
+        <div class="template-card freelance" onclick="useTemplate('freelance')">
+          <div class="tc-icon">✍️</div>
+          <div class="tc-title">فری لانس سروسز معاہدہ</div>
+          <div class="tc-desc">کسی بھی قسم کی سروس کے لیے عمومی فری لانس معاہدہ۔ دائرہ کار، ٹائم لائن payment schedule, and confidentiality.</div>
+          <div class="tc-tags">
+            <span class="tc-tag">فری لانس</span>
+            <span class="tc-tag">عمومی</span>
+            <span class="tc-tag">سروسز</span>
+          </div>
+          <div class="tc-footer">
+            <button class="btn-primary" style="font-size:12px;padding:8px 16px;background:linear-gradient(135deg,var(--low),#00c48c);color:#0d1f14;">Use Template →</button>
+          </div>
+        </div>
+
+        <div class="template-card creative" onclick="useTemplate('creative')">
+          <div class="tc-icon">🎨</div>
+          <div class="tc-title">تخلیقی کام کا معاہدہ</div>
+          <div class="tc-desc">گرافک ڈیزائن، برانڈنگ، فوٹوگرافی اور مواد تخلیق کے لیے۔ استعمال کے حقوقights, deliverables, and payment milestones.</div>
+          <div class="tc-tags">
+            <span class="tc-tag">ڈیزائن</span>
+            <span class="tc-tag">برانڈنگ</span>
+            <span class="tc-tag">فوٹوگرافی</span>
+          </div>
+          <div class="tc-footer">
+            <button class="btn-primary" style="font-size:12px;padding:8px 16px;background:linear-gradient(135deg,var(--med),#ff9f43);color:#1a1200;">Use Template →</button>
+          </div>
+        </div>
+
+        <div class="template-card nda" onclick="useTemplate('nda')">
+          <div class="tc-icon">🔒</div>
+          <div class="tc-title">رازداری معاہدہ</div>
+          <div class="tc-desc">Non-Disclosure Agreement to protect confidential information shared between you and your client before starting work.</div>
+          <div class="tc-tags">
+            <span class="tc-tag">رازداری</span>
+            <span class="tc-tag">قانونی</span>
+            <span class="tc-tag">NDA</span>
+          </div>
+          <div class="tc-footer">
+            <button class="btn-primary" style="font-size:12px;padding:8px 16px;background:linear-gradient(135deg,var(--high),#ff9e9e);color:#1a0000;">Use Template →</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Saved Contracts -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:1.2px;
+                    text-transform:uppercase;color:var(--txt-3);">
+          My Contracts
+        </div>
+        <span id="contracts-count" style="font-size:11px;color:var(--txt-3);">0 contracts</span>
+      </div>
+      <div class="saved-list" id="savedContractsList"></div>
+      <div id="contracts-empty" style="text-align:center;padding:40px;color:var(--txt-3);">
+        <div style="font-size:36px;margin-bottom:10px;">📄</div>
+        <p style="font-size:13px;">No contracts yet.<br>Choose a template above to get started!</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Contract Modal -->
+<div class="modal-overlay" id="contractModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTemplateTitle">📄 New Contract</div>
+      <button class="modal-close" onclick="closeContractModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Step 1: Fill Details -->
+      <div id="step1">
+        <div style="font-size:13px;font-weight:600;color:var(--txt-2);margin-bottom:14px;">
+          Fill in the details — contract will be generated automatically!
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">آپ کا نام *</label>
+            <input class="form-input" id="c-your-name" type="text" placeholder="مثلاً اسمہ عمر">
+          </div>
+          <div class="form-group">
+            <label class="form-label">کلائنٹ کا نام *</label>
+            <input class="form-input" id="c-client-name" type="text" placeholder="مثلاً احمد علی">
+          </div>
+          <div class="form-group">
+            <label class="form-label">کلائنٹ کمپنی</label>
+            <input class="form-input" id="c-company" type="text" placeholder="مثلاً ABC کمپنی">
+          </div>
+          <div class="form-group">
+            <label class="form-label">منصوبے کا نام *</label>
+            <input class="form-input" id="c-project" type="text" placeholder="مثلاً ای کامرس ویب سائٹ">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Amount ($) *</label>
+            <input class="form-input" id="c-amount" type="number" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label class="form-label">شروع کی تاریخ</label>
+            <input class="form-input" id="c-start" type="date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ختم کی تاریخ</label>
+            <input class="form-input" id="c-end" type="date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ادائیگی کی شرائط</label>
+            <select class="form-select" id="c-payment">
+              <option value="50% upfront, 50% on completion">50% Upfront + 50% On Completion</option>
+              <option value="100% upfront payment">100% Upfront</option>
+              <option value="monthly installments">ماہانہ اقساط</option>
+              <option value="upon project completion">مکمل ہونے پر ادائیگی</option>
+              <option value="30% upfront, 40% midway, 30% on completion">30/40/30 Milestone</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Project Scope / Deliverables</label>
+            <textarea class="form-textarea" id="c-scope"
+              placeholder="آپ کیا فراہم کریں گے..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">نظرثانی شامل</label>
+            <select class="form-select" id="c-revisions">
+              <option value="2 rounds of revisions">2 Rounds</option>
+              <option value="3 rounds of revisions">3 Rounds</option>
+              <option value="unlimited revisions">لامحدود</option>
+              <option value="1 round of revisions">1 Round Only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">قابل اطلاق قانون</label>
+            <input class="form-input" id="c-law" type="text" placeholder="e.g. Pakistan / UK / USA">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+          <button class="btn-ghost" onclick="closeContractModal()">Cancel</button>
+          <button class="btn-primary" onclick="generateContract()">
+            ✦ Generate Contract →
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Preview -->
+      <div id="step2" style="display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="font-size:13px;font-weight:600;color:var(--low);">✅ Contract Generated!</div>
+          <button onclick="goBack()" style="background:none;border:none;color:var(--txt-2);
+            font-size:12px;cursor:pointer;">← Edit Details</button>
+        </div>
+        <div class="contract-preview" id="contractPreview"></div>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="downloadContract()" style="flex:1;justify-content:center;">
+            🖨️ Download PDF
+          </button>
+          <button class="btn-primary" onclick="saveContract()"
+            style="flex:1;justify-content:center;background:linear-gradient(135deg,var(--low),#00c48c);color:#0d1f14;">
+            💾 Save Contract
+          </button>
+          <button class="btn-ghost" onclick="closeContractModal()" style="flex:1;justify-content:center;">
+            Close
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+const _fc={apiKey:"AIzaSyATNCnCFrWD-mdI_77WN1RE8BWXt072Tuc",authDomain:"nexus-app-69c75.firebaseapp.com",projectId:"nexus-app-69c75",storageBucket:"nexus-app-69c75.firebasestorage.app",messagingSenderId:"793117728865",appId:"1:793117728865:web:b0fbac909658615ba20a20"};
+const _app=initializeApp(_fc);const _auth=getAuth(_app);
+let _pgAuthDone=false;
+onAuthStateChanged(_auth,user=>{
+  if(_pgAuthDone)return;_pgAuthDone=true;const _mock=JSON.parse(localStorage.getItem('nexus_user')||'null');if(!user&&!_mock){window.location.href='nexus-login.html';return;}const _u=user||{displayName:_mock.name,email:_mock.email};
+  const name=_u.displayName||_u.email.split('@')[0];
+  const e1=document.getElementById('sidebar-name');
+  const e2=document.getElementById('sidebar-email');
+  const e3=document.getElementById('user-avatar');
+  const e4=document.getElementById('c-your-name');
+  if(e1)e1.textContent=name;
+  if(e2)e2.textContent=user.email;
+  if(e3)e3.textContent=name.charAt(0).toUpperCase();
+  if(e4&&!e4.value)e4.value=name;
+});
+
+// ── Sidebar ──────────────────────────────────────────
+window.openSidebar=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');};
+window.closeSidebar=()=>{document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');};
+
+// ── Contract Storage ──────────────────────────────────
+const CONTRACT_KEY='nexus_contracts';
+function loadContracts(){try{return JSON.parse(localStorage.getItem(CONTRACT_KEY)||'[]');}catch(e){return[];}}
+function saveContracts(d){localStorage.setItem(CONTRACT_KEY,JSON.stringify(d));}
+
+// ── Template Data ─────────────────────────────────────
+const TEMPLATES={
+  web:{title:'💻 ویب ڈیزائن معاہدہ',icon:'💻',color:'var(--accent)'},
+  freelance:{title:'✍️ فری لانس سروسز معاہدہ',icon:'✍️',color:'var(--low)'},
+  creative:{title:'🎨 تخلیقی کام کا معاہدہ',icon:'🎨',color:'var(--med)'},
+  nda:{title:'🔒 رازداری معاہدہ',icon:'🔒',color:'var(--high)'},
+};
+let currentTemplate='web';
+
+// ── Generate Contract Text ────────────────────────────
+function buildContractText(type,data){
+  const today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const company=data.company?` (${data.company})`:'';
+
+  if(type==='nda'){
+    return `NON-DISCLOSURE AGREEMENT
+
+Effective Date: ${today}
+
+PARTIES:
+Disclosing Party: ${data.yourName}
+Receiving Party:  ${data.clientName}${company}
+
+1. CONFIDENTIAL INFORMATION
+The Receiving Party agrees to keep confidential all information disclosed by the Disclosing Party, including but not limited to: business strategies, client lists, financial data, technical information, and any other proprietary information.
+
+2. OBLIGATIONS
+The Receiving Party shall:
+• Not disclose confidential information to third parties
+• Use confidential information only for the purpose of evaluating a potential business relationship
+• Take reasonable measures to protect the confidentiality of disclosed information
+
+3. DURATION
+This Agreement shall remain in effect for a period of 2 (two) years from the Effective Date.
+
+4. EXCLUSIONS
+This Agreement does not apply to information that:
+• Is or becomes publicly available through no breach of this Agreement
+• Was already known to the Receiving Party
+• Is independently developed without use of confidential information
+
+5. GOVERNING LAW
+This Agreement shall be governed by the laws of ${data.law||'the applicable jurisdiction'}.
+
+6. SIGNATURES
+
+Disclosing Party: ${data.yourName}
+Date: ${today}
+Signature: ___________________________
+
+Receiving Party: ${data.clientName}
+Date: _______________________________
+Signature: ___________________________
+
+This agreement is legally binding upon signature by both parties.`;
+  }
+
+  const scopeText=data.scope||'As discussed and agreed upon between both parties.';
+
+  return `${TEMPLATES[type].title.replace(/[💻✍️🎨🔒]/g,'').trim().toUpperCase()}
+
+Date: ${today}
+Contract #: NXS-C-${Date.now().toString().slice(-6)}
+
+PARTIES:
+Service Provider: ${data.yourName}
+Client:           ${data.clientName}${company}
+
+PROJECT DETAILS:
+Project Name:  ${data.project}
+Start Date:    ${data.start||'To be confirmed'}
+End Date:      ${data.end||'To be confirmed'}
+Total Amount:  $${parseFloat(data.amount||0).toFixed(2)}
+
+1. SCOPE OF WORK
+${scopeText}
+
+2. PAYMENT TERMS
+Payment shall be made as follows: ${data.payment}.
+Late payments beyond 7 days will incur a 2% monthly fee.
+
+3. REVISIONS
+This project includes ${data.revisions}. Additional revisions beyond the agreed scope will be billed at $50/hour.
+
+4. INTELLECTUAL PROPERTY
+Upon receipt of full payment, all intellectual property rights for the final deliverables will be transferred to the Client. The Service Provider retains the right to display the work in their portfolio.
+
+5. CONFIDENTIALITY
+Both parties agree to keep all project-related information confidential and not disclose it to third parties without written consent.
+
+6. CANCELLATION POLICY
+If the Client cancels the project:
+• Before work begins: Full refund of upfront payment
+• During the project: 50% of remaining balance is due
+• After delivery: No refund applicable
+
+7. REVISIONS & APPROVAL
+The Client will provide feedback within 5 business days of each delivery. Failure to respond will be considered as approval.
+
+8. LIMITATION OF LIABILITY
+The Service Provider's liability is limited to the total amount paid for this project.
+
+9. DISPUTE RESOLUTION
+Any disputes shall first be attempted to be resolved through good-faith negotiation. If unresolved, disputes shall be settled through arbitration.
+
+10. GOVERNING LAW
+This Agreement shall be governed by the laws of ${data.law||'the applicable jurisdiction'}.
+
+11. ENTIRE AGREEMENT
+This contract constitutes the entire agreement between both parties and supersedes all prior discussions.
+
+SIGNATURES:
+
+Service Provider: ${data.yourName}
+Date: ${today}
+Signature: ___________________________
+
+Client: ${data.clientName}
+Date: _______________________________
+Signature: ___________________________
+
+Both parties agree to the terms and conditions outlined in this contract.`;
+}
+
+// ── Modal ─────────────────────────────────────────────
+window.openNewContract=function(){
+  currentTemplate='web';
+  document.getElementById('modalTemplateTitle').textContent=TEMPLATES.web.title;
+  document.getElementById('step1').style.display='block';
+  document.getElementById('step2').style.display='none';
+  document.getElementById('contractModal').classList.add('open');
+};
+
+window.useTemplate=function(type){
+  currentTemplate=type;
+  document.getElementById('modalTemplateTitle').textContent=TEMPLATES[type].title;
+  document.getElementById('step1').style.display='block';
+  document.getElementById('step2').style.display='none';
+  document.getElementById('contractModal').classList.add('open');
+};
+
+window.closeContractModal=function(){
+  document.getElementById('contractModal').classList.remove('open');
+};
+
+window.goBack=function(){
+  document.getElementById('step1').style.display='block';
+  document.getElementById('step2').style.display='none';
+};
+
+// ── Generate ──────────────────────────────────────────
+window.generateContract=function(){
+  const yourName=document.getElementById('c-your-name').value.trim();
+  const clientName=document.getElementById('c-client-name').value.trim();
+  const project=document.getElementById('c-project').value.trim();
+  const amount=document.getElementById('c-amount').value;
+
+  if(!yourName||!clientName||!project){
+    alert('براہ کرم پُر کریں: آپ کا نام، کلائنٹ کا نام، اور منصوبے کا نام!');
+    return;
+  }
+
+  const data={
+    yourName,clientName,
+    company:document.getElementById('c-company').value.trim(),
+    project,amount,
+    start:document.getElementById('c-start').value?
+      new Date(document.getElementById('c-start').value+'T00:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'',
+    end:document.getElementById('c-end').value?
+      new Date(document.getElementById('c-end').value+'T00:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'',
+    payment:document.getElementById('c-payment').value,
+    scope:document.getElementById('c-scope').value.trim(),
+    revisions:document.getElementById('c-revisions').value,
+    law:document.getElementById('c-law').value.trim(),
+  };
+
+  const text=buildContractText(currentTemplate,data);
+  document.getElementById('contractPreview').textContent=text;
+
+  // Store for save
+  window._pendingContract={type:currentTemplate,data,text,
+    title:`${data.project} — ${data.clientName}`,
+    date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+    status:'Pending Signature',amount:data.amount};
+
+  document.getElementById('step1').style.display='none';
+  document.getElementById('step2').style.display='block';
+};
+
+// ── Download PDF ──────────────────────────────────────
+window.downloadContract=function(){
+  const text=document.getElementById('contractPreview').textContent;
+  const pc=window._pendingContract||{};
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>معاہدہ</title>
+  <style>
+    body{font-family:'Courier New',monospace;padding:60px;max-width:800px;margin:0 auto;
+      font-size:13px;line-height:1.8;color:#1a1b2e;}
+    h1{font-size:20px;font-weight:900;margin-bottom:8px;color:#1a1b2e;}
+    .badge{display:inline-block;background:#f0f0ff;color:#7c5cfc;
+      padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:24px;}
+    pre{white-space:pre-wrap;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;}
+    .print-btn{background:#7c5cfc;color:#fff;border:none;padding:12px 32px;
+      border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;margin-top:24px;}
+    @media print{.no-print{display:none;}}
+  </style></head><body>
+  <h1>⚡ Nexus — Contract Document</h1>
+  <div class="badge">Generated by Nexus AI</div>
+  <pre>${text}</pre>
+  <div class="no-print" style="text-align:center;margin-top:32px;">
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+  </body></html>`);
+  win.document.close();
+};
+
+// ── Save Contract ─────────────────────────────────────
+window.saveContract=function(){
+  const pc=window._pendingContract;
+  if(!pc)return;
+  const contracts=loadContracts();
+  contracts.unshift({
+    id:'c'+Date.now(),
+    ...pc,
+    savedAt:new Date().toISOString(),
+  });
+  saveContracts(contracts);
+  closeContractModal();
+  renderContracts();
+  updateStats();
+};
+
+// ── Render Saved ──────────────────────────────────────
+function renderContracts(){
+  const contracts=loadContracts();
+  const list=document.getElementById('savedContractsList');
+  const empty=document.getElementById('contracts-empty');
+  const count=document.getElementById('contracts-count');
+  count.textContent=contracts.length+' contract'+(contracts.length!==1?'s':'');
+  if(contracts.length===0){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=contracts.map((c,i)=>`
+    <div class="saved-item" style="animation:fadeUp 0.3s ${i*0.05}s ease both;">
+      <div class="si-icon">${TEMPLATES[c.type]?.icon||'📄'}</div>
+      <div class="si-info">
+        <div class="si-title">${c.title}</div>
+        <div class="si-meta">${c.date} · ${c.status} · $${parseFloat(c.amount||0).toFixed(2)}</div>
+      </div>
+      <div class="si-actions">
+        <button class="si-btn view" onclick="viewContract('${c.id}')">View</button>
+        <button class="si-btn del" onclick="deleteContract('${c.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+window.viewContract=function(id){
+  const c=loadContracts().find(x=>x.id===id);
+  if(!c)return;
+  window._pendingContract=c;
+  document.getElementById('modalTemplateTitle').textContent=TEMPLATES[c.type]?.title||'📄 Contract';
+  document.getElementById('contractPreview').textContent=c.text;
+  document.getElementById('step1').style.display='none';
+  document.getElementById('step2').style.display='block';
+  document.getElementById('contractModal').classList.add('open');
+};
+
+window.deleteContract=function(id){
+  if(!confirm('یہ معاہدہ حذف کریں؟'))return;
+  saveContracts(loadContracts().filter(c=>c.id!==id));
+  renderContracts();updateStats();
+};
+
+function updateStats(){
+  const c=loadContracts();
+  const signed=c.filter(x=>x.status==='Signed').length;
+  const pending=c.filter(x=>x.status==='Pending Signature').length;
+  document.getElementById('stat-total').textContent=c.length;
+  document.getElementById('stat-signed').textContent=signed;
+  document.getElementById('stat-pending').textContent=pending;
+}
+
+// Close modal on backdrop
+document.getElementById('contractModal').addEventListener('click',function(e){
+  if(e.target===this)closeContractModal();
+});
+
+// Init
+renderContracts();
+updateStats();
+</script>
+</body>
+</html>

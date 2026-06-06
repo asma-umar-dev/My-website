@@ -167,7 +167,7 @@ tbody td{padding:14px 20px;font-size:13.5px;color:var(--txt-1);vertical-align:mi
 
   <div class="sidebar-footer"><div class="user-card" onclick="doLogout()">
     <div class="avatar" id="user-avatar">A</div>
-    <div class="user-info"><div class="user-name" id="sidebar-name">Loading...</div><div class="user-role" id="sidebar-email">nexus.io</div></div>
+    <div class="user-info"><div class="user-name" id="sidebar-name">لوڈ ہو رہا ہے...</div><div class="user-role" id="sidebar-email">nexus.io</div></div>
   </div></div>
 </aside>
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
@@ -176,7 +176,7 @@ tbody td{padding:14px 20px;font-size:13.5px;color:var(--txt-1);vertical-align:mi
   <header class="header">
     <button class="icon-btn menu-toggle" onclick="openSidebar()">☰</button>
     <div class="header-title">⚡ AI ٹاسک مینیجر</div>
-    <div style="font-size:11px;color:var(--txt-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;" id="ai-insight">🤖 Analyzing...</div>
+    <div style="font-size:11px;color:var(--txt-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;" id="ai-insight">🤖 تجزیہ ہو رہا ہے...</div>
   </header>
 
   <div class="content">
@@ -256,7 +256,7 @@ tbody td{padding:14px 20px;font-size:13.5px;color:var(--txt-1);vertical-align:mi
         <input class="form-input" id="new-task-due" type="date"
           style="width:140px;padding:9px 10px;font-size:12px;">
         <button class="btn-primary" onclick="saveNewTask()" style="padding:9px 18px;">
-          + Add Task
+          + کام شامل کریں
         </button>
         <button class="btn-ghost" onclick="clearDone()" style="padding:9px 12px;font-size:12px;">
           🗑️ مکمل ہٹائیں
@@ -287,12 +287,12 @@ const TASK_KEY = 'nexus_tasks';
 let activeFilter = 'all';
 
 const DEFAULT_TASKS = [
-  {id:'t1',title:'Finalize Q2 report for Meridian Co.',priority:'high',due:'Today',done:false,ai:true},
-  {id:'t2',title:'Send revised proposal to Studio Nora',priority:'high',due:'Tomorrow',done:false,ai:false},
-  {id:'t3',title:'Update brand guidelines — Vertex Labs',priority:'medium',due:'May 20',done:false,ai:true},
-  {id:'t4',title:'Review contractor timesheets',priority:'medium',due:'May 22',done:false,ai:false},
-  {id:'t5',title:'Schedule TechWave onboarding call',priority:'low',due:'مکمل',done:true,ai:false},
-  {id:'t6',title:'Archive old invoice files',priority:'low',due:'May 25',done:false,ai:false},
+  {id:'t1',title:'میریڈیئن کمپنی کی Q2 رپورٹ مکمل کریں',priority:'high',due:'آج',done:false,ai:true},
+  {id:'t2',title:'اسٹوڈیو نورا کو نظرثانی شدہ تجویز بھیجیں',priority:'high',due:'کل',done:false,ai:false},
+  {id:'t3',title:'ورٹیکس لیبز کے برانڈ گائیڈلائنز اپڈیٹ کریں',priority:'medium',due:'20 مئی',done:false,ai:true},
+  {id:'t4',title:'کنٹریکٹر ٹائم شیٹس کا جائزہ لیں',priority:'medium',due:'22 مئی',done:false,ai:false},
+  {id:'t5',title:'ٹیک ویو آن بورڈنگ کال طے کریں',priority:'low',due:'مکمل',done:true,ai:false},
+  {id:'t6',title:'پرانی انوائس فائلیں محفوظ کریں',priority:'low',due:'25 مئی',done:false,ai:false},
 ];
 
 function loadTasks() {
@@ -329,9 +329,9 @@ function updateStats() {
 
   // AI Insight
   const insight = document.getElementById('ai-insight');
-  if(high > 0) insight.textContent = `🤖 AI: You have ${high} urgent task${high>1?'s':''} to handle first!`;
-  else if(done===total && total>0) insight.textContent = '🤖 AI: Amazing! All tasks completed! 🎉';
-  else insight.textContent = `🤖 AI: ${score}% complete — جاری رکھیں!`;
+  if(high > 0) insight.textContent = `🤖 AI: You have ${high} فوری کام${high>1?'s':''} پہلے مکمل کریں!`;
+  else if(done===total && total>0) insight.textContent = '🤖 AI: شاندار! تمام کام مکمل! 🎉';
+  else insight.textContent = `🤖 AI: ${score}% مکمل — جاری رکھیں!`;
 }
 
 window.renderTasks = function() {
@@ -359,9 +359,9 @@ window.renderTasks = function() {
       <div style="flex:1;min-width:0;">
         <div class="task-title-t">${t.title}</div>
         <div class="task-meta">
-          <span class="task-due">Due: ${t.done?'مکمل':t.due||'—'}</span>
-          <span class="badge ${t.priority}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
-          ${t.ai||t.id===topId?'<span class="ai-tag">✦ AI Priority</span>':''}
+          <span class="task-due">مقررہ تاریخ: ${t.done?'مکمل':t.due||'—'}</span>
+          <span class="badge ${t.priority}">${t.priority==='high'?'ہائی':t.priority==='medium'?'میڈیم':'کم'}</span>
+          ${t.ai||t.id===topId?'<span class="ai-tag">✦ AI ترجیح</span>':''}
         </div>
       </div>
       <button onclick="deleteTask('${t.id}')"
@@ -393,7 +393,7 @@ window.saveNewTask = function() {
   const title = inp.value.trim();
   if(!title){inp.style.borderColor='var(--high)';setTimeout(()=>inp.style.borderColor='',1200);inp.focus();return;}
   const due = document.getElementById('new-task-due').value;
-  const dueLabel = due ? new Date(due+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+  const dueLabel = due ? new Date(due+'T00:00:00').toLocaleDateString('ur-PK',{month:'short',day:'numeric'}) : '';
   const tasks = loadTasks();
   tasks.unshift({
     id:'u'+Date.now(),
@@ -410,7 +410,7 @@ window.saveNewTask = function() {
 };
 
 window.clearDone = function() {
-  if(!confirm('Remove all completed tasks?'))return;
+  if(!confirm('تمام مکمل کام ہٹائیں؟'))return;
   saveTasks(loadTasks().filter(t=>!t.done));
   renderTasks();
 };
